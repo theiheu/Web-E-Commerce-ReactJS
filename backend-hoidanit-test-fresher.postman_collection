@@ -1,0 +1,1168 @@
+{
+	"info": {
+		"_postman_id": "967b4e6b-764e-496a-9797-236ca1d7fe77",
+		"name": "mine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12317336"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "upload-type",
+								"value": "AVATAR",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "admin@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "delay",
+									"value": "0",
+									"description": "optional: dùng tham số này để test loading",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "abc",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "asdfasfasfd",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "123456",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiJjMjFmOTY5YjVmMDNkMzNkNDNlMDRmOGYxMzZlNzY4Mi5wbmciLCJpYXQiOjE2Nzg4NjcwNTAsImV4cCI6MTY3ODk1MzQ1MH0.zrWPObkJ3Dq37A3oNItR4JmlnNTwlATmpilo_Z8sutc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNDY4ZWU0Y2Q0NDMwYzBlM2E1YWMiLCJpYXQiOjE2Nzg4NjQ5MjIsImV4cCI6MTY3ODk1MTMyMn0.e_-zR6Mm9jcQm0Y1Yf6diFss4hMAqrGhPAXg6vLlyII",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "normal user",
+			"item": [
+				{
+					"name": "book",
+					"item": [
+						{
+							"name": "get list book with paginate Copy",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book?current=1&pageSize=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book"
+									],
+									"query": [
+										{
+											"key": "current",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "2"
+										},
+										{
+											"key": "author",
+											"value": "asfdafdasdf",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get book detail by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book/641f0acb52db84b0ffde6e35",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book",
+										"641f0acb52db84b0ffde6e35"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get category",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/database/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"database",
+										"category"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmNmZjAxODY1ODI5NTI4YjA4YjZjYWIiLCJzdWIiOiJQR1cwMDAwMDIiLCJpYXQiOjE2NjQ4NDk2MzcsImV4cCI6MTY2NDg1NjgzNywidHlwZSI6ImFjY2VzcyJ9.iFesaZaLAWvSulv6dCiYUHmrs5wlOvrfkJbZVqScM00",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "abc@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "oldpass",
+									"value": "123456",
+									"type": "default"
+								},
+								{
+									"key": "newpass",
+									"value": "654321",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/change-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2IiwiZnVsbE5hbWUiOiJhYmMiLCJyb2xlIjoiVVNFUiIsInN1YiI6IjY0MTE4Njc1MTI3NGQ3YjJiZDMyN2FkOCIsImF2YXRhciI6ImMyMWY5NjliNWYwM2QzM2Q0M2UwNGY4ZjEzNmU3NjgyLnBuZyIsImlhdCI6MTY3ODg3MDE5MCwiZXhwIjoxNjc4OTU2NTkwfQ._KYPR_aggS88bwcX7mWmMUplFv95-K8G1XwM4LrptUI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "asdfasdf",
+									"type": "default"
+								},
+								{
+									"key": "phone",
+									"value": "sfasfasf",
+									"type": "default"
+								},
+								{
+									"key": "avatar",
+									"value": "adsfasfdaf",
+									"type": "text"
+								},
+								{
+									"key": "_id",
+									"value": "adfafasdfasfsfd",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJjMjFmOTY5YjVmMDNkMzNkNDNlMDRmOGYxMzZlNzY4Mi5wbmciLCJpYXQiOjE2Nzg4NzMzMjQsImV4cCI6MTY3ODk1OTcyNH0.ngJcND3FHQ45jPPgInZCGfWvp2ye744cRqddTe2UwQM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "upload-type",
+								"value": "avatar",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fileImg",
+									"type": "file",
+									"src": "/C:/Users/tuan.pv/Desktop/a1.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/file/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2NzkyODI2MTQsImV4cCI6MTY3OTM2OTAxNH0.vk18Ey9Q3CledIQWdTNKZONmzxVqU0YXSAJQKmLqNkw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "manage users",
+					"item": [
+						{
+							"name": "get all users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get users with paginate",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user?current=1&pageSize=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user"
+									],
+									"query": [
+										{
+											"key": "current",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "2"
+										},
+										{
+											"key": "fullName",
+											"value": "I'm Admin",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create a user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "fullName",
+											"value": "asdfasfd",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "asfasfasfasdfasfd@gmail.coma",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "asfasfasf",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create list users (bulk)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  [\r\n        {\r\n          \"fullName\": \"xyz\",\r\n          \"password\": \"123456\",\r\n          \"email\": \"aaaaabcxyz@gmail.com\",\r\n          \"phone\": \"123456789\"\r\n        },\r\n        {\r\n          \"fullName\": \"xyz\",\r\n          \"password\": \"123456\",\r\n          \"email\": \"aaaa1abcxyz@gmail.com\",\r\n          \"phone\": \"123456789\"\r\n        },\r\n         {\r\n          \"fullName\": \"xyz\",\r\n          \"password\": \"123456\",\r\n          \"email\": \"aaabcxyz@gmail.com\",\r\n          \"phone\": \"123456789\"\r\n        }\r\n]\r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user/bulk-create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"bulk-create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete a user",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user/641186751274d7b2bd327ad8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"641186751274d7b2bd327ad8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update a user",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "asfasfd",
+											"type": "default"
+										},
+										{
+											"key": "fullName",
+											"value": "asf",
+											"type": "default"
+										},
+										{
+											"key": "phone",
+											"value": "asdf",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "manage books",
+					"item": [
+						{
+							"name": "create a book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"thumbnail\": \"abc\",\r\n    \"slider\": [\"def\"],\r\n    \"mainText\": \"asdfasfasfd\",\r\n    \"author\": \"asfdafdasdf\",\r\n    \"price\": 666666,\r\n    \"sold\": 0,\r\n    \"quantity\": 1000,\r\n    \"category\": \"Arts\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list book with paginate",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book?current=1&pageSize=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book"
+									],
+									"query": [
+										{
+											"key": "current",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "author",
+											"value": "asfdafdasdf",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update a book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"thumbnail\": \"abc\",\r\n    \"slider\": [\"def\"],\r\n    \"mainText\": \"asdfasfasfd\",\r\n    \"author\": \"asfdafdasdf\",\r\n    \"price\": 1,\r\n    \"sold\": 1110,\r\n    \"quantity\": 1000,\r\n    \"category\": \"Arts\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book/6412d89ffcfa72de7ed4254e",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book",
+										"6412d89ffcfa72de7ed4254e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete a book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book/6412d89ffcfa72de7ed4254e",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book",
+										"6412d89ffcfa72de7ed4254e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upload image book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2ODAwNzUxMDQsImV4cCI6MjY4MDA3NTEwNH0.ISk-SyHRKATjYXkpM7rIwLe08xW7Fa6XSicamr6uIT0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "upload-type",
+										"value": "book",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "fileImg",
+											"type": "file",
+											"src": "/C:/Users/tuan.pv/Desktop/a1.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/file/upload",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"file",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete image book",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsInBob25lIjoic2Zhc2Zhc2YiLCJmdWxsTmFtZSI6ImFzZGZhc2RmIiwicm9sZSI6IlVTRVIiLCJzdWIiOiI2NDExODY3NTEyNzRkN2IyYmQzMjdhZDgiLCJhdmF0YXIiOiJhMS5wbmctNGYzODBiM2FhNzc3YjlhZjEyYTIwM2UyYTEwZTJkNDlkLnBuZyIsImlhdCI6MTY3ODkzMTI2MCwiZXhwIjoxNjc5MDE3NjYwfQ.MfVGkN70ee25G9etZu5yZQHlpCMFCqBldbgQ8MKTVhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "id",
+											"value": "6412e01bd47a529cc040da57",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "ádfsadfasdf",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "slider",
+											"description": "type dùng để biết delete thuộc tính nào. type = 'slider' hoặc type='thumbnail'",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/book/delete-image",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"book",
+										"delete-image"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get book category",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/database/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"database",
+										"category"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "manage orders",
+					"item": [
+						{
+							"name": "create an order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2NzkyODI2MTQsImV4cCI6MTY3OTM2OTAxNH0.vk18Ey9Q3CledIQWdTNKZONmzxVqU0YXSAJQKmLqNkw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"test\",\r\n    \"address\": \"ha noi\",\r\n    \"phone\": \"123456789\",\r\n    \"totalPrice\": 123,\r\n    \"detail\": [\r\n        {\r\n            \"bookName\": \"abc\",\r\n            \"quantity\": 3,\r\n            \"_id\": \"6412cf20dde15982f809c16f\"\r\n        }\r\n    ]\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list order with paginate",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2NzkyODI2MTQsImV4cCI6MTY3OTM2OTAxNH0.vk18Ey9Q3CledIQWdTNKZONmzxVqU0YXSAJQKmLqNkw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/order?current=1&pageSize=10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"order"
+									],
+									"query": [
+										{
+											"key": "current",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "dashboard",
+					"item": [
+						{
+							"name": "get dashboard",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NDExNzdmZmMzMTg3OTQxMGVlYmVjYzciLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2NzkyODI2MTQsImV4cCI6MTY3OTM2OTAxNH0.vk18Ey9Q3CledIQWdTNKZONmzxVqU0YXSAJQKmLqNkw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/database/dashboard",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"database",
+										"dashboard"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
