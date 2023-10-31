@@ -1,5 +1,4 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
-import { NavLink } from "react-router-dom";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -21,22 +20,6 @@ const RegisterPage = () => (
       Sign Up
     </h1>
     <Divider />
-    <Form.Item
-      label="Full Name"
-      name="fullName"
-      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-      rules={[
-        {
-          required: true,
-          message: "Vui lòng nhập tên của bạn!",
-        },
-      ]}
-    >
-      <Input
-        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-        placeholder="Your Name"
-      />
-    </Form.Item>
     <Form.Item
       label="Email"
       name="email"
@@ -117,10 +100,10 @@ const RegisterPage = () => (
       </Button>
     </Form.Item>
     <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Already have an account?
-      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
-        Sign In
-      </NavLink>
+      Not registered?
+      <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+        Create account
+      </a>
     </Form.Item>
   </Form>
 );

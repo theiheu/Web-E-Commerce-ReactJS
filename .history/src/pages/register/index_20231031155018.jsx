@@ -1,5 +1,4 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
-import { NavLink } from "react-router-dom";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -15,7 +14,7 @@ const RegisterPage = () => (
     onFinishFailed={onFinishFailed}
     autoComplete="off"
     action="#"
-    className="bg-white shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
+    className="bg-white shadow-md border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
   >
     <h1 className="text-xl text-center font-medium text-gray-900 dark:text-dark">
       Sign Up
@@ -117,10 +116,10 @@ const RegisterPage = () => (
       </Button>
     </Form.Item>
     <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Already have an account?
-      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
-        Sign In
-      </NavLink>
+      Not registered?
+      <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+        Create account
+      </a>
     </Form.Item>
   </Form>
 );

@@ -1,5 +1,4 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
-import { NavLink } from "react-router-dom";
 const onFinish = (values) => {
   console.log("Success:", values);
 };
@@ -15,7 +14,7 @@ const RegisterPage = () => (
     onFinishFailed={onFinishFailed}
     autoComplete="off"
     action="#"
-    className="bg-white shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
+    className="bg-white shadow-md border rounded-lg  max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
   >
     <h1 className="text-xl text-center font-medium text-gray-900 dark:text-dark">
       Sign Up
@@ -33,7 +32,7 @@ const RegisterPage = () => (
       ]}
     >
       <Input
-        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
         placeholder="Your Name"
       />
     </Form.Item>
@@ -53,7 +52,7 @@ const RegisterPage = () => (
       ]}
     >
       <Input
-        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
         placeholder="name@company.com"
       />
     </Form.Item>
@@ -75,11 +74,10 @@ const RegisterPage = () => (
     >
       <Input.Password
         style={{
-          background: "rgb(249 250 251)",
-          borderColor: "rgb(209 213 219) ",
+          background: "transparent",
         }}
         placeholder="••••••••"
-        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
+        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white "
       />
     </Form.Item>
     <Form.Item
@@ -98,7 +96,7 @@ const RegisterPage = () => (
     >
       <Input
         placeholder="0345 678 910"
-        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
       />
     </Form.Item>
     <Form.Item
@@ -117,10 +115,10 @@ const RegisterPage = () => (
       </Button>
     </Form.Item>
     <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Already have an account?
-      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
-        Sign In
-      </NavLink>
+      Not registered?
+      <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">
+        Create account
+      </a>
     </Form.Item>
   </Form>
 );

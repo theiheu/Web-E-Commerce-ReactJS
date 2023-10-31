@@ -117,8 +117,11 @@ const RegisterPage = () => (
       </Button>
     </Form.Item>
     <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Already have an account?
-      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
+      Not registered?
+      <NavLink
+        to={"/register"}
+        className="text-blue-700 hover:underline dark:text-blue-500 ml-1"
+      >
         Sign In
       </NavLink>
     </Form.Item>
