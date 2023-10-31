@@ -18,7 +18,7 @@ const RegisterPage = () => (
     className="bg-white shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
   >
     <h1 className="text-xl text-center font-medium text-gray-900 dark:text-dark">
-      Đăng nhập
+      Sign In
     </h1>
     <Divider />
     <Form.Item
@@ -27,7 +27,7 @@ const RegisterPage = () => (
       rules={[
         {
           required: true,
-          message: "Vui lòng nhập email!",
+          message: "Please input your email!",
         },
         {
           pattern:
@@ -42,7 +42,7 @@ const RegisterPage = () => (
       />
     </Form.Item>
     <Form.Item
-      label="Mật khảu"
+      label="Password"
       name="password"
       rules={[
         {
@@ -71,23 +71,23 @@ const RegisterPage = () => (
       name="remember"
       valuePropName="checked"
     >
-      <Checkbox>Lưu thông tin</Checkbox>
+      <Checkbox>Remember me</Checkbox>
     </Form.Item>
     <Form.Item>
       <Button
         className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         htmlType="submit"
       >
-        Đăng nhập
+        Sign in
       </Button>
     </Form.Item>
     <Form.Item className="text-sm font-medium text-gray-700">
-      <span>Chưa có tài khoản?</span>
+      <span>Not registered?</span>
       <NavLink
         to={"/register"}
         className="text-blue-700 hover:underline dark:text-blue-500 ml-1"
       >
-        Tạo tài khoản
+        Create account
       </NavLink>
     </Form.Item>
   </Form>

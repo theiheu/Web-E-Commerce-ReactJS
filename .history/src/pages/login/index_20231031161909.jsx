@@ -18,7 +18,7 @@ const RegisterPage = () => (
     className="bg-white shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
   >
     <h1 className="text-xl text-center font-medium text-gray-900 dark:text-dark">
-      Đăng nhập
+      Sign In
     </h1>
     <Divider />
     <Form.Item

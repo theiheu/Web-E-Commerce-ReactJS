@@ -22,12 +22,28 @@ const RegisterPage = () => (
     </h1>
     <Divider />
     <Form.Item
+      label="Tên đầy đủ"
+      name="fullName"
+      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+      rules={[
+        {
+          required: true,
+          message: "Vui lòng nhập tên của bạn!",
+        },
+      ]}
+    >
+      <Input
+        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        placeholder="Your Name"
+      />
+    </Form.Item>
+    <Form.Item
       label="Email"
       name="email"
       rules={[
         {
           required: true,
-          message: "Vui lòng nhập email!",
+          message: "Vui lòng nhập email của bạn!",
         },
         {
           pattern:
@@ -37,12 +53,12 @@ const RegisterPage = () => (
       ]}
     >
       <Input
-        className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
         placeholder="name@company.com"
       />
     </Form.Item>
     <Form.Item
-      label="Mật khảu"
+      label="Mật khẩu"
       name="password"
       rules={[
         {
@@ -59,11 +75,30 @@ const RegisterPage = () => (
     >
       <Input.Password
         style={{
-          background: "transparent",
+          background: "rgb(249 250 251)",
           borderColor: "rgb(209 213 219) ",
         }}
         placeholder="••••••••"
-        className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
+        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
+      />
+    </Form.Item>
+    <Form.Item
+      label="Số điện thoại"
+      name="phone"
+      rules={[
+        {
+          required: true,
+          message: "Vui lòng nhập số điện thoại của bạn!",
+        },
+        {
+          pattern: new RegExp(/^[0-9]+$/),
+          message: "Vui lòng nhập số!",
+        },
+      ]}
+    >
+      <Input
+        placeholder="0345 678 910"
+        className="flex bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
       />
     </Form.Item>
     <Form.Item
@@ -78,16 +113,13 @@ const RegisterPage = () => (
         className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         htmlType="submit"
       >
-        Đăng nhập
+        Đăng ký
       </Button>
     </Form.Item>
-    <Form.Item className="text-sm font-medium text-gray-700">
-      <span>Chưa có tài khoản?</span>
-      <NavLink
-        to={"/register"}
-        className="text-blue-700 hover:underline dark:text-blue-500 ml-1"
-      >
-        Tạo tài khoản
+    <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
+      Already have an account?
+      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
+        Sign In
       </NavLink>
     </Form.Item>
   </Form>
