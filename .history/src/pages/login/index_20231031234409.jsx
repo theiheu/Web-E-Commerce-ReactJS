@@ -10,7 +10,7 @@ const onFinish = async (values) => {
       url: "/api/v1/user/register",
       data: {
         fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
+        email: "Flintstone@gmail.com",
         password: "Flintstone",
         phone: "Flintstone",
       },

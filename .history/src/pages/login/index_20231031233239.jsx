@@ -6,18 +6,18 @@ const onFinish = async (values) => {
     console.log("Success:", values);
     // GET request for remote image in node.js
     const response = await instance({
-      method: "POST",
+      method: "post",
       url: "/api/v1/user/register",
-      data: {
-        fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
-        password: "Flintstone",
-        phone: "Flintstone",
-      },
+      // data: {
+      //   fullName: "Fred",
+      //   email: "Flintstone",
+      //   password: "Flintstone",
+      //   phone: "Flintstone",
+      // },
     });
-    console.log(`response:`, response.data);
+    console.log(`response:`, response);
   } catch (error) {
-    console.log(`error:`, error.response.data.message);
+    console.log(`error:`, error);
   }
 };
 const onFinishFailed = (errorInfo) => {

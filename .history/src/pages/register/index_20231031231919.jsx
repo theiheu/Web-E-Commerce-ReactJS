@@ -1,24 +1,7 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
 import { NavLink } from "react-router-dom";
-import instance from "../../utils/axios-customize";
-const onFinish = async (values) => {
-  try {
-    console.log("Success:", values);
-    // GET request for remote image in node.js
-    const response = await instance({
-      method: "POST",
-      url: "/api/v1/user/register",
-      data: {
-        fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
-        password: "Flintstone",
-        phone: "Flintstone",
-      },
-    });
-    console.log(`response:`, response.data);
-  } catch (error) {
-    console.log(`error:`, error.response.data.message);
-  }
+const onFinish = (values) => {
+  console.log("Success:", values);
 };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -35,16 +18,32 @@ const RegisterPage = () => (
     className="bg-white shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] border-2 rounded-lg  border-gray-900 max-w-md p-4 sm:p-6 lg:p-8 container mt-[50px] md:mt-[100px]"
   >
     <h1 className="text-xl text-center font-medium text-gray-900 dark:text-dark">
-      Đăng nhập
+      Đăng ký
     </h1>
     <Divider />
+    <Form.Item
+      label="Tên đầy đủ"
+      name="fullName"
+      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+      rules={[
+        {
+          required: true,
+          message: "Vui lòng nhập tên của bạn!",
+        },
+      ]}
+    >
+      <Input
+        className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+        placeholder="Your Name"
+      />
+    </Form.Item>
     <Form.Item
       label="Email"
       name="email"
       rules={[
         {
           required: true,
-          message: "Vui lòng nhập email!",
+          message: "Vui lòng nhập email của bạn!",
         },
         {
           pattern:
@@ -59,7 +58,7 @@ const RegisterPage = () => (
       />
     </Form.Item>
     <Form.Item
-      label="Mật khảu"
+      label="Mật khẩu"
       name="password"
       rules={[
         {
@@ -77,10 +76,29 @@ const RegisterPage = () => (
       <Input.Password
         style={{
           background: "transparent",
-          borderColor: "rgb(209 213 219) ",
+          borderColor: "rgb(209, 213, 219) ",
         }}
         placeholder="••••••••"
         className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
+      />
+    </Form.Item>
+    <Form.Item
+      label="Số điện thoại"
+      name="phone"
+      rules={[
+        {
+          required: true,
+          message: "Vui lòng nhập số điện thoại của bạn!",
+        },
+        {
+          pattern: new RegExp(/^[0-9]+$/),
+          message: "Vui lòng nhập số!",
+        },
+      ]}
+    >
+      <Input
+        placeholder="0345 678 910"
+        className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
       />
     </Form.Item>
     <Form.Item
@@ -94,18 +112,14 @@ const RegisterPage = () => (
       <Button
         className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         htmlType="submit"
-        loading={false}
       >
-        Đăng nhập
+        Đăng ký
       </Button>
     </Form.Item>
-    <Form.Item className="text-sm font-medium text-gray-700">
-      <span>Chưa có tài khoản?</span>
-      <NavLink
-        to={"/register"}
-        className="text-blue-700 hover:underline dark:text-blue-500 ml-1"
-      >
-        Tạo tài khoản
+    <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">
+      Tài khoản đã có sẵn?
+      <NavLink to={"/login"} className="text-blue-700 hover:underline ml-1">
+        Đăng nhập
       </NavLink>
     </Form.Item>
   </Form>

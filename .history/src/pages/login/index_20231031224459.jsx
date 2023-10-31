@@ -1,28 +1,28 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
+import axios from "axios";
 import { NavLink } from "react-router-dom";
-import instance from "../../utils/axios-customize";
-const onFinish = async (values) => {
-  try {
-    console.log("Success:", values);
-    // GET request for remote image in node.js
-    const response = await instance({
-      method: "POST",
-      url: "/api/v1/user/register",
-      data: {
-        fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
-        password: "Flintstone",
-        phone: "Flintstone",
-      },
-    });
-    console.log(`response:`, response.data);
-  } catch (error) {
-    console.log(`error:`, error.response.data.message);
-  }
+const onFinish = (values) => {
+  console.log("Success:", values);
 };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
+
+const getApi = axios
+  .get("api/v1/user/register")
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });
+
+getApi();
 
 const RegisterPage = () => (
   <Form

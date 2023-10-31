@@ -1,24 +1,7 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
 import { NavLink } from "react-router-dom";
-import instance from "../../utils/axios-customize";
-const onFinish = async (values) => {
-  try {
-    console.log("Success:", values);
-    // GET request for remote image in node.js
-    const response = await instance({
-      method: "POST",
-      url: "/api/v1/user/register",
-      data: {
-        fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
-        password: "Flintstone",
-        phone: "Flintstone",
-      },
-    });
-    console.log(`response:`, response.data);
-  } catch (error) {
-    console.log(`error:`, error.response.data.message);
-  }
+const onFinish = (values) => {
+  console.log("Success:", values);
 };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -94,7 +77,7 @@ const RegisterPage = () => (
       <Button
         className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         htmlType="submit"
-        loading={false}
+        loading={true}
       >
         Đăng nhập
       </Button>

@@ -10,18 +10,18 @@ const onFinish = async (values) => {
       url: "/api/v1/user/register",
       data: {
         fullName: "Fred",
-        email: "Flintascsstone@gmail.com",
+        email: "Flintstone@gmail.com",
         password: "Flintstone",
         phone: "Flintstone",
       },
     });
     console.log(`response:`, response.data);
   } catch (error) {
-    console.log(`error:`, error.response.data.message);
+    console.log(`error:`, error);
   }
 };
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  console.log("Failed:", errorInfo.data.message);
 };
 
 const RegisterPage = () => (
