@@ -32,8 +32,7 @@ instance.interceptors.response.use(
   }
 );
 
-instance.defaults.headers.common[
-  "Authorization"
-] = `Bearer ${localStorage.getItem("access_token")}`;
+instance.defaults.headers.common["Authorization"] =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInBob25lIjoiMTIzNDU2Nzg5IiwiZnVsbE5hbWUiOiJJJ20gQWRtaW4iLCJyb2xlIjoiQURNSU4iLCJzdWIiOiI2NTNmN2IyZWU1ZDg1NDUwYzE3M2ZiNmEiLCJhdmF0YXIiOiIyMTIzMmYyOTdhNTdhNWE3NDM4OTRhMGU0YTgwMWZjMy5wbmciLCJpYXQiOjE2OTg4NTMyNjksImV4cCI6MTY5ODg4OTI2OX0.3Vcj526tYIoN-zgMzORSjuoSkE4T67ZZk21aRVbWQRs";
 
 export default instance;

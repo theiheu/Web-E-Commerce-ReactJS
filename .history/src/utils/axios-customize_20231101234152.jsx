@@ -32,8 +32,8 @@ instance.interceptors.response.use(
   }
 );
 
-instance.defaults.headers.common[
-  "Authorization"
-] = `Bearer ${localStorage.getItem("access_token")}`;
+instance.defaults.headers.common = {
+  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+};
 
 export default instance;

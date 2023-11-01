@@ -23,11 +23,5 @@ const callUser = (email, password) => {
     },
   });
 };
-const fetchlUser = () => {
-  return axios({
-    method: "GET",
-    url: "http://localhost:8080/api/v1/auth/account",
-  });
-};
 
-export { callRegister, callUser, fetchlUser };
+export { callRegister, callUser };

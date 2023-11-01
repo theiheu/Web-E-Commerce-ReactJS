@@ -23,10 +23,15 @@ const callUser = (email, password) => {
     },
   });
 };
-const fetchlUser = () => {
+const fetchlUser = (email, password) => {
   return axios({
-    method: "GET",
+    method: "POST",
     url: "http://localhost:8080/api/v1/auth/account",
+    withCredentials: true,
+    data: {
+      username: email,
+      password: password,
+    },
   });
 };
 

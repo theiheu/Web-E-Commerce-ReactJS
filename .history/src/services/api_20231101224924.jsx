@@ -23,10 +23,11 @@ const callUser = (email, password) => {
     },
   });
 };
-const fetchlUser = () => {
+const fetchlUser = (token) => {
   return axios({
     method: "GET",
     url: "http://localhost:8080/api/v1/auth/account",
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
 

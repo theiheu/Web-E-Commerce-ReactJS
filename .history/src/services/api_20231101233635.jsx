@@ -27,6 +27,9 @@ const fetchlUser = () => {
   return axios({
     method: "GET",
     url: "http://localhost:8080/api/v1/auth/account",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
   });
 };
 

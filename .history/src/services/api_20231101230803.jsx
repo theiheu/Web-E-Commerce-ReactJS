@@ -5,6 +5,7 @@ const callRegister = (fullName, email, password, phone) => {
     method: "POST",
     url: "/api/v1/user/register",
     data: {
+      isAuthorization: false,
       fullName: fullName,
       email: email,
       password: password,
@@ -23,10 +24,11 @@ const callUser = (email, password) => {
     },
   });
 };
-const fetchlUser = () => {
+const fetchlUser = (token) => {
   return axios({
     method: "GET",
     url: "http://localhost:8080/api/v1/auth/account",
+    headers: { Authorization: `Bearer ${token}` },
   });
 };
 

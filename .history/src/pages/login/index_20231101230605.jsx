@@ -13,7 +13,7 @@ import { callUser } from "../../services/api";
 import { useDispatch } from "react-redux";
 import { doLoginAction } from "../../redux/accountSlice";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +23,8 @@ const LoginPage = () => {
     try {
       const response = await callUser(email, password);
       console.log(`response:`, response);
-      localStorage.setItem("access_token", response?.data?.data?.access_token);
+      console.log(`response:`, response?.data?.data?.access_token);
+      localStorage.setItem("acces_token", response?.data?.data?.access_token);
       dispatch(doLoginAction(response?.data?.data?.user));
 
       message.success("Bạn đã đăng nhập thành công!");
@@ -127,4 +128,4 @@ const LoginPage = () => {
     </Form>
   );
 };
-export default LoginPage;
+export default RegisterPage;
