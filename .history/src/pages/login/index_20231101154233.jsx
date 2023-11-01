@@ -21,7 +21,7 @@ const RegisterPage = () => {
       const response = await callUser(email, password);
       console.log(`response:`, response);
 
-      message.success("Bạn đã đăng nhập thành công!");
+      message.success("Bạn đã đăng ký thành công!");
       navigate("/");
     } catch (error) {
       console.log(`error:`, error);
@@ -70,7 +70,7 @@ const RegisterPage = () => {
         />
       </Form.Item>
       <Form.Item
-        label="Mật khẩu"
+        label="Mật khảu"
         name="password"
         rules={[
           {

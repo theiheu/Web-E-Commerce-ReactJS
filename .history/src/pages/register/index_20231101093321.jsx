@@ -1,38 +1,32 @@
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Form,
-  Input,
-  message,
-  notification,
-} from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Button, Checkbox, Divider, Form, Input } from "antd";
+import { NavLink } from "react-router-dom";
+import instance from "../../utils/axios-customize";
 import { useState } from "react";
-import { callRegister } from "../../services/api";
 
 const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
-  const navigate = useNavigate();
 
   const onFinish = async ({ fullName, email, password, phone }) => {
+    // console.log("Success:", values);
     setIsSubmit(true);
     try {
-      const response = await callRegister(fullName, email, password, phone);
-      console.log(`response:`, response);
-
-      message.success("Bạn đã đăng ký thành công!");
-      navigate("/");
-    } catch (error) {
-      console.log(`error:`, error);
-      notification.error({
-        message: "Có lỗi xảy ra!",
-        description: error.response.data.message,
+      // GET request for remote image in node.js
+      const response = await instance({
+        method: "POST",
+        url: "/api/v1/user/register",
+        data: {
+          fullName: fullName,
+          email: email,
+          password: password,
+          phone: phone,
+        },
       });
+      console.log(`response:`, response.data);
+    } catch (error) {
+      console.log(`error:`, error.response.data.message);
+      // setIsSubmit(false);
     }
-    setIsSubmit(false);
   };
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -109,7 +103,7 @@ const RegisterPage = () => {
             borderColor: "rgb(209, 213, 219) ",
           }}
           placeholder="••••••••"
-          className="flex border !bg-white border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
+          className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
         />
       </Form.Item>
       <Form.Item
@@ -140,9 +134,9 @@ const RegisterPage = () => {
       </Form.Item>
       <Form.Item>
         <Button
-          className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="w-full min-h-[50px] text-white hover:!text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           htmlType="submit"
-          loading={isSubmit}
+          loading={true}
         >
           Đăng ký
         </Button>

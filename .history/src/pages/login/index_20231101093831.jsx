@@ -1,36 +1,27 @@
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Form,
-  Input,
-  message,
-  notification,
-} from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { callUser } from "../../services/api";
+import { Button, Checkbox, Divider, Form, Input } from "antd";
+import { NavLink } from "react-router-dom";
+import instance from "../../utils/axios-customize";
 
 const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
-  const navigate = useNavigate();
-
-  const onFinish = async ({ email, password }) => {
-    setIsSubmit(true);
+  const onFinish = async (values) => {
     try {
-      const response = await callUser(email, password);
-      console.log(`response:`, response);
-
-      message.success("Bạn đã đăng nhập thành công!");
-      navigate("/");
-    } catch (error) {
-      console.log(`error:`, error);
-      notification.error({
-        message: "Có lỗi xảy ra!",
-        description: error.response.data.message,
+      console.log("Success:", values);
+      // GET request for remote image in node.js
+      const response = await instance({
+        method: "POST",
+        url: "/api/v1/user/register",
+        data: {
+          fullName: "Fred",
+          email: "Flintascsstone@gmail.com",
+          password: "Flintstone",
+          phone: "Flintstone",
+        },
       });
+      console.log(`response:`, response.data);
+    } catch (error) {
+      console.log(`error:`, error.response.data.message);
     }
-    setIsSubmit(false);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -70,7 +61,7 @@ const RegisterPage = () => {
         />
       </Form.Item>
       <Form.Item
-        label="Mật khẩu"
+        label="Mật khảu"
         name="password"
         rules={[
           {
@@ -78,8 +69,8 @@ const RegisterPage = () => {
             message: "Vui lòng nhập mật khẩu!!",
           },
           {
-            // pattern:
-            //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+            pattern:
+              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
             message:
               "Mật khẩu yêu cầu từ 8 đến 16 ký tự, có chữ cái in hoa và ký tự đặc biệt!",
           },

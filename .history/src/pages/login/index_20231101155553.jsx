@@ -70,7 +70,7 @@ const RegisterPage = () => {
         />
       </Form.Item>
       <Form.Item
-        label="Mật khẩu"
+        label="Mật khảu"
         name="password"
         rules={[
           {

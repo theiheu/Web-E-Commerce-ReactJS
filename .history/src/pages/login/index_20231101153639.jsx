@@ -21,7 +21,7 @@ const RegisterPage = () => {
       const response = await callUser(email, password);
       console.log(`response:`, response);
 
-      message.success("Bạn đã đăng nhập thành công!");
+      message.success("Bạn đã đăng ký thành công!");
       navigate("/");
     } catch (error) {
       console.log(`error:`, error);
@@ -70,7 +70,7 @@ const RegisterPage = () => {
         />
       </Form.Item>
       <Form.Item
-        label="Mật khẩu"
+        label="Mật khảu"
         name="password"
         rules={[
           {
@@ -78,8 +78,8 @@ const RegisterPage = () => {
             message: "Vui lòng nhập mật khẩu!!",
           },
           {
-            // pattern:
-            //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+            pattern:
+              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
             message:
               "Mật khẩu yêu cầu từ 8 đến 16 ký tự, có chữ cái in hoa và ký tự đặc biệt!",
           },
