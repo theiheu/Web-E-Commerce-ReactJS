@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import LoginPage from "../pages/login/index";
 import Home from "../pages/home";
 import RegisterPage from "../pages/register";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const Layout = () => {
   return (
@@ -21,7 +22,27 @@ const Routers = createBrowserRouter([
     path: "/",
     element: <Layout />,
     errorElement: <NotFoundPage />,
-    children: [{ index: true, element: <Home /> }],
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <Layout />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        index: true,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
+    ],
   },
   {
     path: "login",

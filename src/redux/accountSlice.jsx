@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const accountSlice = createSlice({
   name: "account",
   initialState: {
+    isAuthenticated: false,
     user: {
-      isAuthorization: false,
       id: "",
       email: "",
       phone: "",
@@ -15,10 +15,14 @@ export const accountSlice = createSlice({
   },
   reducers: {
     doLoginAction: (state, action) => {
-      state.user = { isAuthorization: true, ...action.payload };
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      // state = { isAuthenticated: true, user: action.payload };
     },
     doGetAccountAction: (state, action) => {
-      state.user = { isAuthorization: true, ...action.payload };
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      // state = { isAuthenticated: true, user: action.payload };
     },
   },
 });
