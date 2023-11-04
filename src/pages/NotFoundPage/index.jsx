@@ -1,8 +1,8 @@
-import "./notfoundpage.module.scss";
+import "./NotFoundPage.scss";
 
 const NotFoundPage = () => {
   return (
-    <div className="not_found_page">
+    <div className={"not_found_page"}>
       <div className="container">
         <div className="container--svg">
           <svg
@@ -401,7 +401,9 @@ const NotFoundPage = () => {
               The page you are looking for has slipped into an unknown realm.
               Click the button below to go back to the homepage.
             </p>
-            <button className="btn green">HOME</button>
+            <a href="/" className="btn green">
+              HOME
+            </a>
           </div>
         </div>
       </div>

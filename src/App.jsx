@@ -5,7 +5,7 @@ import { fetchlUser } from "./services/api";
 import { useEffect } from "react";
 import { doGetAccountAction } from "./redux/accountSlice";
 import { Button } from "antd";
-import ProtectedRoute from "../.history/src/components/ProtectedRoute/index_20231102172001";
+import Loading from "./components/Loading/Loading";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -14,15 +14,18 @@ export default function App() {
   );
 
   const getAccount = async () => {
-    console.log("Line: 17 - Here");
     try {
-      if (window.location.pathname === "/login" && isAuthenticated) {
-        window.location.pathname = "/";
-      }
+      // console.log("Line: 18 - Here", isAuthenticated);
+      // if (
+      //   window.location.pathname === "/login" ||
+      //   window.location.pathname === "/register"
+      // ) {
+      //   return window.location.assign("/");
+      // }
       const res = await fetchlUser();
       dispatch(doGetAccountAction(res?.data?.data?.user));
     } catch (error) {
-      console.log(`error:`, error);
+      // console.log(`error:`, error);
     }
   };
 
@@ -32,13 +35,14 @@ export default function App() {
 
   return (
     <>
-      <RouterProvider router={Routers} />
-      <Button
-        onClick={() => {
-          console.log("Line: 37 - Here", isAuthenticated);
-        }}
-      >
-        Test
+      {isAuthenticated ? <RouterProvider router={Routers} /> : <Loading />}
+      {/* <RouterProvider router={Routers} /> */}
+      <Button>
+        <a href="http://localhost:5173/login">Test admin</a>
+      </Button>
+
+      <Button onClick={() => console.log("Line: 44 - Here", isAuthenticated)}>
+        isAuthenticated
       </Button>
     </>
   );

@@ -15,14 +15,10 @@ export const accountSlice = createSlice({
   },
   reducers: {
     doLoginAction: (state, action) => {
-      state.isAuthenticated = true;
-      state.user = action.payload;
-      // state = { isAuthenticated: true, user: action.payload };
+      return { ...state, isAuthenticated: true, user: action.payload };
     },
     doGetAccountAction: (state, action) => {
-      state.isAuthenticated = true;
-      state.user = action.payload;
-      // state = { isAuthenticated: true, user: action.payload };
+      return { ...state, isAuthenticated: true, user: action.payload };
     },
   },
 });
