@@ -1,11 +1,12 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import NotFoundPage from "../pages/NotFoundPage";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import LoginPage from "../pages/LoginPage";
 import Home from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Header from "../components/Header";
+import { Footer } from "antd/es/layout/layout";
+import Admin from "../pages/Admin";
 
 const Layout = () => {
   return (
@@ -33,7 +34,7 @@ const Routers = createBrowserRouter([
     path: "/admin",
     element: (
       <ProtectedRoute>
-        <Home />
+        <Admin />
       </ProtectedRoute>
     ),
     errorElement: <NotFoundPage />,
