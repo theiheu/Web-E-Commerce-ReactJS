@@ -27,11 +27,11 @@ export const accountSlice = createSlice({
       return {
         ...state,
         isAuthenticated: true,
-        isLoading: true,
+        isLoading: false,
         user: action.payload,
       };
     },
-    doLogoutAction: (state, action) => {
+    doLogoutAction: (state) => {
       localStorage.removeItem("access_token");
       return {
         ...state,

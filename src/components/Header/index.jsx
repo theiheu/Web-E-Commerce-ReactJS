@@ -1,9 +1,8 @@
 import { BookOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space, message } from "antd";
 import { Badge, Input, Layout } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { doLogoutAction } from "../../redux/accountSlice";
 import { useNavigate } from "react-router-dom";
 import { callLogout } from "../../services/api";
@@ -31,7 +30,6 @@ const items = [
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state?.account?.user);
 
   const handleLogout = async () => {
     try {

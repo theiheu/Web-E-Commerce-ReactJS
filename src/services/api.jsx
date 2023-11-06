@@ -16,7 +16,6 @@ const callLogin = (email, password) => {
   return axios({
     method: "POST",
     url: "/api/v1/auth/login",
-    withCredentials: true,
     data: {
       username: email,
       password: password,
@@ -26,13 +25,13 @@ const callLogin = (email, password) => {
 const fetchAccount = () => {
   return axios({
     method: "GET",
-    url: "http://localhost:8080/api/v1/auth/account",
+    url: "/api/v1/auth/account",
   });
 };
 const callLogout = () => {
   return axios({
     method: "POST",
-    url: "http://localhost:8080/api/v1/auth/logout",
+    url: "/api/v1/auth/logout",
   });
 };
 
