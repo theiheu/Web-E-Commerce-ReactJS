@@ -46,11 +46,22 @@ instance.interceptors.response.use(
       const access_token = await handleRefreshToken();
 
       error.config.headers[NO_RETRY_HEADER] = "true";
+
       if (access_token) {
         error.config.headers["Authorization"] = `Bearer ${access_token}`;
         localStorage.setItem("access_token", access_token);
         return instance.request(error.config);
       }
+    }
+    if (
+      error.config &&
+      error.response &&
+      +error.response.status === 400 &&
+      error.config.url === "/api/v1/auth/refresh"
+    ) {
+      // Handle the 400 status code error here
+      // For example: return an error message or reject the promise
+      window.location.href = "/login";
     }
 
     return error?.response?.data ?? Promise.reject(error);

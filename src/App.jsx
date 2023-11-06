@@ -20,6 +20,12 @@ export default function App() {
 
   const getAccount = async () => {
     try {
+      if (
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/login"
+      )
+        return;
+
       const res = await fetchAccount();
       dispatch(doGetAccountAction(res?.data?.data?.user));
     } catch (error) {
