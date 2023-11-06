@@ -9,7 +9,7 @@ import {
 } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { callUser } from "../../services/api";
+import { callLogin } from "../../services/api";
 import { useDispatch } from "react-redux";
 import { doLoginAction } from "../../redux/accountSlice";
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
   const onFinish = async ({ email, password }) => {
     setIsSubmit(true);
     try {
-      const response = await callUser(email, password);
+      const response = await callLogin(email, password);
       console.log(`response:`, response);
       localStorage.setItem("access_token", response?.data?.data?.access_token);
       dispatch(doLoginAction(response?.data?.data?.user));

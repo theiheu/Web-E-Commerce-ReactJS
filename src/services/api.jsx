@@ -12,7 +12,7 @@ const callRegister = (fullName, email, password, phone) => {
     },
   });
 };
-const callUser = (email, password) => {
+const callLogin = (email, password) => {
   return axios({
     method: "POST",
     url: "/api/v1/auth/login",
@@ -23,11 +23,17 @@ const callUser = (email, password) => {
     },
   });
 };
-const fetchlUser = () => {
+const fetchAccount = () => {
   return axios({
     method: "GET",
     url: "http://localhost:8080/api/v1/auth/account",
   });
 };
+const callLogout = () => {
+  return axios({
+    method: "POST",
+    url: "http://localhost:8080/api/v1/auth/logout",
+  });
+};
 
-export { callRegister, callUser, fetchlUser };
+export { callRegister, callLogin, fetchAccount, callLogout };
