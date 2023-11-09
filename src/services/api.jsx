@@ -37,7 +37,7 @@ const callLogout = () => {
 const fetchUserWithPaginate = (current = 1, pageSize = 2, filters, sorts) => {
   return axios({
     method: "GET",
-    url: `api/v1/user?current=${current}&pageSize=${pageSize}&${filters}&${sorts}`,
+    url: `api/v1/user?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
   });
 };
 const fetchAllUser = (filter) => {

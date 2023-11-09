@@ -1,7 +1,6 @@
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import React from "react";
-import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -43,7 +42,7 @@ const itemsBreadcrumb = [
 ];
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     token: { colorBgLayout },
   } = theme.useToken();
