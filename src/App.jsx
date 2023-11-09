@@ -5,32 +5,17 @@ import { fetchAccount } from "./services/api";
 import { useEffect } from "react";
 import { doGetAccountAction } from "./redux/accountSlice";
 import { Button } from "antd";
-import instance from "./utils/axios-customize";
+import Loading from "./components/Loading/Loading";
 
 export default function App() {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state?.account);
-
-  const handleRefreshToken = async () => {
-    const res = await instance.get("/api/v1/auth/refresh");
-    console.log("Line: 12 - Here", res);
-    // if (res && res.data) res.data.access_token;
-    // else null;
-  };
+  const { isLoading, isAuthenticated } = useSelector((state) => state?.account);
+  // const user = useSelector((state) => state?.account);
 
   const getAccount = async () => {
-    try {
-      if (
-        window.location.pathname === "/login" ||
-        window.location.pathname === "/login"
-      )
-        return;
-
-      const res = await fetchAccount();
-      dispatch(doGetAccountAction(res?.data?.data?.user));
-    } catch (error) {
-      console.log(`error:`, error);
-    }
+    const res = await fetchAccount();
+    console.log(`res:`, res);
+    dispatch(doGetAccountAction(res?.data?.data?.user));
   };
 
   useEffect(() => {
@@ -39,16 +24,14 @@ export default function App() {
 
   return (
     <>
-      <RouterProvider router={Routers} />
-
+      {isLoading ? <Loading /> : <RouterProvider router={Routers} />}
+      {/* <RouterProvider router={Routers} /> */}
       <Button>
-        <a href="http://localhost:5173/login">Test admin</a>
+        <a href="http://localhost:5173/admin">Test admin</a>
       </Button>
 
       <Button
-        onClick={async () =>
-          console.log("Line: 44 - Here", await handleRefreshToken())
-        }
+        onClick={async () => console.log("Line: 44 - Here", isAuthenticated)}
       >
         isAuthenticated
       </Button>

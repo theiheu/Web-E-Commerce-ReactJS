@@ -17,7 +17,6 @@ export const accountSlice = createSlice({
   reducers: {
     doLoginAction: (state, action) => {
       return {
-        ...state,
         isAuthenticated: true,
         isLoading: false,
         user: action.payload,
@@ -35,8 +34,8 @@ export const accountSlice = createSlice({
       localStorage.removeItem("access_token");
       return {
         ...state,
-        isAuthenticated: false,
-        isLoading: true,
+        isAuthenticated: true,
+        isLoading: false,
         user: {
           id: "",
           email: "",

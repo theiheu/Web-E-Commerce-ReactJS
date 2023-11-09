@@ -27,6 +27,21 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   }
 );
 
+const itemsBreadcrumb = [
+  {
+    title: "Home",
+  },
+  {
+    title: <a href="">Application Center</a>,
+  },
+  {
+    title: <a href="">Application List</a>,
+  },
+  {
+    title: "An Application",
+  },
+];
+
 const HomePage = () => {
   const navigate = useNavigate();
   const {
@@ -43,11 +58,8 @@ const HomePage = () => {
           style={{
             margin: "16px 0",
           }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
+          items={itemsBreadcrumb}
+        ></Breadcrumb>
         <Layout
           style={{
             padding: "24px 0",
@@ -80,8 +92,6 @@ const HomePage = () => {
           </Content>
         </Layout>
       </Content>
-      <Button onClick={() => navigate("/login")}>Login</Button>
-      <Button onClick={() => navigate("/register")}>Register</Button>
     </div>
   );
 };

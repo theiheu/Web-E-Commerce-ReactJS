@@ -61,7 +61,7 @@ instance.interceptors.response.use(
     ) {
       // Handle the 400 status code error here
       // For example: return an error message or reject the promise
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
 
     return error?.response?.data ?? Promise.reject(error);

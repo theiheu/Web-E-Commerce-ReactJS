@@ -1,10 +1,10 @@
 import { BookOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { Dropdown, Space, message } from "antd";
+import { Button, Dropdown, Space, message } from "antd";
 import { Badge, Input, Layout } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doLogoutAction } from "../../redux/accountSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { callLogout } from "../../services/api";
 
 const { Header: HeaderLayout } = Layout;
@@ -14,7 +14,7 @@ const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const items = [
   {
-    label: <a href="https://www.antgroup.com">Quản lý tài khoản</a>,
+    label: <Link to="/admin">Quản lý tài khoản</Link>,
     key: "0",
   },
   {
@@ -30,6 +30,7 @@ const items = [
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector((state) => state?.account);
 
   const handleLogout = async () => {
     try {
@@ -38,7 +39,7 @@ const Header = () => {
 
       dispatch(doLogoutAction());
       message.success("Bạn đã đăng xuất thành công!");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log(`error:`, error);
     }
@@ -65,12 +66,14 @@ const Header = () => {
           boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
         }}
       >
+        {/* Logo */}
         <BookOutlined
           style={{
             color: "aqua",
             fontSize: "32px",
             margin: "0 20px 0 20px",
           }}
+          onClick={() => navigate("/")}
         />
         <Search
           className="mx-2"
@@ -89,39 +92,50 @@ const Header = () => {
             <ShoppingCartOutlined className="text-[32px]" />
           </Badge>
 
-          <Dropdown
-            menu={{
-              items,
-              onClick: handleMenuClick,
-            }}
-            trigger={["click"]}
-            style={{
-              width: "120px",
-            }}
-          >
-            <a
-              onClick={(e) => {
-                e.preventDefault();
+          {user?.id ? (
+            <Dropdown
+              menu={{
+                items: user?.role === "ADMIN" ? items : [items[2]],
+                onClick: handleMenuClick,
+              }}
+              trigger={["click"]}
+              style={{
+                width: "120px",
               }}
             >
-              <Space
-                style={{
-                  width: "120px",
-                  color: "black",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
                 }}
               >
-                Tài khoản
-                <UserOutlined
+                <Space
                   style={{
-                    fontSize: "20px",
+                    width: "120px",
+                    color: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-              </Space>
-            </a>
-          </Dropdown>
+                >
+                  {user?.fullName || "Tài khoản"}
+                  <UserOutlined
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  />
+                </Space>
+              </a>
+            </Dropdown>
+          ) : (
+            <Space>
+              <Button size={"large"} onClick={() => navigate("/login")}>
+                Đăng nhập
+              </Button>
+              <Button size={"large"} onClick={() => navigate("/register")}>
+                Đăng ký
+              </Button>
+            </Space>
+          )}
         </Space>
       </HeaderLayout>
     </Layout>

@@ -6,7 +6,8 @@ import RegisterPage from "../pages/RegisterPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Header from "../components/Header";
 import { Footer } from "antd/es/layout/layout";
-import Admin from "../pages/Admin";
+import AdminPage from "../pages/Admin";
+import UserTable from "../pages/Admin/User/UserTable";
 
 const Layout = () => {
   return (
@@ -34,18 +35,18 @@ const Routers = createBrowserRouter([
     path: "/admin",
     element: (
       <ProtectedRoute>
-        <Admin />
+        <AdminPage />
       </ProtectedRoute>
     ),
     errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        ),
+        element: <UserTable />,
+      },
+      {
+        path: "home",
+        element: <Home />,
       },
     ],
   },
