@@ -14,7 +14,6 @@ export default function App() {
 
   const getAccount = async () => {
     const res = await fetchAccount();
-    console.log(`res:`, res);
     dispatch(doGetAccountAction(res?.data?.data?.user));
   };
 

@@ -75,7 +75,7 @@ const UserTable = () => {
       width: 100,
       dataIndex: "_id",
       key: "updatedAt",
-      render: (text, record, index) => {
+      render: (text, record) => {
         return (
           <a
             href="#"

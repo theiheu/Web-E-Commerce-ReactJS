@@ -11,6 +11,7 @@ import { Layout, Menu, Button, theme, Dropdown, Space, Divider } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
+import UserNavigation from "../../components/UserNavigation";
 
 const { Header, Sider, Content } = Layout;
 
@@ -24,6 +25,9 @@ const items = [
     label: "Đăng xuất",
     key: "3",
     danger: true,
+    onClick: () => {
+      console.log("Line: 28 - Here");
+    },
   },
 ];
 
@@ -54,7 +58,6 @@ const MenuAdmin = [
 
 const AdminPage = () => {
   ("bottomRight");
-  const user = useSelector((state) => state?.account?.user);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -95,7 +98,7 @@ const AdminPage = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: 0,
+            padding: "0 4px",
             background: colorBgContainer,
           }}
         >
@@ -110,34 +113,7 @@ const AdminPage = () => {
             }}
           />
 
-          <Dropdown
-            menu={{
-              items,
-            }}
-            trigger={["click"]}
-            style={{
-              width: "120px",
-            }}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space
-                style={{
-                  width: "120px",
-                  color: "black",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {user.fullName}
-                <UserOutlined
-                  style={{
-                    fontSize: "20px",
-                  }}
-                />
-              </Space>
-            </a>
-          </Dropdown>
+          <UserNavigation />
         </Header>
         <Content
           style={{
