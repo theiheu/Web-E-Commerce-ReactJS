@@ -1,9 +1,10 @@
-import { Space, Table } from "antd";
+import { Drawer, Table } from "antd";
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate } from "../../../services/api";
 import { DeleteOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
 import ImportAndExportListUsersj from "./ImportAndExportListUsersj";
+import DetailUsers from "./DetailUsers";
 
 const UserTable = () => {
   const [data, setData] = useState([]);
@@ -12,7 +13,8 @@ const UserTable = () => {
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [dataDetailUsers, setDataDetailUsers] = useState([]);
 
   useEffect(() => {
     (async function () {
@@ -36,6 +38,7 @@ const UserTable = () => {
               email: item.email,
               phone: item.phone,
               key: item._id,
+              ...item,
             };
           })
         );
@@ -72,6 +75,20 @@ const UserTable = () => {
       width: 100,
       dataIndex: "_id",
       key: "updatedAt",
+      render: (text, record, index) => {
+        return (
+          <a
+            href="#"
+            onClick={() => {
+              console.log("Line: 81 - Here", record);
+              setDataDetailUsers(record);
+              setOpen(true);
+            }}
+          >
+            {text}
+          </a>
+        );
+      },
     },
     {
       title: "Tên hiển thị",
@@ -121,11 +138,7 @@ const UserTable = () => {
   return (
     <>
       <AdvancedSearchForm setFilters={setFilters} />
-      {/*
-      <Space
-        style={{ background: "#f5f5f5", borderRadius: "8px" }}
-        direction="vertical"
-      > */}
+
       <ImportAndExportListUsersj setFilters={setFilters} setSofts={setSofts} />
       <Table
         columns={columns}
@@ -145,7 +158,16 @@ const UserTable = () => {
         }}
         onChange={onChange}
       />
-      {/* </Space> */}
+      <Drawer
+        placement="right"
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={open}
+        width={"50%"}
+      >
+        <DetailUsers dataDetailUsers={dataDetailUsers} />
+      </Drawer>
     </>
   );
 };
