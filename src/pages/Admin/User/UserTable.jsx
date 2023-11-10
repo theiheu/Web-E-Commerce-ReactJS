@@ -1,4 +1,4 @@
-import { Drawer, Space, Table } from "antd";
+import { Drawer, Popconfirm, Space, Table, message } from "antd";
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -137,15 +137,28 @@ const UserTable = () => {
             }}
             onClick={() => console.log("Line: 52 - Here")}
           />
-          <DeleteOutlined
-            style={{
-              color: "#FF8080",
-              marginLeft: "4px",
-              cursor: "pointer",
-              fontSize: "20px",
+
+          <Popconfirm
+            title="Xóa người dùng!"
+            description="Bạn có chắc muốn xóa người dùng này không?"
+            onConfirm={confirm}
+            onCancel={(e) => {
+              console.log(e);
+              message.error("Click on No");
             }}
-            onClick={() => console.log("Line: 52 - Here")}
-          />
+            okText="Vâng"
+            cancelText="Không"
+          >
+            <DeleteOutlined
+              style={{
+                color: "#FF8080",
+                marginLeft: "4px",
+                cursor: "pointer",
+                fontSize: "20px",
+              }}
+              onClick={() => console.log("Line: 52 - Here")}
+            />
+          </Popconfirm>
         </Space>
       ),
     },
