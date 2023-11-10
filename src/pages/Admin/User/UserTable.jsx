@@ -1,9 +1,9 @@
-import { Drawer, Table } from "antd";
+import { Drawer, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate } from "../../../services/api";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
-import ImportAndExportListUsersj from "./ImportAndExportListUsersj";
+import ImportAndExportListUsers from "./ImportAndExportListUsersj";
 import DetailUsers from "./DetailUsers";
 
 const UserTable = () => {
@@ -127,10 +127,25 @@ const UserTable = () => {
       fixed: "right",
       width: 50,
       render: () => (
-        <DeleteOutlined
-          style={{ color: "#FF8080", cursor: "pointer", fontSize: "20px" }}
-          onClick={() => console.log("Line: 52 - Here")}
-        />
+        <Space>
+          <EditOutlined
+            style={{
+              color: "#80ffd7",
+              cursor: "pointer",
+              fontSize: "20px",
+            }}
+            onClick={() => console.log("Line: 52 - Here")}
+          />
+          <DeleteOutlined
+            style={{
+              color: "#FF8080",
+              marginLeft: "4px",
+              cursor: "pointer",
+              fontSize: "20px",
+            }}
+            onClick={() => console.log("Line: 52 - Here")}
+          />
+        </Space>
       ),
     },
   ];
@@ -139,7 +154,7 @@ const UserTable = () => {
     <>
       <AdvancedSearchForm setFilters={setFilters} />
 
-      <ImportAndExportListUsersj setFilters={setFilters} setSofts={setSofts} />
+      <ImportAndExportListUsers setFilters={setFilters} setSofts={setSofts} />
       <Table
         columns={columns}
         dataSource={data}

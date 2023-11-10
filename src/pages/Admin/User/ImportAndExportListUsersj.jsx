@@ -5,7 +5,8 @@ import {
 } from "@ant-design/icons";
 import { Button, Space } from "antd";
 import { useState } from "react";
-const ImportAndExportListUsersj = ({ setFilters, setSofts }) => {
+const ImportAndExportListUsers = (props) => {
+  const { setFilters, setSofts } = props;
   const [spin, setSpin] = useState(false);
   return (
     <Space className="flex justify-end py-4">
@@ -21,18 +22,26 @@ const ImportAndExportListUsersj = ({ setFilters, setSofts }) => {
         Thêm mới
       </Button>
 
-      <ReloadOutlined
-        style={{ fontSize: "20px", margin: "0 4px", cursor: "pointer" }}
-        spin={spin}
-        onClick={() => {
-          setSpin(true);
-          setFilters([]);
-          setSofts("");
-          setSpin(false);
+      <Button
+        size={"large"}
+        style={{
+          border: "none",
+          padding: "4px",
         }}
-      />
+      >
+        <ReloadOutlined
+          style={{ fontSize: "20px", margin: "0 4px", cursor: "pointer" }}
+          spin={spin}
+          onClick={() => {
+            setSpin(true);
+            setFilters([]);
+            setSofts("");
+            setSpin(false);
+          }}
+        />
+      </Button>
     </Space>
   );
 };
 
-export default ImportAndExportListUsersj;
+export default ImportAndExportListUsers;

@@ -5,31 +5,13 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   TeamOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, Dropdown, Space, Divider } from "antd";
+import { Layout, Menu, Button, theme, Space, Divider } from "antd";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import UserNavigation from "../../components/UserNavigation";
 
 const { Header, Sider, Content } = Layout;
-
-const items = [
-  { label: <Link to={"/"}>Trang chủ</Link>, key: "1" },
-
-  {
-    type: "divider",
-  },
-  {
-    label: "Đăng xuất",
-    key: "3",
-    danger: true,
-    onClick: () => {
-      console.log("Line: 28 - Here");
-    },
-  },
-];
 
 function getItem(label, key, icon, children) {
   return {
@@ -98,7 +80,7 @@ const AdminPage = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            padding: "0 4px",
+            padding: "0 24px",
             background: colorBgContainer,
           }}
         >

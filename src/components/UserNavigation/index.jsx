@@ -1,5 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Dropdown, Space, message } from "antd";
+import { Avatar, Button, Dropdown, Space, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { callLogout } from "../../services/api";
@@ -50,8 +50,14 @@ const UserNavigation = () => {
       handleLogout();
     }
   };
+
+  const urlAvatar = `${import.meta.env.VITE_SERVER_URL}/images/avatar/${
+    user.avatar
+  }`;
+
   return (
     <Dropdown
+      placement={"top"}
       menu={{
         items: [
           user?.role === "ADMIN"
@@ -83,12 +89,13 @@ const UserNavigation = () => {
             alignItems: "center",
           }}
         >
-          {user?.fullName}
-          <UserOutlined
-            style={{
-              fontSize: "20px",
-            }}
-          />
+          <Button
+            size="large"
+            className="flex justify-center items-center gap-2 p-3"
+          >
+            <Space>{user?.fullName}</Space>
+            <Avatar size={"middle"} src={urlAvatar} icon={<UserOutlined />} />
+          </Button>
         </Space>
       </a>
     </Dropdown>
