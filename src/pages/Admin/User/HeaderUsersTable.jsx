@@ -6,7 +6,7 @@ import {
 import { Button, Space } from "antd";
 import { useState } from "react";
 import AddUser from "./AddUser";
-const ImportAndExportListUsers = (props) => {
+const HeaderUsersTable = (props) => {
   const { setFilters, setSofts } = props;
   const [spin, setSpin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,4 +56,4 @@ const ImportAndExportListUsers = (props) => {
   );
 };
 
-export default ImportAndExportListUsers;
+export default HeaderUsersTable;

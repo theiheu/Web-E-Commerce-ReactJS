@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { fetchUserWithPaginate } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
-import ImportAndExportListUsers from "./ImportAndExportListUsersj";
+import HeaderUsersTable from "./HeaderUsersTable";
 import DetailUsers from "./DetailUsers";
-import AddUser from "./AddUser";
 
 const UserTable = () => {
   const [data, setData] = useState([]);
@@ -168,7 +167,7 @@ const UserTable = () => {
     <>
       <AdvancedSearchForm setFilters={setFilters} />
 
-      <ImportAndExportListUsers setFilters={setFilters} setSofts={setSofts} />
+      <HeaderUsersTable setFilters={setFilters} setSofts={setSofts} />
       <Table
         columns={columns}
         dataSource={data}

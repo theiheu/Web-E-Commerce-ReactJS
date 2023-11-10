@@ -25,7 +25,6 @@ const LoginPage = () => {
       console.log(`response:`, response);
       localStorage.setItem("access_token", response?.data?.data?.access_token);
       dispatch(doLoginAction(response?.data?.data?.user));
-
       message.success("Bạn đã đăng nhập thành công!");
       navigate("/");
     } catch (error) {
