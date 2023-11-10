@@ -165,6 +165,18 @@ const UserTable = () => {
           total: total,
           position: ["bottomRight"],
           pageSizeOptions: ["10", "20", "30"],
+          showTotal: (total, range) => {
+            return (
+              <>
+                <Space size={6}>
+                  <div>
+                    {range[0]}-{range[1]}
+                  </div>
+                  trên {total} rows
+                </Space>
+              </>
+            );
+          },
         }}
         scroll={{
           x: 1000,

@@ -4,12 +4,11 @@ import { RouterProvider } from "react-router-dom";
 import { fetchAccount } from "./services/api";
 import { useEffect } from "react";
 import { doGetAccountAction } from "./redux/accountSlice";
-import { Button } from "antd";
 import Loading from "./components/Loading/Loading";
 
 export default function App() {
   const dispatch = useDispatch();
-  const { isLoading, isAuthenticated } = useSelector((state) => state?.account);
+  const { isLoading } = useSelector((state) => state?.account);
   // const user = useSelector((state) => state?.account);
 
   const getAccount = async () => {
@@ -21,19 +20,5 @@ export default function App() {
     getAccount();
   }, []);
 
-  return (
-    <>
-      {isLoading ? <Loading /> : <RouterProvider router={Routers} />}
-      {/* <RouterProvider router={Routers} /> */}
-      <Button>
-        <a href="http://localhost:5173/admin">Test admin</a>
-      </Button>
-
-      <Button
-        onClick={async () => console.log("Line: 44 - Here", isAuthenticated)}
-      >
-        isAuthenticated
-      </Button>
-    </>
-  );
+  return <>{isLoading ? <Loading /> : <RouterProvider router={Routers} />}</>;
 }
