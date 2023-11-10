@@ -6,10 +6,12 @@ import {
 import { Button, Space } from "antd";
 import { useState } from "react";
 import AddUser from "./AddUser";
+import UserImport from "./UserImport";
 const HeaderUsersTable = (props) => {
   const { setFilters, setSofts } = props;
   const [spin, setSpin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpenUserImport, setIsOpenUserImport] = useState(false);
 
   return (
     <>
@@ -18,7 +20,12 @@ const HeaderUsersTable = (props) => {
           <WalletOutlined />
           Export
         </Button>
-        <Button size={"large"}>
+        <Button
+          size={"large"}
+          onClick={() => {
+            setIsOpenUserImport(true);
+          }}
+        >
           <CloudUploadOutlined />
           Import
         </Button>
@@ -52,6 +59,10 @@ const HeaderUsersTable = (props) => {
         </Button>
       </Space>
       <AddUser isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <UserImport
+        isOpenUserImport={isOpenUserImport}
+        setIsOpenUserImport={setIsOpenUserImport}
+      />
     </>
   );
 };
