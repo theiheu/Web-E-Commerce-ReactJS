@@ -46,6 +46,18 @@ const fetchAllUser = (filter) => {
     url: `api/v1/user${filter}`,
   });
 };
+const createUser = (fullName, email, password, phone) => {
+  return axios({
+    method: "POST",
+    url: `api/v1/user`,
+    data: {
+      fullName: fullName,
+      email: email,
+      password: password,
+      phone: phone,
+    },
+  });
+};
 
 export {
   callRegister,
@@ -54,4 +66,5 @@ export {
   callLogout,
   fetchUserWithPaginate,
   fetchAllUser,
+  createUser,
 };

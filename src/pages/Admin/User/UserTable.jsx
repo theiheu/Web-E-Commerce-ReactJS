@@ -5,6 +5,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
 import ImportAndExportListUsers from "./ImportAndExportListUsersj";
 import DetailUsers from "./DetailUsers";
+import AddUser from "./AddUser";
 
 const UserTable = () => {
   const [data, setData] = useState([]);
@@ -180,7 +181,7 @@ const UserTable = () => {
         }}
         scroll={{
           x: 1000,
-          y: 400,
+          y: 800,
           scrollToFirstRowOnChange: true,
         }}
         onChange={onChange}

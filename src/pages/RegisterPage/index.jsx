@@ -9,10 +9,13 @@ import {
 } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { callRegister } from "../../services/api";
+import { callLogin, callRegister } from "../../services/api";
+import { useDispatch } from "react-redux";
+import { doLoginAction } from "../../redux/accountSlice";
 
 const RegisterPage = () => {
   const [isSubmit, setIsSubmit] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onFinish = async ({ fullName, email, password, phone }) => {
@@ -20,9 +23,19 @@ const RegisterPage = () => {
     try {
       const response = await callRegister(fullName, email, password, phone);
       console.log(`response:`, response);
-
-      message.success("Bạn đã đăng ký thành công!");
-      navigate("/");
+      if (response.status === 200 || response.status === 201) {
+        message.success("Bạn đã đăng ký thành công!");
+        const res = await callLogin(email, password);
+        console.log(`response:`, response);
+        localStorage.setItem("access_token", res?.data?.data?.access_token);
+        dispatch(doLoginAction(res?.data?.data?.user));
+        navigate("/");
+      } else {
+        notification.error({
+          message: "Có lỗi xảy ra!",
+          description: response.message,
+        });
+      }
     } catch (error) {
       console.log(`error:`, error);
       notification.error({
@@ -144,7 +157,7 @@ const RegisterPage = () => {
           htmlType="submit"
           loading={isSubmit}
         >
-          Đăng ký
+          Tạo tài khoản
         </Button>
       </Form.Item>
       <Form.Item className="text-sm font-medium text-gray-500 dark:text-gray-300">

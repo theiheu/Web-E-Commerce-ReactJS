@@ -93,7 +93,16 @@ const UserNavigation = () => {
             size="large"
             className="flex justify-center items-center gap-2 p-3"
           >
-            <Space>{user?.fullName}</Space>
+            <Space
+              style={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                width: "60px",
+              }}
+            >
+              {user?.fullName}
+            </Space>
             <Avatar size={"middle"} src={urlAvatar} icon={<UserOutlined />} />
           </Button>
         </Space>
