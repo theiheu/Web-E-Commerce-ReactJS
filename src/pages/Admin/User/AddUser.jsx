@@ -20,10 +20,11 @@ const AddUser = (props) => {
       setSubmit(true);
       try {
         const response = await createUser(fullName, email, password, phone);
-        console.log(`response:`, response);
+        // console.log(`response:`, response);
         if (response.status === 200 || response.status === 201) {
           setIsModalOpen(false);
           message.success("Bạn đã đăng ký thành công!");
+          form.resetFields();
           setSubmit(false);
         } else {
           notification.error({
@@ -51,7 +52,6 @@ const AddUser = (props) => {
       title="Thêm người dùng:"
       open={isModalOpen}
       onCancel={() => setIsModalOpen(false)}
-      afterClose={form.resetFields()}
       maskClosable={false}
       footer={[
         <Button key={1} size="large" onClick={() => setIsModalOpen(false)}>

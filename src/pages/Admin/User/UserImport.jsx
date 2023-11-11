@@ -1,6 +1,9 @@
-import { Button, Modal, Space, Table, Tag } from "antd";
+import { Button, Modal, Table } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
+import * as xlsx from "xlsx";
+import { useState } from "react";
+import axios from "axios";
 const { Dragger } = Upload;
 
 const columns = [
@@ -22,45 +25,48 @@ const columns = [
   },
 ];
 
-const data = [
-  //   {
-  //     key: "fullName",
-  //     fullName: "John Brown",
-  //     emaill: 32,
-  //     phone: "New York No. 1 Lake Park",
-  //   },
-  //   {
-  //     key: "emaill",
-  //     fullName: "Jim Green",
-  //     emaill: 42,
-  //     phone: "London No. 1 Lake Park",
-  //   },
-  //   {
-  //     key: "phone",
-  //     fullName: "Joe Black",
-  //     emaill: 32,
-  //     phone: "Sydney No. 1 Lake Park",
-  //   },
-];
-
-const dummyRequest = ({ file, onSuccess }) => {
-  console.log(`file:`, file);
-
-  onSuccess("ok");
-};
-
 const UserImport = (props) => {
   const { isOpenUserImport, setIsOpenUserImport } = props;
+  const [dataImport, setDataImport] = useState([]);
+  const [fileList, setFileList] = useState([]);
+
+  const handleReadFile = (file) => {
+    // files is an array of file
+    // if I just want the first file
+    console.log(`file:`, file);
+
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+      let data = new Uint8Array(e.target.result);
+      let workbook = xlsx.read(data, { type: "array" });
+      // find the name of your sheet in the workbook first
+      let worksheet = Object.values(workbook.Sheets)[0];
+      // convert to json format
+      const jsonData = xlsx.utils.sheet_to_json(worksheet, {
+        header: ["key", "fullName", "emaill", "phone"],
+        range: 1,
+      });
+      setDataImport(() => jsonData);
+    };
+    reader.readAsArrayBuffer(file);
+  };
 
   const propsUserImport = {
     name: "file",
     multiple: false,
     maxCount: 1,
-    customRequest: dummyRequest,
+    fileList: fileList,
+    customRequest: ({ file, onSuccess }) => {
+      handleReadFile(file);
+      onSuccess("ok");
+    },
     accept:
       "text/plain, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel",
     onChange(info) {
-      console.log(`info:`, info);
+      // console.log(`info:`, info);
+      // readUploadFile(info.file);\
+      setFileList(() => info.fileList);
 
       const { status } = info.file;
       if (status !== "uploading") {
@@ -76,16 +82,22 @@ const UserImport = (props) => {
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
+
+  const onCancel = () => {
+    setFileList([]);
+    setDataImport([]);
+    setIsOpenUserImport(false);
+  };
+
   return (
     <Modal
       title="Import data user:"
       open={isOpenUserImport}
-      onCancel={() => setIsOpenUserImport(false)}
-      maskClosable={false}
+      onCancel={onCancel}
       onOk={() => setIsOpenUserImport(false)}
       centered
       footer={[
-        <Button key={1} size="large" onClick={() => setIsOpenUserImport(false)}>
+        <Button key={1} size="large" onClick={onCancel}>
           Hủy bỏ
         </Button>,
         <Button
@@ -93,6 +105,18 @@ const UserImport = (props) => {
           size="large"
           type="primary"
           //   loading={submit}
+          onClick={() => {
+            return axios
+              .post("api/v1/user/bulk-create", dataImport)
+              .then((response) => {
+                console.log("Response:", response.data);
+                // Xử lý dữ liệu phản hồi nếu cần
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                // Xử lý lỗi nếu có
+              });
+          }}
         >
           Xác nhận
         </Button>,
@@ -112,7 +136,7 @@ const UserImport = (props) => {
       </Dragger>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={dataImport}
         scroll={{
           y: 200,
         }}

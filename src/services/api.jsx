@@ -58,6 +58,13 @@ const createUser = (fullName, email, password, phone) => {
     },
   });
 };
+const createListUser = (dataImport) => {
+  return axios({
+    method: "POST",
+    url: `api/v1/user/bulk-create`,
+    data: dataImport,
+  });
+};
 
 export {
   callRegister,
@@ -67,4 +74,5 @@ export {
   fetchUserWithPaginate,
   fetchAllUser,
   createUser,
+  createListUser,
 };
