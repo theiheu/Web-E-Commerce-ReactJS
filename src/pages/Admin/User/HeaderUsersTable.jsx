@@ -7,8 +7,10 @@ import { Button, Space } from "antd";
 import { useState } from "react";
 import AddUser from "./AddUser";
 import UserImport from "./UserImport";
+import * as XLSX from "xlsx";
+
 const HeaderUsersTable = (props) => {
-  const { setFilters, setSofts } = props;
+  const { data, setFilters, setSofts } = props;
   const [spin, setSpin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpenUserImport, setIsOpenUserImport] = useState(false);
@@ -16,7 +18,18 @@ const HeaderUsersTable = (props) => {
   return (
     <>
       <Space className="flex justify-end py-4">
-        <Button type="primary" size={"large"}>
+        <Button
+          type="primary"
+          size={"large"}
+          onClick={() => {
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+            //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+            XLSX.writeFile(workbook, "DataSheet.xlsx");
+          }}
+        >
           <WalletOutlined />
           Export
         </Button>

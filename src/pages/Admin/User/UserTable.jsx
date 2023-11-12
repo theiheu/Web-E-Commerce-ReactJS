@@ -6,6 +6,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
 import HeaderUsersTable from "./HeaderUsersTable";
 import DetailUsers from "./DetailUsers";
+import UserUpdate from "./UserUpdate";
 
 const UserTable = () => {
   const [data, setData] = useState([]);
@@ -14,8 +15,9 @@ const UserTable = () => {
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("");
-  const [open, setOpen] = useState(false);
-  const [dataDetailUsers, setDataDetailUsers] = useState([]);
+  const [openDetailUser, setOpenDetailUser] = useState(false);
+  const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
+  const [dataUser, setDataUser] = useState([]);
 
   useEffect(() => {
     (async function () {
@@ -89,8 +91,8 @@ const UserTable = () => {
             href="#"
             onClick={() => {
               console.log("Line: 81 - Here", record);
-              setDataDetailUsers(record);
-              setOpen(true);
+              setDataUser(record);
+              setOpenDetailUser(true);
             }}
           >
             {text}
@@ -159,7 +161,17 @@ const UserTable = () => {
                 fontSize: "20px",
               }}
               onClick={() => {
-                console.log("Line: 52 - Here", data);
+                setOpenModalUpdateUser(true);
+                console.log("Line: 163 - Here", text);
+                setDataUser(text);
+
+                // const res = await removeUser(text._id);
+                // console.log(`res:`, res);
+                // if (res.status === 200) {
+                //   setFilters([]);
+                //   setSofts("");
+                //   message.error(`Bạn đã xóa người dùng ${text.fullName}`);
+                // }
               }}
             />
           </Button>
@@ -202,7 +214,11 @@ const UserTable = () => {
     <>
       <AdvancedSearchForm setFilters={setFilters} />
 
-      <HeaderUsersTable setFilters={setFilters} setSofts={setSofts} />
+      <HeaderUsersTable
+        data={data}
+        setFilters={setFilters}
+        setSofts={setSofts}
+      />
       <Table
         style={{
           boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
@@ -241,13 +257,19 @@ const UserTable = () => {
       <Drawer
         placement="right"
         onClose={() => {
-          setOpen(false);
+          setOpenDetailUser(false);
         }}
-        open={open}
+        open={openDetailUser}
         width={"50%"}
       >
-        <DetailUsers dataDetailUsers={dataDetailUsers} />
+        <DetailUsers dataUser={dataUser} />
       </Drawer>
+
+      <UserUpdate
+        dataUser={dataUser}
+        openModalUpdateUser={openModalUpdateUser}
+        setOpenModalUpdateUser={setOpenModalUpdateUser}
+      />
     </>
   );
 };

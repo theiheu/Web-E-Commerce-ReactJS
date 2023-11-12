@@ -72,6 +72,17 @@ const removeUser = (idUser) => {
     url: `api/v1/user/${idUser}`,
   });
 };
+const updateUser = (id, fullName, phone) => {
+  return axios({
+    method: "PUT",
+    url: `api/v1/user`,
+    data: {
+      _id: id,
+      fullName: fullName,
+      phone: phone,
+    },
+  });
+};
 
 export {
   callRegister,
@@ -83,4 +94,5 @@ export {
   createUser,
   createListUser,
   removeUser,
+  updateUser,
 };

@@ -96,7 +96,7 @@ const UserImport = (props) => {
 
   return (
     <Modal
-      title="Import data user:"
+      title="Nhập dữ liệu người dùng:"
       open={isOpenUserImport}
       onCancel={onCancel}
       onOk={() => setIsOpenUserImport(false)}
