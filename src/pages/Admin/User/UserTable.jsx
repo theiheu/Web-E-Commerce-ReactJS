@@ -1,6 +1,7 @@
 import { Drawer, Popconfirm, Space, Table, message } from "antd";
+import moment from "moment";
 import { useEffect, useState } from "react";
-import { fetchUserWithPaginate } from "../../../services/api";
+import { fetchUserWithPaginate, removeUser } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import AdvancedSearchForm from "./AdvancedSearchForm";
 import HeaderUsersTable from "./HeaderUsersTable";
@@ -25,7 +26,10 @@ const UserTable = () => {
           filters.join(""),
           softs
         );
+        console.log(`res:`, res);
+
         const { meta, result } = res.data.data;
+
         setCurrent(() => meta.current);
         setPageSize(() => meta.pageSize);
         setTotal(() => meta.total);
@@ -33,12 +37,16 @@ const UserTable = () => {
         setData(() =>
           result.map((item) => {
             return {
+              ...item,
               _id: item._id,
+              key: item._id,
               fullName: item.fullName,
               email: item.email,
               phone: item.phone,
-              key: item._id,
-              ...item,
+              updatedAt: moment(item.updatedAt).format(
+                "MMMM Do YYYY, h:mm:ss a"
+              ),
+              role: item.role,
             };
           })
         );
@@ -46,7 +54,7 @@ const UserTable = () => {
         console.log(`error:`, error);
       }
     })();
-  }, [current, pageSize, filters, softs]);
+  }, [current, pageSize, total, filters, softs]);
 
   const onChange = async (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -94,7 +102,7 @@ const UserTable = () => {
       title: "Tên hiển thị",
       width: 100,
       dataIndex: "fullName",
-      key: "updatedAt",
+      key: "fullName",
       sorter: {
         compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
@@ -103,7 +111,7 @@ const UserTable = () => {
     {
       title: "Email",
       dataIndex: "email",
-      key: "updatedAt",
+      key: "email",
       width: 150,
       sorter: {
         compare: (a, b) => a.chinese - b.chinese,
@@ -113,20 +121,35 @@ const UserTable = () => {
     {
       title: "Số điện thoại",
       dataIndex: "phone",
-      key: "updatedAt",
+      key: "phone",
       width: 150,
       sorter: {
         compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
       },
     },
-
+    {
+      title: "Ngày cập nhật",
+      dataIndex: "updatedAt",
+      key: "updateAt",
+      width: 150,
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: "Chức vụ",
+      dataIndex: "role",
+      key: "role",
+      width: 80,
+    },
     {
       title: "Thao tác",
       key: "action",
       fixed: "right",
       width: 50,
-      render: () => (
+      render: (text) => (
         <Space>
           <EditOutlined
             style={{
@@ -134,16 +157,25 @@ const UserTable = () => {
               cursor: "pointer",
               fontSize: "20px",
             }}
-            onClick={() => console.log("Line: 52 - Here")}
+            onClick={() => {
+              console.log("Line: 52 - Here", data);
+            }}
           />
 
           <Popconfirm
             title="Xóa người dùng!"
             description="Bạn có chắc muốn xóa người dùng này không?"
-            onConfirm={confirm}
+            onConfirm={async () => {
+              const res = await removeUser(text._id);
+              console.log(`res:`, res);
+              if (res.status === 200) {
+                setFilters([]);
+                setSofts("");
+                message.error(`Bạn đã xóa người dùng ${text.fullName}`);
+              }
+            }}
             onCancel={(e) => {
               console.log(e);
-              message.error("Click on No");
             }}
             okText="Vâng"
             cancelText="Không"
@@ -155,7 +187,6 @@ const UserTable = () => {
                 cursor: "pointer",
                 fontSize: "20px",
               }}
-              onClick={() => console.log("Line: 52 - Here")}
             />
           </Popconfirm>
         </Space>

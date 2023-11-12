@@ -65,6 +65,12 @@ const createListUser = (dataImport) => {
     data: dataImport,
   });
 };
+const removeUser = (idUser) => {
+  return axios({
+    method: "DELETE",
+    url: `api/v1/user/${idUser}`,
+  });
+};
 
 export {
   callRegister,
@@ -75,4 +81,5 @@ export {
   fetchAllUser,
   createUser,
   createListUser,
+  removeUser,
 };
