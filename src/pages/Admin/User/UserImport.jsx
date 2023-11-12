@@ -1,9 +1,10 @@
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, Table, notification } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import * as xlsx from "xlsx";
 import { useState } from "react";
 import axios from "axios";
+import { createListUser } from "../../../services/api";
 const { Dragger } = Upload;
 
 const columns = [
@@ -14,9 +15,9 @@ const columns = [
     render: (text) => <a>{text}</a>,
   },
   {
-    title: "Emaill",
-    dataIndex: "emaill",
-    key: "emaill",
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
   },
   {
     title: "Số điện thoại",
@@ -29,6 +30,7 @@ const UserImport = (props) => {
   const { isOpenUserImport, setIsOpenUserImport } = props;
   const [dataImport, setDataImport] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [isDisable, setIsDisable] = useState(true);
 
   const handleReadFile = (file) => {
     // files is an array of file
@@ -44,9 +46,10 @@ const UserImport = (props) => {
       let worksheet = Object.values(workbook.Sheets)[0];
       // convert to json format
       const jsonData = xlsx.utils.sheet_to_json(worksheet, {
-        header: ["key", "fullName", "emaill", "phone"],
+        header: ["key", "fullName", "email", "phone", "password"],
         range: 1,
       });
+
       setDataImport(() => jsonData);
     };
     reader.readAsArrayBuffer(file);
@@ -73,6 +76,7 @@ const UserImport = (props) => {
         console.log(info.file, info.fileList);
       }
       if (status === "done") {
+        setIsDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -105,17 +109,35 @@ const UserImport = (props) => {
           size="large"
           type="primary"
           //   loading={submit}
-          onClick={() => {
-            return axios
-              .post("api/v1/user/bulk-create", dataImport)
-              .then((response) => {
-                console.log("Response:", response.data);
-                // Xử lý dữ liệu phản hồi nếu cần
-              })
-              .catch((error) => {
-                console.error("Error:", error);
-                // Xử lý lỗi nếu có
-              });
+          disabled={dataImport < 1}
+          onClick={async () => {
+            try {
+              const res = await createListUser(
+                dataImport.map((item) => {
+                  return {
+                    key: `${item.key}`,
+                    fullName: item.fullName,
+                    password: `${item.password}`,
+                    email: item.email,
+                    phone: `${item.phone}`,
+                  };
+                })
+              );
+              if (res.status === 201) {
+                notification.success({
+                  message: `Nhập dữ liệu thành công!`,
+                  description: `Success: ${res.data.data.countSuccess} -
+                  Error:  ${res.data.data.countError}
+                  `,
+                });
+              }
+              console.log(`res:`, res);
+
+              setIsDisable(true);
+              onCancel();
+            } catch (err) {
+              console.log(`err:`, err);
+            }
           }}
         >
           Xác nhận

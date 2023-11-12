@@ -59,11 +59,12 @@ const createUser = (fullName, email, password, phone) => {
   });
 };
 const createListUser = (dataImport) => {
-  return axios({
-    method: "POST",
-    url: `api/v1/user/bulk-create`,
-    data: dataImport,
-  });
+  return axios.post("api/v1/user/bulk-create", dataImport);
+  // return axios({
+  //   method: "POST",
+  //   url: `api/v1/user/bulk-create`,
+  //   data: fakeData,
+  // });
 };
 const removeUser = (idUser) => {
   return axios({

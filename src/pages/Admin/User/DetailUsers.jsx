@@ -30,7 +30,7 @@ const DetailUsers = (Props) => {
         {dataDetailUsers.phone}
       </Descriptions.Item>
       <Descriptions.Item label="Update At:" key={7}>
-        {moment(dataDetailUsers.updatedAt).format("MMMM Do YYYY, h:mm:ss a")}
+        {dataDetailUsers.updatedAt}
       </Descriptions.Item>
     </Descriptions>
   );

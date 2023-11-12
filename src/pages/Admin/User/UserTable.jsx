@@ -1,4 +1,4 @@
-import { Drawer, Popconfirm, Space, Table, message } from "antd";
+import { Button, Drawer, Popconfirm, Space, Table, message } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate, removeUser } from "../../../services/api";
@@ -148,47 +148,51 @@ const UserTable = () => {
       title: "Thao tác",
       key: "action",
       fixed: "right",
-      width: 50,
+      width: "108px",
       render: (text) => (
         <Space>
-          <EditOutlined
-            style={{
-              color: "#80ffd7",
-              cursor: "pointer",
-              fontSize: "20px",
-            }}
-            onClick={() => {
-              console.log("Line: 52 - Here", data);
-            }}
-          />
-
-          <Popconfirm
-            title="Xóa người dùng!"
-            description="Bạn có chắc muốn xóa người dùng này không?"
-            onConfirm={async () => {
-              const res = await removeUser(text._id);
-              console.log(`res:`, res);
-              if (res.status === 200) {
-                setFilters([]);
-                setSofts("");
-                message.error(`Bạn đã xóa người dùng ${text.fullName}`);
-              }
-            }}
-            onCancel={(e) => {
-              console.log(e);
-            }}
-            okText="Vâng"
-            cancelText="Không"
-          >
-            <DeleteOutlined
+          <Button>
+            <EditOutlined
               style={{
-                color: "#FF8080",
-                marginLeft: "4px",
+                color: "#80ffd7",
                 cursor: "pointer",
                 fontSize: "20px",
               }}
+              onClick={() => {
+                console.log("Line: 52 - Here", data);
+              }}
             />
-          </Popconfirm>
+          </Button>
+
+          <Button>
+            <Popconfirm
+              title="Xóa người dùng!"
+              description="Bạn có chắc muốn xóa người dùng này không?"
+              onConfirm={async () => {
+                const res = await removeUser(text._id);
+                console.log(`res:`, res);
+                if (res.status === 200) {
+                  setFilters([]);
+                  setSofts("");
+                  message.error(`Bạn đã xóa người dùng ${text.fullName}`);
+                }
+              }}
+              onCancel={(e) => {
+                console.log(e);
+              }}
+              okText="Vâng"
+              cancelText="Không"
+            >
+              <DeleteOutlined
+                style={{
+                  color: "#FF8080",
+                  marginLeft: "4px",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                }}
+              />
+            </Popconfirm>
+          </Button>
         </Space>
       ),
     },
@@ -200,6 +204,11 @@ const UserTable = () => {
 
       <HeaderUsersTable setFilters={setFilters} setSofts={setSofts} />
       <Table
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+          padding: "4px",
+          borderRadius: "4px",
+        }}
         columns={columns}
         dataSource={data}
         pagination={{
