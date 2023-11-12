@@ -235,12 +235,11 @@ const UserTable = () => {
         }}
         scroll={{
           x: 1000,
-          y: 800,
+          y: 700,
           scrollToFirstRowOnChange: true,
         }}
         onChange={onChange}
       />
-      Flintstone
       <Drawer
         placement="right"
         onClose={() => {

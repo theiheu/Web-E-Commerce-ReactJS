@@ -1,5 +1,6 @@
 import {
   BookOutlined,
+  ClusterOutlined,
   DesktopOutlined,
   FileOutlined,
   MenuFoldOutlined,
@@ -50,16 +51,17 @@ const AdminPage = () => {
   } = theme.useToken();
 
   return (
-    <Layout className="h-[100vh]">
+    <Layout>
       <Sider
-        style={{ background: colorBgContainer }}
+        style={{ background: "#ffff" }}
         width={200}
         trigger={null}
         collapsible
         collapsed={collapsed}
       >
         <Space className="p-4 flex justify-center items-center text-2xl">
-          Quản trị
+          <ClusterOutlined />
+          {collapsed ? "" : "Quản trị"}
         </Space>
         <Divider className="mt-0" />
         <Menu
