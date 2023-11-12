@@ -1,5 +1,4 @@
 import { Button, Drawer, Popconfirm, Space, Table, message } from "antd";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate, removeUser } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
@@ -7,17 +6,23 @@ import AdvancedSearchForm from "./AdvancedSearchForm";
 import HeaderUsersTable from "./HeaderUsersTable";
 import DetailUsers from "./DetailUsers";
 import UserUpdate from "./UserUpdate";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "../../../redux/managerUsersSlice";
 
 const UserTable = () => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("");
+
   const [openDetailUser, setOpenDetailUser] = useState(false);
   const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
   const [dataUser, setDataUser] = useState([]);
+
+  const dispatch = useDispatch();
+  const { dataListUser: data } = useSelector((state) => state?.managerUsers);
 
   useEffect(() => {
     (async function () {
@@ -28,35 +33,17 @@ const UserTable = () => {
           filters.join(""),
           softs
         );
-        console.log(`res:`, res);
-
         const { meta, result } = res.data.data;
 
         setCurrent(() => meta.current);
         setPageSize(() => meta.pageSize);
         setTotal(() => meta.total);
-
-        setData(() =>
-          result.map((item) => {
-            return {
-              ...item,
-              _id: item._id,
-              key: item._id,
-              fullName: item.fullName,
-              email: item.email,
-              phone: item.phone,
-              updatedAt: moment(item.updatedAt).format(
-                "MMMM Do YYYY, h:mm:ss a"
-              ),
-              role: item.role,
-            };
-          })
-        );
+        dispatch(fetchUsers(result));
       } catch (error) {
         console.log(`error:`, error);
       }
     })();
-  }, [current, pageSize, total, filters, softs]);
+  }, [dispatch, current, pageSize, total, filters, softs]);
 
   const onChange = async (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -213,7 +200,6 @@ const UserTable = () => {
   return (
     <>
       <AdvancedSearchForm setFilters={setFilters} />
-
       <HeaderUsersTable
         data={data}
         setFilters={setFilters}
@@ -254,6 +240,7 @@ const UserTable = () => {
         }}
         onChange={onChange}
       />
+      Flintstone
       <Drawer
         placement="right"
         onClose={() => {
@@ -264,10 +251,10 @@ const UserTable = () => {
       >
         <DetailUsers dataUser={dataUser} />
       </Drawer>
-
       <UserUpdate
         dataUser={dataUser}
         openModalUpdateUser={openModalUpdateUser}
+        setFilters={setFilters}
         setOpenModalUpdateUser={setOpenModalUpdateUser}
       />
     </>

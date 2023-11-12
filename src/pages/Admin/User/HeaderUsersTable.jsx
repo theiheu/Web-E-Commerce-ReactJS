@@ -63,10 +63,8 @@ const HeaderUsersTable = (props) => {
             style={{ fontSize: "20px", margin: "0 4px", cursor: "pointer" }}
             spin={spin}
             onClick={() => {
-              setSpin(true);
               setFilters([]);
               setSofts("");
-              setSpin(false);
             }}
           />
         </Button>

@@ -5,6 +5,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   TeamOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Space, Divider } from "antd";
 import { useState } from "react";
@@ -28,12 +29,15 @@ const MenuAdmin = [
     "dardboad",
     <DesktopOutlined />
   ),
-  getItem(
-    <Link to={"/admin/home"}>Manage Users</Link>,
-    "manageUsers",
-    <TeamOutlined />,
-    [getItem("Tom", "3"), getItem("Bill", "4"), getItem("Alex", "5")]
-  ),
+  getItem("Manager Users", "manageUsers", <TeamOutlined />, [
+    getItem(
+      <Link to={"/admin/user"}>
+        <UserOutlined /> Manage Users
+      </Link>,
+      "3"
+    ),
+    getItem(`Files`, "4"),
+  ]),
   getItem("Manage Books", "manageBooks", <BookOutlined />),
   getItem("Manage Orders", "manageOrders", <FileOutlined />),
 ];
@@ -54,17 +58,9 @@ const AdminPage = () => {
         collapsible
         collapsed={collapsed}
       >
-        <Space className="p-4 flex justify-center items-center">Quản trị</Space>
-        {/* <Link to={"/"} className="flex justify-center items-center py-4">
-          <BookOutlined
-            style={{
-              color: "aqua",
-              fontSize: "32px",
-              margin: "0 20px 0 20px",
-            }}
-          />
-          <span className="text-xl text-slate-600">Trang quản trị</span>
-        </Link> */}
+        <Space className="p-4 flex justify-center items-center text-2xl">
+          Quản trị
+        </Space>
         <Divider className="mt-0" />
         <Menu
           mode="inline"

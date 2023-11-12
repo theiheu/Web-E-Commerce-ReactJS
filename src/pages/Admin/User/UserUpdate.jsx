@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { fetchUserWithPaginate, updateUser } from "../../../services/api";
 
 const UserUpdate = (props) => {
-  const { dataUser, openModalUpdateUser, setOpenModalUpdateUser } = props;
+  const { dataUser, setFilters, openModalUpdateUser, setOpenModalUpdateUser } =
+    props;
   const [form] = Form.useForm();
   const [submit, setSubmit] = useState(false);
 
@@ -54,7 +55,7 @@ const UserUpdate = (props) => {
 
   return (
     <Modal
-      title="Thêm người dùng:"
+      title="Cập nhật người dùng:"
       open={openModalUpdateUser}
       onCancel={() => setOpenModalUpdateUser(false)}
       maskClosable={false}
@@ -62,7 +63,9 @@ const UserUpdate = (props) => {
         <Button
           key={1}
           size="large"
-          onClick={() => setOpenModalUpdateUser(false)}
+          onClick={() => {
+            setOpenModalUpdateUser(false);
+          }}
         >
           Hủy bỏ
         </Button>,
@@ -71,6 +74,7 @@ const UserUpdate = (props) => {
           size="large"
           type="primary"
           onClick={() => {
+            setFilters([]);
             form.submit();
           }}
           loading={submit}

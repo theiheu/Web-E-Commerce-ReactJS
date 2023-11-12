@@ -41,7 +41,8 @@ const Routers = createBrowserRouter([
     errorElement: <NotFoundPage />,
     children: [
       {
-        index: true,
+        path: "/admin/user",
+
         element: <UserTable />,
       },
       {
