@@ -9,9 +9,8 @@ import AddUser from "./AddUser";
 import UserImport from "./UserImport";
 import * as XLSX from "xlsx";
 
-const HeaderUsersTable = (props) => {
-  const { data, setFilters, setSofts } = props;
-  const [spin, setSpin] = useState(false);
+const HeaderUsersTable = (Props) => {
+  const { data, setFilters, setSofts } = Props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpenUserImport, setIsOpenUserImport] = useState(false);
 
@@ -61,10 +60,9 @@ const HeaderUsersTable = (props) => {
         >
           <ReloadOutlined
             style={{ fontSize: "20px", margin: "0 4px", cursor: "pointer" }}
-            spin={spin}
             onClick={() => {
               setFilters([]);
-              setSofts("");
+              setSofts("-updatedAt");
             }}
           />
         </Button>

@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import { Footer } from "antd/es/layout/layout";
 import AdminPage from "../pages/Admin";
 import UserTable from "../pages/Admin/User/UserTable";
+import BooksTable from "../pages/Admin/Books/BooksTable";
 
 const Layout = () => {
   return (
@@ -42,8 +43,11 @@ const Routers = createBrowserRouter([
     children: [
       {
         path: "/admin/user",
-
         element: <UserTable />,
+      },
+      {
+        path: "/admin/books",
+        element: <BooksTable />,
       },
       {
         path: "home",

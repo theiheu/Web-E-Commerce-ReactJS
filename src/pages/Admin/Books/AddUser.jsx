@@ -7,30 +7,24 @@ import {
   message,
   notification,
 } from "antd";
-import { useEffect, useState } from "react";
-import { fetchUserWithPaginate, updateUser } from "../../../services/api";
+import { createUser } from "../../../services/api";
+import { useState } from "react";
 
-const UserUpdate = (props) => {
-  const { dataUser, setFilters, openModalUpdateUser, setOpenModalUpdateUser } =
-    props;
+const AddUser = (props) => {
+  const { isModalOpen, setIsModalOpen } = props;
   const [form] = Form.useForm();
   const [submit, setSubmit] = useState(false);
 
-  useEffect(() => {
-    form.setFieldsValue(dataUser);
-  }, [dataUser, form]);
-
-  const onFinish = ({ _id, fullName, phone }) => {
+  const onFinish = ({ fullName, email, password, phone }) => {
     (async function () {
       setSubmit(true);
       try {
-        const response = await updateUser(_id, fullName, phone);
+        const response = await createUser(fullName, email, password, phone);
         // console.log(`response:`, response);
         if (response.status === 200 || response.status === 201) {
-          setOpenModalUpdateUser(false);
-          message.success("Bạn đã cập nhật thành công!");
+          setIsModalOpen(false);
+          message.success("Bạn đã đăng ký thành công!");
           form.resetFields();
-          await fetchUserWithPaginate();
           setSubmit(false);
         } else {
           notification.error({
@@ -55,19 +49,12 @@ const UserUpdate = (props) => {
 
   return (
     <Modal
-      title="Cập nhật người dùng:"
-      forceRender
-      open={openModalUpdateUser}
-      onCancel={() => setOpenModalUpdateUser(false)}
+      title="Thêm người dùng:"
+      open={isModalOpen}
+      onCancel={() => setIsModalOpen(false)}
       maskClosable={false}
       footer={[
-        <Button
-          key={1}
-          size="large"
-          onClick={() => {
-            setOpenModalUpdateUser(false);
-          }}
-        >
+        <Button key={1} size="large" onClick={() => setIsModalOpen(false)}>
           Hủy bỏ
         </Button>,
         <Button
@@ -75,7 +62,6 @@ const UserUpdate = (props) => {
           size="large"
           type="primary"
           onClick={() => {
-            setFilters([]);
             form.submit();
           }}
           loading={submit}
@@ -96,20 +82,6 @@ const UserUpdate = (props) => {
           form={form}
         >
           <Divider />
-          <Form.Item hidden label="ID" name="_id">
-            <Input
-              className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-              disabled
-            />
-          </Form.Item>
-          <Form.Item label="Email" name="email">
-            <Input
-              className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-              placeholder="name@company.com"
-              disabled
-            />
-          </Form.Item>
-
           <Form.Item
             label="Tên đầy đủ"
             name="fullName"
@@ -124,6 +96,51 @@ const UserUpdate = (props) => {
             <Input
               className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
               placeholder="Your Name"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập email của bạn!",
+              },
+              {
+                pattern:
+                  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                message: "Email nhập không chính xác!",
+              },
+            ]}
+          >
+            <Input
+              className="flex border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+              placeholder="name@company.com"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Mật khẩu"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập mật khẩu!!",
+              },
+              {
+                pattern:
+                  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                message:
+                  "Mật khẩu yêu cầu từ 8 đến 16 ký tự, có chữ cái in hoa và ký tự đặc biệt!",
+              },
+            ]}
+          >
+            <Input.Password
+              style={{
+                background: "transparent",
+                borderColor: "rgb(209, 213, 219) ",
+              }}
+              placeholder="••••••••"
+              className="flex border !bg-white border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 "
             />
           </Form.Item>
           <Form.Item
@@ -151,4 +168,4 @@ const UserUpdate = (props) => {
   );
 };
 
-export default UserUpdate;
+export default AddUser;

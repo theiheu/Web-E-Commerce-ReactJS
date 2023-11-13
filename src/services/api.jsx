@@ -60,11 +60,6 @@ const createUser = (fullName, email, password, phone) => {
 };
 const createListUser = (dataImport) => {
   return axios.post("api/v1/user/bulk-create", dataImport);
-  // return axios({
-  //   method: "POST",
-  //   url: `api/v1/user/bulk-create`,
-  //   data: fakeData,
-  // });
 };
 const removeUser = (idUser) => {
   return axios({
@@ -84,6 +79,13 @@ const updateUser = (id, fullName, phone) => {
   });
 };
 
+const fetchBooksWithPaginate = (current = 1, pageSize = 10, filters, sorts) => {
+  return axios({
+    method: "GET",
+    url: `api/v1/book?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
+  });
+};
+
 export {
   callRegister,
   callLogin,
@@ -95,4 +97,5 @@ export {
   createListUser,
   removeUser,
   updateUser,
+  fetchBooksWithPaginate,
 };

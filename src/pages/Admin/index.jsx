@@ -39,7 +39,13 @@ const MenuAdmin = [
     ),
     getItem(`Files`, "4"),
   ]),
-  getItem("Manage Books", "manageBooks", <BookOutlined />),
+  getItem(
+    <Link to={"/admin/books"}>
+      <UserOutlined /> Manage Books
+    </Link>,
+    "manageBooks",
+    <BookOutlined />
+  ),
   getItem("Manage Orders", "manageOrders", <FileOutlined />),
 ];
 

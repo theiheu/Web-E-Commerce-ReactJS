@@ -1,44 +1,45 @@
 import { Button, Drawer, Popconfirm, Space, Table, message } from "antd";
 import { useEffect, useState } from "react";
-import { fetchUserWithPaginate, removeUser } from "../../../services/api";
+import { fetchBooksWithPaginate, removeUser } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import AdvancedSearchForm from "./AdvancedSearchFormBook";
 import HeaderUsersTable from "./HeaderUsersTable";
-import DetailUsers from "./DetailUsers";
 import UserUpdate from "./UserUpdate";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../../redux/managerUsersSlice";
+import { fetchBooks } from "../../../redux/managerBooksSlice";
+import AdvancedSearchFormBook from "../User/AdvancedSearchFormBook";
+import DetailBook from "./DetailBook";
 
-const UserTable = () => {
-  // const [data, setData] = useState([]);
+const BooksTable = () => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState([]);
-  const [softs, setSofts] = useState("");
+  const [softs, setSofts] = useState("-updatedAt");
 
-  const [openDetailUser, setOpenDetailUser] = useState(false);
+  const [openDetailBook, setOpenDetailBook] = useState(false);
   const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
-  const [dataUser, setDataUser] = useState([]);
+  const [dataBook, setDataBook] = useState([]);
 
   const dispatch = useDispatch();
-  const { dataListUser: data } = useSelector((state) => state?.managerUsers);
+  const { dataListBooks: data } = useSelector((state) => state?.managerBooks);
 
   useEffect(() => {
     (async function () {
       try {
-        const res = await fetchUserWithPaginate(
+        const res = await fetchBooksWithPaginate(
           current,
           pageSize,
           filters.join(""),
           softs
         );
+        console.log(`res:`, res);
+
         const { meta, result } = res.data.data;
 
         setCurrent(() => meta.current);
         setPageSize(() => meta.pageSize);
         setTotal(() => meta.total);
-        dispatch(fetchUsers(result));
+        dispatch(fetchBooks(result));
       } catch (error) {
         console.log(`error:`, error);
       }
@@ -77,9 +78,8 @@ const UserTable = () => {
           <a
             href="#"
             onClick={() => {
-              console.log("Line: 81 - Here", record);
-              setDataUser(record);
-              setOpenDetailUser(true);
+              setDataBook(record);
+              setOpenDetailBook(true);
             }}
           >
             {text}
@@ -88,30 +88,40 @@ const UserTable = () => {
       },
     },
     {
-      title: "Tên hiển thị",
+      title: "Tên sách",
+      width: 200,
+      dataIndex: "mainText",
+      key: "mainText",
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: "Thể loại",
+      dataIndex: "category",
+      key: "category",
+      width: 150,
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: "Tác giả",
+      dataIndex: "author",
+      key: "author",
+      width: 150,
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: "Giá tiền",
+      dataIndex: "price",
+      key: "price",
       width: 100,
-      dataIndex: "fullName",
-      key: "fullName",
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      width: 150,
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "phone",
-      key: "phone",
-      width: 150,
       sorter: {
         compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
@@ -128,12 +138,6 @@ const UserTable = () => {
       },
     },
     {
-      title: "Chức vụ",
-      dataIndex: "role",
-      key: "role",
-      width: 80,
-    },
-    {
       title: "Thao tác",
       key: "action",
       fixed: "right",
@@ -143,7 +147,7 @@ const UserTable = () => {
           <Button
             onClick={() => {
               setOpenModalUpdateUser(true);
-              setDataUser(text);
+              setDataBook(text);
             }}
             size="small"
           >
@@ -192,7 +196,7 @@ const UserTable = () => {
 
   return (
     <>
-      <AdvancedSearchForm setFilters={setFilters} />
+      <AdvancedSearchFormBook setFilters={setFilters} />
       <HeaderUsersTable
         data={data}
         setFilters={setFilters}
@@ -236,15 +240,15 @@ const UserTable = () => {
       <Drawer
         placement="right"
         onClose={() => {
-          setOpenDetailUser(false);
+          setOpenDetailBook(false);
         }}
-        open={openDetailUser}
+        open={openDetailBook}
         width={"50%"}
       >
-        <DetailUsers dataUser={dataUser} />
+        <DetailBook dataBook={dataBook} />
       </Drawer>
       <UserUpdate
-        dataUser={dataUser}
+        dataBook={dataBook}
         openModalUpdateUser={openModalUpdateUser}
         setFilters={setFilters}
         setOpenModalUpdateUser={setOpenModalUpdateUser}
@@ -253,4 +257,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default BooksTable;
