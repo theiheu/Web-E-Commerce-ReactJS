@@ -77,7 +77,7 @@ const DetailBook = (Props) => {
           {dataBook.updatedAt}
         </Descriptions.Item>
       </Descriptions>
-      <Divider orientation="left" plain>
+      <Divider style={{ fontWeight: "bold" }} orientation="left" plain>
         Ảnh sách
       </Divider>
 

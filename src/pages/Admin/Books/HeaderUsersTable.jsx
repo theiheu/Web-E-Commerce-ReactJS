@@ -1,18 +1,14 @@
-import {
-  CloudUploadOutlined,
-  ReloadOutlined,
-  WalletOutlined,
-} from "@ant-design/icons";
+import { ReloadOutlined, WalletOutlined } from "@ant-design/icons";
 import { Button, Space } from "antd";
 import { useState } from "react";
-import AddUser from "./AddUser";
-import UserImport from "./UserImport";
+import AddBook from "./AddBook";
 import * as XLSX from "xlsx";
+import { fetchBooksCategory } from "../../../services/api";
 
 const HeaderUsersTable = (Props) => {
   const { data, setFilters, setSofts } = Props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOpenUserImport, setIsOpenUserImport] = useState(false);
+  const [listCateGory, setlistCateGory] = useState();
 
   return (
     <>
@@ -35,17 +31,11 @@ const HeaderUsersTable = (Props) => {
         <Button
           size={"large"}
           onClick={() => {
-            setIsOpenUserImport(true);
-          }}
-        >
-          <CloudUploadOutlined />
-          Import
-        </Button>
-        <Button
-          type="dashed"
-          size={"large"}
-          onClick={() => {
-            setIsModalOpen(true);
+            (async function () {
+              const res = await fetchBooksCategory();
+              setlistCateGory(res?.data?.data);
+              setIsModalOpen(true);
+            })();
           }}
         >
           Thêm mới
@@ -67,10 +57,10 @@ const HeaderUsersTable = (Props) => {
           />
         </Button>
       </Space>
-      <AddUser isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <UserImport
-        isOpenUserImport={isOpenUserImport}
-        setIsOpenUserImport={setIsOpenUserImport}
+      <AddBook
+        listCateGory={listCateGory}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   );

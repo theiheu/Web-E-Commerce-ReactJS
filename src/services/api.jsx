@@ -86,6 +86,13 @@ const fetchBooksWithPaginate = (current = 1, pageSize = 10, filters, sorts) => {
   });
 };
 
+const fetchBooksCategory = () => {
+  return axios({
+    method: "GET",
+    url: "api/v1/database/category",
+  });
+};
+
 export {
   callRegister,
   callLogin,
@@ -98,4 +105,5 @@ export {
   removeUser,
   updateUser,
   fetchBooksWithPaginate,
+  fetchBooksCategory,
 };
