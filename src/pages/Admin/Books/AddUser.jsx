@@ -10,8 +10,8 @@ import {
 import { createUser } from "../../../services/api";
 import { useState } from "react";
 
-const AddUser = (props) => {
-  const { isModalOpen, setIsModalOpen } = props;
+const AddUser = (Props) => {
+  const { isModalOpen, setIsModalOpen } = Props;
   const [form] = Form.useForm();
   const [submit, setSubmit] = useState(false);
 

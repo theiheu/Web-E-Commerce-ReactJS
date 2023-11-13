@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import NotPermitted from "../NotPermitted";
 
-const RoleBaseRoute = (props) => {
+const RoleBaseRoute = (Props) => {
   const isRole = useSelector((state) => state?.account?.user?.role);
 
-  return isRole == "ADMIN" ? <>{props.children}</> : <NotPermitted />;
+  return isRole == "ADMIN" ? <>{Props.children}</> : <NotPermitted />;
 };
 
-const ProtectedRoute = (props) => {
+const ProtectedRoute = (Props) => {
   const isAuthenticated = useSelector(
     (state) => state?.account?.isAuthenticated
   );
@@ -15,7 +15,7 @@ const ProtectedRoute = (props) => {
   return (
     <>
       {isAuthenticated ? (
-        <RoleBaseRoute>{props.children}</RoleBaseRoute>
+        <RoleBaseRoute>{Props.children}</RoleBaseRoute>
       ) : (
         <NotPermitted />
       )}

@@ -9,8 +9,8 @@ import AddUser from "./AddUser";
 import UserImport from "./UserImport";
 import * as XLSX from "xlsx";
 
-const HeaderUsersTable = (props) => {
-  const { data, setFilters, setSofts } = props;
+const HeaderUsersTable = (Props) => {
+  const { data, setFilters, setSofts } = Props;
   const [spin, setSpin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpenUserImport, setIsOpenUserImport] = useState(false);

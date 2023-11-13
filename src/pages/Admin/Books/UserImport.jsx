@@ -27,8 +27,8 @@ const columns = [
   },
 ];
 
-const UserImport = (props) => {
-  const { isOpenUserImport, setIsOpenUserImport } = props;
+const UserImport = (Props) => {
+  const { isOpenUserImport, setIsOpenUserImport } = Props;
   const [dataImport, setDataImport] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [isDisable, setIsDisable] = useState(true);

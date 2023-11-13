@@ -10,9 +10,9 @@ import {
 import { useEffect, useState } from "react";
 import { fetchUserWithPaginate, updateUser } from "../../../services/api";
 
-const UserUpdate = (props) => {
+const UserUpdate = (Props) => {
   const { dataUser, setFilters, openModalUpdateUser, setOpenModalUpdateUser } =
-    props;
+    Props;
   const [form] = Form.useForm();
   const [submit, setSubmit] = useState(false);
 
