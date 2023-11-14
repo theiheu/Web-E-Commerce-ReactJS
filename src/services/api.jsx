@@ -12,6 +12,7 @@ export const callRegister = (fullName, email, password, phone) => {
     },
   });
 };
+
 export const callLogin = (email, password) => {
   return axios({
     method: "POST",
@@ -22,18 +23,21 @@ export const callLogin = (email, password) => {
     },
   });
 };
+
 export const fetchAccount = () => {
   return axios({
     method: "GET",
     url: "/api/v1/auth/account",
   });
 };
+
 export const callLogout = () => {
   return axios({
     method: "POST",
     url: "/api/v1/auth/logout",
   });
 };
+
 export const fetchUserWithPaginate = (
   current = 1,
   pageSize = 2,
@@ -45,12 +49,14 @@ export const fetchUserWithPaginate = (
     url: `api/v1/user?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
   });
 };
+
 export const fetchAllUser = (filter) => {
   return axios({
     method: "GET",
     url: `api/v1/user${filter}`,
   });
 };
+
 export const createUser = (fullName, email, password, phone) => {
   return axios({
     method: "POST",
@@ -63,15 +69,18 @@ export const createUser = (fullName, email, password, phone) => {
     },
   });
 };
+
 export const createListUser = (dataImport) => {
   return axios.post("api/v1/user/bulk-create", dataImport);
 };
+
 export const removeUser = (idUser) => {
   return axios({
     method: "DELETE",
     url: `api/v1/user/${idUser}`,
   });
 };
+
 export const updateUser = (id, fullName, phone) => {
   return axios({
     method: "PUT",
@@ -122,5 +131,12 @@ export const callUploadBookImg = (fileImg) => {
       "Content-Type": "multipart/form-data",
       "upload-type": "book",
     },
+  });
+};
+
+export const deleteBook = (idBook) => {
+  return axios({
+    method: "DELETE",
+    url: `api/v1/book/${idBook}`,
   });
 };

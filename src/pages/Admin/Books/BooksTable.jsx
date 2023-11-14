@@ -1,6 +1,6 @@
 import { Button, Drawer, Popconfirm, Space, Table, message } from "antd";
 import { useEffect, useState } from "react";
-import { fetchBooksWithPaginate, removeUser } from "../../../services/api";
+import { deleteBook, fetchBooksWithPaginate } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import HeaderUsersTable from "./HeaderUsersTable";
 import UserUpdate from "./UserUpdate";
@@ -16,8 +16,6 @@ const BooksTable = () => {
 
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("-updatedAt");
-
-  const [reRender, setReRender] = useState([]);
 
   const [openDetailBook, setOpenDetailBook] = useState(false);
   const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
@@ -47,7 +45,7 @@ const BooksTable = () => {
         console.log(`error:`, error);
       }
     })();
-  }, [dispatch, reRender, current, pageSize, total, filters, softs]);
+  }, [dispatch, current, pageSize, total, filters, softs]);
 
   const onChange = async (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -168,12 +166,11 @@ const BooksTable = () => {
               title="Xóa người dùng!"
               description="Bạn có chắc muốn xóa người dùng này không?"
               onConfirm={async () => {
-                const res = await removeUser(text._id);
+                const res = await deleteBook(text._id);
                 console.log(`res:`, res);
                 if (res.status === 200) {
                   setFilters([]);
-                  setSofts("");
-                  message.error(`Bạn đã xóa người dùng ${text.fullName}`);
+                  message.error(`Bạn đã xóa cuốn sách ${text.mainText}`);
                 }
               }}
               onCancel={(e) => {
