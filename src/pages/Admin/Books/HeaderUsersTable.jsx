@@ -3,12 +3,10 @@ import { Button, Space } from "antd";
 import { useState } from "react";
 import AddBook from "./AddBook";
 import * as XLSX from "xlsx";
-import { fetchBooksCategory } from "../../../services/api";
 
 const HeaderUsersTable = (Props) => {
   const { data, setFilters, setSofts } = Props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [listCateGory, setlistCateGory] = useState();
 
   return (
     <>
@@ -31,11 +29,7 @@ const HeaderUsersTable = (Props) => {
         <Button
           size={"large"}
           onClick={() => {
-            (async function () {
-              const res = await fetchBooksCategory();
-              setlistCateGory(res?.data?.data);
-              setIsModalOpen(true);
-            })();
+            setIsModalOpen(true);
           }}
         >
           Thêm mới
@@ -58,7 +52,7 @@ const HeaderUsersTable = (Props) => {
         </Button>
       </Space>
       <AddBook
-        listCateGory={listCateGory}
+        setFilters={setFilters}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />

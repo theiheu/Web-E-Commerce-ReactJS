@@ -12,114 +12,213 @@ import {
   message,
   notification,
 } from "antd";
-import { createUser, fetchBooksCategory } from "../../../services/api";
+import { callUploadBookImg, createBook } from "../../../services/api";
+import { fetchBooksCategory } from "../../../services/api";
 import { useEffect, useState } from "react";
-import { Option } from "antd/es/mentions";
 import ImgCrop from "antd-img-crop";
 
 const AddBook = (Props) => {
-  const { listCateGory, isModalOpen, setIsModalOpen } = Props;
-  console.log(`listCateGory:`, listCateGory);
+  const { listCateGory, setFilters, isModalOpen, setIsModalOpen } = Props;
 
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+
+  const [listCategory, setListCategory] = useState([]);
   const [form] = Form.useForm();
-  const [submit, setSubmit] = useState(false);
 
-  //   {
-  //     "thumbnail": "abc",
-  //     "slider": ["def"],
-  //     "mainText": "asdfasfasfd",
-  //     "author": "asfdafdasdf",
-  //     "price": 666666,
-  //     "sold": 0,
-  //     "quantity": 1000,
-  //     "category": "Arts"
-  // }
+  const [fileListThumbnail, setFileListThumbnail] = useState([]);
+  const [fileListSlider, setFileListSlider] = useState([]);
+
+  const [submit, setSubmit] = useState(false);
+  const [dataThumbnail, setDataThumbnail] = useState([]);
+  const [dataSlider, setDataSlider] = useState([]);
 
   const onFinish = (values) => {
-    console.log(`values:`, values);
+    if (dataThumbnail.length < 1 || dataSlider.length < 1) {
+      message.error("Không được để trống ảnh!");
+      return;
+    }
 
-    // (async function () {
-    //   setSubmit(true);
-    //   try {
-    //     const response = await createUser(fullName, email, password, phone);
-    //     // console.log(`response:`, response);
-    //     if (response.status === 200 || response.status === 201) {
-    //       setIsModalOpen(false);
-    //       message.success("Bạn đã đăng ký thành công!");
-    //       form.resetFields();
-    //       setSubmit(false);
-    //     } else {
-    //       notification.error({
-    //         message: "Có lỗi xảy ra!",
-    //         description: response.message,
-    //       });
-    //     }
-    //   } catch (error) {
-    //     console.log(`error:`, error);
-    //     notification.error({
-    //       message: "Có lỗi xảy ra!",
-    //       description: error.response.data.message,
-    //     });
-    //   }
-    //   setSubmit(false);
-    // })();
+    const dataInputAddBook = {
+      thumbnail: dataThumbnail[0].name,
+      slider: dataSlider.map((values) => values.name),
+      mainText: values.mainText,
+      author: values.author,
+      price: values.price,
+      sold: values.sold,
+      quantity: values.quantity,
+      category: values.category,
+    };
+
+    (async function () {
+      setSubmit(true);
+      try {
+        const response = await createBook(dataInputAddBook);
+        console.log(`response:`, response);
+        if (response.status === 200 || response.status === 201) {
+          setIsModalOpen(false);
+          message.success("Đã tạo sách thành công!");
+          form.resetFields();
+          setDataThumbnail([]);
+          setDataSlider([]);
+          setFileListThumbnail([]);
+          setFileListSlider([]);
+          setSubmit(false);
+          setFilters([]);
+        } else {
+          notification.error({
+            message: "Có lỗi xảy ra!",
+            description: response.message,
+          });
+        }
+      } catch (error) {
+        console.log(`error:`, error);
+        notification.error({
+          message: "Có lỗi xảy ra!",
+          description: error.response.data.message,
+        });
+      }
+      setSubmit(false);
+    })();
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  const [fileListThumbnail, setFileListThumbnail] = useState([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-  ]);
-  const [fileListSlider, setFileListSlider] = useState([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-  ]);
-  const onChangeThumbnail = ({ fileList: newFileListThumbnail }) => {
-    console.log(`newFileListThumbnail:`, newFileListThumbnail);
-
-    setFileListThumbnail(newFileListThumbnail);
-  };
-  const onChangeSlider = ({ fileList: newFileListSlider }) => {
-    console.log(`newFileListSlider:`, newFileListSlider);
-
-    setFileListSlider(newFileListSlider);
+  const handleChange = ({ fileList }, type) => {
+    if (type === "thumbnail") {
+      setFileListThumbnail(fileList);
+    }
+    if (type === "slider") {
+      setFileListSlider(fileList);
+    }
   };
 
-  // const onPreview = async (file) => {
-  //   let src = file.url;
-  //   if (!src) {
-  //     src = await new Promise((resolve) => {
-  //       const reader = new FileReader();
-  //       reader.readAsDataURL(file.originFileObj);
-  //       reader.onload = () => resolve(reader.result);
-  //     });
-  //   }
-  //   const image = new Image();
-  //   image.src = src;
-  //   const imgWindow = window.open(src);
-  //   imgWindow?.document.write(image.outerHTML);
-  // };
+  const handleUploadFileThumbnail = async ({ file, onSuccess, onError }) => {
+    const res = await callUploadBookImg(file);
+    console.log(`res:`, res);
+
+    if (res && res.data) {
+      setDataThumbnail([
+        {
+          name: res.data.data.fileUploaded,
+          uid: file.uid,
+        },
+      ]);
+      onSuccess("ok");
+    } else {
+      onError("Đã có lỗi khi upload file");
+    }
+    onSuccess("ok");
+  };
+
+  const handleUploadFileSlider = async ({ file, onSuccess, onError }) => {
+    const res = await callUploadBookImg(file);
+    console.log(`res:`, res);
+
+    if (res && res.data) {
+      setDataSlider((dataSlider) => [
+        ...dataSlider,
+        {
+          name: res.data.data.fileUploaded,
+          uid: file.uid,
+        },
+      ]);
+      onSuccess("ok");
+    } else {
+      onError("Đã có lỗi khi upload file");
+    }
+  };
+
+  const handleRemoveFile = (file, type) => {
+    if (type === "thumbnail") {
+      setDataThumbnail([]);
+    }
+    if (type === "slider") {
+      const newSlider = dataSlider.filter((x) => x.uid !== file.uid);
+      setDataSlider(newSlider);
+    }
+  };
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  // Preview image
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  useEffect(() => {
+    (async function () {
+      const res = await fetchBooksCategory();
+      if (res && res.data) {
+        const dataListCategory = res.data.data.map((value) => {
+          return {
+            value,
+            label: value,
+          };
+        });
+
+        setListCategory(dataListCategory);
+      }
+    })();
+  }, []);
 
   return (
     <Modal
       title="Thêm sách:"
       open={isModalOpen}
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => {
+        setIsModalOpen(false);
+        form.resetFields();
+        setDataThumbnail([]);
+        setDataSlider([]);
+        setFileListThumbnail([]);
+        setFileListSlider([]);
+      }}
       maskClosable={false}
-      className="!w-[900px]"
+      width={"50vw"}
       footer={[
-        <Button key={1} size="large" onClick={() => setIsModalOpen(false)}>
+        <Divider key={"dividerModalAddBook"} />,
+        <Button
+          key={1}
+          size="large"
+          onClick={() => {
+            setIsModalOpen(false);
+            form.resetFields();
+            setDataThumbnail([]);
+            setDataSlider([]);
+            setFileListThumbnail([]);
+            setFileListSlider([]);
+          }}
+        >
           Hủy bỏ
         </Button>,
         <Button
@@ -143,11 +242,6 @@ const AddBook = (Props) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          initialValues={{
-            price: 0,
-            quatity: 0,
-            sold: 0,
-          }}
           form={form}
         >
           <Divider />
@@ -201,6 +295,10 @@ const AddBook = (Props) => {
               >
                 <InputNumber
                   addonAfter={"VND"}
+                  formatter={(value) => {
+                    return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }}
+                  placeholder="0"
                   name="price"
                   style={{
                     width: "100%",
@@ -217,11 +315,14 @@ const AddBook = (Props) => {
                   {
                     required: true,
                     message: "Vui lòng nhập thể loại sách!",
-                    type: "array",
                   },
                 ]}
               >
-                <Select mode="multiple" placeholder="Please ">
+                <Select
+                  placeholder="Chọn thể loại "
+                  options={listCategory}
+                  showSearch
+                >
                   {listCateGory &&
                     listCateGory?.map((item) => {
                       return <Select.Option key={item}>{item}</Select.Option>;
@@ -231,7 +332,7 @@ const AddBook = (Props) => {
             </Col>
             <Col span={6}>
               <Form.Item
-                name={"quatity"}
+                name={"quantity"}
                 label="Số lượng"
                 rules={[
                   {
@@ -240,7 +341,12 @@ const AddBook = (Props) => {
                   },
                 ]}
               >
-                <InputNumber name={"quatity"} min={0} className={"w-full"} />
+                <InputNumber
+                  name={"quantity"}
+                  placeholder="0"
+                  min={0}
+                  className={"w-full"}
+                />
               </Form.Item>
             </Col>
             <Col span={6}>
@@ -250,10 +356,16 @@ const AddBook = (Props) => {
                 rules={[
                   {
                     required: true,
+                    message: "Vui lòng nhập số lượng!",
                   },
                 ]}
               >
-                <InputNumber name="sold" min={0} className={"w-full"} />
+                <InputNumber
+                  name="sold"
+                  placeholder="0"
+                  min={0}
+                  className={"w-full"}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -265,13 +377,21 @@ const AddBook = (Props) => {
                 <Upload
                   listType="picture-card"
                   fileList={fileListThumbnail}
-                  onChange={onChangeThumbnail}
-                  // onPreview={onPreview}
+                  onPreview={handlePreview}
+                  beforeUpload={beforeUpload}
                   maxCount={1}
+                  onRemove={(file) => handleRemoveFile(file, "thumbnail")}
+                  onChange={(fileList) => {
+                    handleChange(fileList, "thumbnail");
+                  }}
+                  customRequest={handleUploadFileThumbnail}
                 >
                   {"+ Upload"}
                 </Upload>
               </ImgCrop>
+              <span className="text-gray-500">
+                Chỉ được phép đăng 1 ảnh duy nhất.
+              </span>
             </Col>
             <Col span={12}>
               <Divider />
@@ -280,13 +400,35 @@ const AddBook = (Props) => {
                 <Upload
                   listType="picture-card"
                   fileList={fileListSlider}
-                  onChange={onChangeSlider}
-                  // onPreview={onPreview}
+                  onPreview={handlePreview}
+                  beforeUpload={beforeUpload}
+                  onRemove={(file) => handleRemoveFile(file, "slider")}
+                  customRequest={handleUploadFileSlider}
+                  onChange={(fileList) => {
+                    handleChange(fileList, "slider");
+                  }}
                 >
-                  {fileListSlider.length < 5 && "+ Upload"}
+                  {dataSlider.length < 5 && "+ Upload"}
                 </Upload>
               </ImgCrop>
+              <span className="text-gray-500">
+                Được phép đăng tối đa 5 ảnh.
+              </span>
             </Col>
+            <Modal
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img
+                alt="example"
+                style={{
+                  width: "100%",
+                }}
+                src={previewImage}
+              />
+            </Modal>
           </Row>
         </Form>
       }

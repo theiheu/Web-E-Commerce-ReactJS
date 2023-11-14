@@ -73,7 +73,13 @@ const DetailBook = (Props) => {
         <Descriptions.Item label="Giá tiền" key={6}>
           {dataBook.price}
         </Descriptions.Item>
-        <Descriptions.Item label="Update At:" key={7}>
+        <Descriptions.Item label="Số lượng" key={6}>
+          {dataBook.quantity}
+        </Descriptions.Item>
+        <Descriptions.Item label="Đã bán" key={7}>
+          {dataBook.sold}
+        </Descriptions.Item>
+        <Descriptions.Item label="Update At:" key={8}>
           {dataBook.updatedAt}
         </Descriptions.Item>
       </Descriptions>

@@ -1,6 +1,6 @@
 import axios from "../utils/axios-customize";
 
-const callRegister = (fullName, email, password, phone) => {
+export const callRegister = (fullName, email, password, phone) => {
   return axios({
     method: "POST",
     url: "/api/v1/user/register",
@@ -12,7 +12,7 @@ const callRegister = (fullName, email, password, phone) => {
     },
   });
 };
-const callLogin = (email, password) => {
+export const callLogin = (email, password) => {
   return axios({
     method: "POST",
     url: "/api/v1/auth/login",
@@ -22,31 +22,36 @@ const callLogin = (email, password) => {
     },
   });
 };
-const fetchAccount = () => {
+export const fetchAccount = () => {
   return axios({
     method: "GET",
     url: "/api/v1/auth/account",
   });
 };
-const callLogout = () => {
+export const callLogout = () => {
   return axios({
     method: "POST",
     url: "/api/v1/auth/logout",
   });
 };
-const fetchUserWithPaginate = (current = 1, pageSize = 2, filters, sorts) => {
+export const fetchUserWithPaginate = (
+  current = 1,
+  pageSize = 2,
+  filters,
+  sorts
+) => {
   return axios({
     method: "GET",
     url: `api/v1/user?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
   });
 };
-const fetchAllUser = (filter) => {
+export const fetchAllUser = (filter) => {
   return axios({
     method: "GET",
     url: `api/v1/user${filter}`,
   });
 };
-const createUser = (fullName, email, password, phone) => {
+export const createUser = (fullName, email, password, phone) => {
   return axios({
     method: "POST",
     url: `api/v1/user`,
@@ -58,16 +63,16 @@ const createUser = (fullName, email, password, phone) => {
     },
   });
 };
-const createListUser = (dataImport) => {
+export const createListUser = (dataImport) => {
   return axios.post("api/v1/user/bulk-create", dataImport);
 };
-const removeUser = (idUser) => {
+export const removeUser = (idUser) => {
   return axios({
     method: "DELETE",
     url: `api/v1/user/${idUser}`,
   });
 };
-const updateUser = (id, fullName, phone) => {
+export const updateUser = (id, fullName, phone) => {
   return axios({
     method: "PUT",
     url: `api/v1/user`,
@@ -79,31 +84,43 @@ const updateUser = (id, fullName, phone) => {
   });
 };
 
-const fetchBooksWithPaginate = (current = 1, pageSize = 10, filters, sorts) => {
+export const fetchBooksWithPaginate = (
+  current = 1,
+  pageSize = 10,
+  filters,
+  sorts
+) => {
   return axios({
     method: "GET",
     url: `api/v1/book?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
   });
 };
 
-const fetchBooksCategory = () => {
+export const fetchBooksCategory = () => {
   return axios({
     method: "GET",
     url: "api/v1/database/category",
   });
 };
 
-export {
-  callRegister,
-  callLogin,
-  fetchAccount,
-  callLogout,
-  fetchUserWithPaginate,
-  fetchAllUser,
-  createUser,
-  createListUser,
-  removeUser,
-  updateUser,
-  fetchBooksWithPaginate,
-  fetchBooksCategory,
+export const createBook = (dataBook) => {
+  return axios({
+    method: "POST",
+    url: "api/v1/book",
+    data: dataBook,
+  });
+};
+
+export const callUploadBookImg = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", fileImg);
+  return axios({
+    method: "post",
+    url: "/api/v1/file/upload",
+    data: bodyFormData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "book",
+    },
+  });
 };

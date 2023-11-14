@@ -13,8 +13,11 @@ const BooksTable = () => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
+
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("-updatedAt");
+
+  const [reRender, setReRender] = useState([]);
 
   const [openDetailBook, setOpenDetailBook] = useState(false);
   const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
@@ -44,7 +47,7 @@ const BooksTable = () => {
         console.log(`error:`, error);
       }
     })();
-  }, [dispatch, current, pageSize, total, filters, softs]);
+  }, [dispatch, reRender, current, pageSize, total, filters, softs]);
 
   const onChange = async (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
