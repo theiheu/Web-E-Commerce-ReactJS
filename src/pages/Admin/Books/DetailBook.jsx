@@ -50,7 +50,7 @@ const DetailBook = (Props) => {
   return (
     <>
       <Descriptions
-        title="Thông tin người dùng:"
+        title="Thông tin sách:"
         layout="horizontal"
         bordered
         column={1}
@@ -71,7 +71,7 @@ const DetailBook = (Props) => {
           {dataBook.author}
         </Descriptions.Item>
         <Descriptions.Item label="Giá tiền" key={6}>
-          {dataBook.price}
+          {`${dataBook.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND
         </Descriptions.Item>
         <Descriptions.Item label="Số lượng" key={6}>
           {dataBook.quantity}

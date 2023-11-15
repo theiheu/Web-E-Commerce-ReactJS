@@ -93,6 +93,15 @@ const BooksTable = () => {
       width: "100px",
       dataIndex: "thumbnail",
       key: "thumbnail",
+      render: (text) => {
+        return (
+          <img
+            className="w-full"
+            src={`${import.meta.env.VITE_SERVER_URL}images/book/${text}`}
+            alt=""
+          />
+        );
+      },
     },
     {
       title: "Tên sách",
@@ -132,6 +141,11 @@ const BooksTable = () => {
       sorter: {
         compare: (a, b) => a.chinese - b.chinese,
         multiple: 3,
+      },
+      render: (text) => {
+        return (
+          <span>{`${text}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} VND</span>
+        );
       },
     },
     {
