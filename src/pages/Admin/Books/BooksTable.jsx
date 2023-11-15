@@ -89,6 +89,12 @@ const BooksTable = () => {
       },
     },
     {
+      title: "Ảnh sách",
+      width: "100px",
+      dataIndex: "thumbnail",
+      key: "thumbnail",
+    },
+    {
       title: "Tên sách",
       width: 200,
       dataIndex: "mainText",

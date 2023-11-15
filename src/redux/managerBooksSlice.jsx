@@ -12,6 +12,15 @@ export const managerUsersSlice = createSlice({
         dataListBooks: action.payload.map((item) => {
           return {
             ...item,
+            thumbnail: (
+              <img
+                className="w-full bg-cover"
+                src={` ${import.meta.env.VITE_SERVER_URL}images/book/${
+                  item.thumbnail
+                }`}
+                alt=""
+              />
+            ),
             key: item._id,
             updatedAt: moment(item.updatedAt).format("MMMM Do YYYY, h:mm:ss a"),
           };
