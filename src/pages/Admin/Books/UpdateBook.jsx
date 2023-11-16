@@ -12,39 +12,79 @@ import {
   message,
   notification,
 } from "antd";
-import { callUploadBookImg, createBook } from "../../../services/api";
-import { useState } from "react";
-import ImgCrop from "antd-img-crop";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ImgCrop from "antd-img-crop";
+import { callUploadBookImg, updateBook } from "../../../services/api";
 
-const AddBook = (Props) => {
-  const { setFilters, isModalOpen, setIsModalOpen } = Props;
+const UpdateBook = (Props) => {
+  const { dataBook, setFilters, openModalUpdateBook, setOpenModalUpdateBook } =
+    Props;
   const { listCategory } = useSelector((state) => {
     return state.managerBooks;
   });
+
+  const [form] = Form.useForm();
+  const [submit, setSubmit] = useState(false);
+
+  const [fileListThumbnail, setFileListThumbnail] = useState([]);
+  const [fileListSlider, setFileListSlider] = useState([]);
+
+  const [dataThumbnail, setDataThumbnail] = useState([]);
+  const [dataSlider, setDataSlider] = useState([]);
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
 
-  const [form] = Form.useForm();
+  const initThumbnail = {
+    uid: uuidv4(),
+    name: dataBook?.thumbnail,
+    status: "done",
+    url: `${import.meta.env.VITE_SERVER_URL}images/book/${dataBook?.thumbnail}`,
+  };
 
-  const [fileListThumbnail, setFileListThumbnail] = useState([]);
-  const [fileListSlider, setFileListSlider] = useState([]);
+  const initSlider = dataBook?.slider?.map((item) => {
+    return {
+      uid: uuidv4(),
+      name: item,
+      status: "done",
+      url: `${import.meta.env.VITE_SERVER_URL}images/book/${item}`,
+    };
+  });
 
-  const [submit, setSubmit] = useState(false);
-  const [dataThumbnail, setDataThumbnail] = useState([]);
-  const [dataSlider, setDataSlider] = useState([]);
+  useEffect(() => {
+    setFileListThumbnail([initThumbnail]);
+    setFileListSlider(() => initSlider);
+
+    form.setFieldsValue(dataBook);
+
+    setDataThumbnail([initThumbnail]);
+    setDataSlider(initSlider);
+
+    return () => {
+      form.resetFields();
+    };
+  }, [dataBook, form]);
 
   const onFinish = (values) => {
+    // console.log("dataThumbnail", dataThumbnail, "dataSlider", dataSlider);
+    // console.log(
+    //   "fileListThumbnail",
+    //   fileListThumbnail,
+    //   "fileListSlider",
+    //   fileListSlider
+    // );
+
     if (dataThumbnail.length < 1 || dataSlider.length < 1) {
       message.error("Không được để trống ảnh!");
       return;
     }
 
     const dataInputAddBook = {
-      thumbnail: dataThumbnail[0].name,
-      slider: dataSlider.map((values) => values.name),
+      thumbnail: dataThumbnail[0]?.name,
+      slider: dataSlider?.map((values) => values.name),
       mainText: values.mainText,
       author: values.author,
       price: values.price,
@@ -52,20 +92,16 @@ const AddBook = (Props) => {
       quantity: values.quantity,
       category: values.category,
     };
+    console.log(`dataInputAddBook:`, dataInputAddBook);
 
     (async function () {
       setSubmit(true);
       try {
-        const response = await createBook(dataInputAddBook);
+        const response = await updateBook(dataBook._id, dataInputAddBook);
         console.log(`response:`, response);
         if (response.status === 200 || response.status === 201) {
-          setIsModalOpen(false);
+          setOpenModalUpdateBook(false);
           message.success("Đã tạo sách thành công!");
-          form.resetFields();
-          setDataThumbnail([]);
-          setDataSlider([]);
-          setFileListThumbnail([]);
-          setFileListSlider([]);
           setSubmit(false);
           setFilters([]);
         } else {
@@ -87,15 +123,6 @@ const AddBook = (Props) => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const handleChange = ({ fileList }, type) => {
-    if (type === "thumbnail") {
-      setFileListThumbnail(fileList);
-    }
-    if (type === "slider") {
-      setFileListSlider(fileList);
-    }
   };
 
   const handleUploadFileThumbnail = async ({ file, onSuccess, onError }) => {
@@ -135,6 +162,8 @@ const AddBook = (Props) => {
   };
 
   const handleRemoveFile = (file, type) => {
+    console.log(`file:`, file);
+
     if (type === "thumbnail") {
       setDataThumbnail([]);
     }
@@ -144,17 +173,13 @@ const AddBook = (Props) => {
     }
   };
 
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
+  const handleChange = ({ fileList }, type) => {
+    if (type === "thumbnail") {
+      setFileListThumbnail(() => fileList);
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
+    if (type === "slider") {
+      setFileListSlider(() => fileList);
     }
-    return isJpgOrPng && isLt2M;
   };
 
   // Preview image
@@ -165,6 +190,7 @@ const AddBook = (Props) => {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -179,17 +205,12 @@ const AddBook = (Props) => {
 
   return (
     <Modal
-      title="Thêm sách:"
-      open={isModalOpen}
+      title="Cập nhật sách:"
+      open={openModalUpdateBook}
       onCancel={() => {
-        setIsModalOpen(false);
-        form.resetFields();
-        setDataThumbnail([]);
-        setDataSlider([]);
-        setFileListThumbnail([]);
-        setFileListSlider([]);
+        setOpenModalUpdateBook(false);
+        setFilters([]);
       }}
-      maskClosable={false}
       width={"50vw"}
       footer={[
         <Divider key={"dividerModalAddBook"} />,
@@ -197,12 +218,8 @@ const AddBook = (Props) => {
           key={1}
           size="large"
           onClick={() => {
-            setIsModalOpen(false);
-            form.resetFields();
-            setDataThumbnail([]);
-            setDataSlider([]);
-            setFileListThumbnail([]);
-            setFileListSlider([]);
+            setOpenModalUpdateBook(false);
+            setFilters([]);
           }}
         >
           Hủy bỏ
@@ -362,14 +379,13 @@ const AddBook = (Props) => {
               <ImgCrop rotationSlider>
                 <Upload
                   listType="picture-card"
+                  maxCount={1}
                   fileList={fileListThumbnail}
                   onPreview={handlePreview}
-                  beforeUpload={beforeUpload}
-                  maxCount={1}
-                  onRemove={(file) => handleRemoveFile(file, "thumbnail")}
                   onChange={(fileList) => {
                     handleChange(fileList, "thumbnail");
                   }}
+                  onRemove={(file) => handleRemoveFile(file, "thumbnail")}
                   customRequest={handleUploadFileThumbnail}
                 >
                   {"+ Upload"}
@@ -387,14 +403,13 @@ const AddBook = (Props) => {
                   listType="picture-card"
                   fileList={fileListSlider}
                   onPreview={handlePreview}
-                  beforeUpload={beforeUpload}
-                  onRemove={(file) => handleRemoveFile(file, "slider")}
-                  customRequest={handleUploadFileSlider}
                   onChange={(fileList) => {
                     handleChange(fileList, "slider");
                   }}
+                  onRemove={(file) => handleRemoveFile(file, "slider")}
+                  customRequest={handleUploadFileSlider}
                 >
-                  {dataSlider.length < 5 && "+ Upload"}
+                  {dataSlider?.length < 5 && "+ Upload"}
                 </Upload>
               </ImgCrop>
               <span className="text-gray-500">
@@ -408,11 +423,11 @@ const AddBook = (Props) => {
               onCancel={handleCancel}
             >
               <img
+                src={previewImage}
                 alt="example"
                 style={{
                   width: "100%",
                 }}
-                src={previewImage}
               />
             </Modal>
           </Row>
@@ -422,4 +437,4 @@ const AddBook = (Props) => {
   );
 };
 
-export default AddBook;
+export default UpdateBook;

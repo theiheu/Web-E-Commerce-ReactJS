@@ -134,6 +134,22 @@ export const callUploadBookImg = (fileImg) => {
   });
 };
 
+export const updateBook = (idBook, dataBook) => {
+  return axios({
+    method: "PUT",
+    url: `api/v1/book/${idBook}`,
+    data: dataBook,
+  });
+};
+
+export const deleteImageBook = (dataBook) => {
+  return axios({
+    method: "POST",
+    url: `api/v1/book/delete-image`,
+    data: dataBook,
+  });
+};
+
 export const deleteBook = (idBook) => {
   return axios({
     method: "DELETE",

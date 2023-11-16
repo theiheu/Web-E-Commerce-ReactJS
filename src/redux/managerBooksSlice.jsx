@@ -5,10 +5,12 @@ export const managerUsersSlice = createSlice({
   name: "managerUsers",
   initialState: {
     dataListBooks: [],
+    listCategory: [],
   },
   reducers: {
     fetchBooks: (state, action) => {
       return {
+        ...state,
         dataListBooks: action.payload.map((item) => {
           return {
             ...item,
@@ -17,6 +19,9 @@ export const managerUsersSlice = createSlice({
           };
         }),
       };
+    },
+    fetchListCategory: (state, action) => {
+      return { ...state, listCategory: action.payload };
     },
     handlePaginationBookAction: (state, action) => {
       return {
@@ -37,6 +42,7 @@ export const managerUsersSlice = createSlice({
 
 export const {
   fetchBooks,
+  fetchListCategory,
   handlePaginationBookAction,
   handleFilterAndSortBook,
 } = managerUsersSlice.actions;

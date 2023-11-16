@@ -9,7 +9,6 @@ import Loading from "./components/Loading/Loading";
 export default function App() {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state?.account);
-  // const user = useSelector((state) => state?.account);
 
   const getAccount = async () => {
     const res = await fetchAccount();

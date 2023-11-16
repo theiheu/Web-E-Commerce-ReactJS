@@ -1,13 +1,20 @@
 import { Button, Drawer, Popconfirm, Space, Table, message } from "antd";
 import { useEffect, useState } from "react";
-import { deleteBook, fetchBooksWithPaginate } from "../../../services/api";
+import {
+  deleteBook,
+  fetchBooksCategory,
+  fetchBooksWithPaginate,
+} from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import HeaderUsersTable from "./HeaderUsersTable";
-import UserUpdate from "./UserUpdate";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBooks } from "../../../redux/managerBooksSlice";
+import {
+  fetchBooks,
+  fetchListCategory,
+} from "../../../redux/managerBooksSlice";
 import AdvancedSearchFormBook from "../User/AdvancedSearchFormBook";
 import DetailBook from "./DetailBook";
+import UpdateBook from "./UpdateBook";
 
 const BooksTable = () => {
   const [current, setCurrent] = useState(1);
@@ -18,7 +25,8 @@ const BooksTable = () => {
   const [softs, setSofts] = useState("-updatedAt");
 
   const [openDetailBook, setOpenDetailBook] = useState(false);
-  const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
+  const [openModalUpdateBook, setOpenModalUpdateBook] = useState(false);
+
   const [dataBook, setDataBook] = useState([]);
 
   const dispatch = useDispatch();
@@ -33,14 +41,27 @@ const BooksTable = () => {
           filters.join(""),
           softs
         );
-        console.log(`res:`, res);
 
         const { meta, result } = res.data.data;
 
         setCurrent(() => meta.current);
         setPageSize(() => meta.pageSize);
         setTotal(() => meta.total);
+
         dispatch(fetchBooks(result));
+
+        const resListCategory = await fetchBooksCategory();
+
+        if (resListCategory && resListCategory.data) {
+          const dataListCategory = resListCategory.data.data.map((value) => {
+            return {
+              value,
+              label: value,
+            };
+          });
+
+          dispatch(fetchListCategory(dataListCategory));
+        }
       } catch (error) {
         console.log(`error:`, error);
       }
@@ -163,12 +184,12 @@ const BooksTable = () => {
       key: "action",
       fixed: "right",
       width: "88px",
-      render: (text) => (
+      render: (text, record) => (
         <Space>
           <Button
             onClick={() => {
-              setOpenModalUpdateUser(true);
-              setDataBook(text);
+              setOpenModalUpdateBook(true);
+              setDataBook(record);
             }}
             size="small"
           >
@@ -267,11 +288,11 @@ const BooksTable = () => {
       >
         <DetailBook dataBook={dataBook} />
       </Drawer>
-      <UserUpdate
+      <UpdateBook
         dataBook={dataBook}
-        openModalUpdateUser={openModalUpdateUser}
+        openModalUpdateBook={openModalUpdateBook}
         setFilters={setFilters}
-        setOpenModalUpdateUser={setOpenModalUpdateUser}
+        setOpenModalUpdateBook={setOpenModalUpdateBook}
       />
     </>
   );
