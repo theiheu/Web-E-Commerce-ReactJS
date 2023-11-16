@@ -16,7 +16,11 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ImgCrop from "antd-img-crop";
-import { callUploadBookImg, updateBook } from "../../../services/api";
+import {
+  callUploadBookImg,
+  deleteImageBook,
+  updateBook,
+} from "../../../services/api";
 
 const UpdateBook = (Props) => {
   const { dataBook, setFilters, openModalUpdateBook, setOpenModalUpdateBook } =
@@ -161,16 +165,9 @@ const UpdateBook = (Props) => {
     }
   };
 
-  const handleRemoveFile = (file, type) => {
-    console.log(`file:`, file);
-
-    if (type === "thumbnail") {
-      setDataThumbnail([]);
-    }
-    if (type === "slider") {
-      const newSlider = dataSlider.filter((x) => x.uid !== file.uid);
-      setDataSlider(newSlider);
-    }
+  const handleRemoveFile = (file) => {
+    const newSlider = dataSlider.filter((x) => x.uid !== file.uid);
+    setDataSlider(newSlider);
   };
 
   const handleChange = ({ fileList }, type) => {
@@ -385,7 +382,7 @@ const UpdateBook = (Props) => {
                   onChange={(fileList) => {
                     handleChange(fileList, "thumbnail");
                   }}
-                  onRemove={(file) => handleRemoveFile(file, "thumbnail")}
+                  showUploadList={{ showRemoveIcon: false }}
                   customRequest={handleUploadFileThumbnail}
                 >
                   {"+ Upload"}
@@ -406,7 +403,7 @@ const UpdateBook = (Props) => {
                   onChange={(fileList) => {
                     handleChange(fileList, "slider");
                   }}
-                  onRemove={(file) => handleRemoveFile(file, "slider")}
+                  onRemove={(file) => handleRemoveFile(file)}
                   customRequest={handleUploadFileSlider}
                 >
                   {dataSlider?.length < 5 && "+ Upload"}
