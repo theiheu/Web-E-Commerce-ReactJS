@@ -60,7 +60,6 @@ const HeaderUsersTable = (Props) => {
         >
           <ReloadOutlined
             style={{ fontSize: "20px", margin: "0 4px", cursor: "pointer" }}
-            spin={spin}
             onClick={() => {
               setFilters([]);
               setSofts("");

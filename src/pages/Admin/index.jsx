@@ -57,7 +57,7 @@ const AdminPage = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
+    <Layout className="layout">
       <Sider
         style={{ background: "#ffff" }}
         width={200}
@@ -78,40 +78,42 @@ const AdminPage = () => {
           items={MenuAdmin}
         />
       </Sider>
-      <Layout>
-        <Header
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "0 24px",
-            background: colorBgContainer,
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+      <Content>
+        <Layout>
+          <Header
             style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 24px",
+              background: colorBgContainer,
             }}
-          />
+          >
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: "16px",
+                width: 64,
+                height: 64,
+              }}
+            />
 
-          <UserNavigation />
-        </Header>
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: "100%",
-            background: colorBgContainer,
-          }}
-        >
-          {<Outlet />}
-        </Content>
-      </Layout>
+            <UserNavigation />
+          </Header>
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: "100%",
+              background: colorBgContainer,
+            }}
+          >
+            {<Outlet />}
+          </Content>
+        </Layout>
+      </Content>
     </Layout>
   );
 };

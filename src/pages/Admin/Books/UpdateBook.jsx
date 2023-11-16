@@ -16,11 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ImgCrop from "antd-img-crop";
-import {
-  callUploadBookImg,
-  deleteImageBook,
-  updateBook,
-} from "../../../services/api";
+import { callUploadBookImg, updateBook } from "../../../services/api";
 
 const UpdateBook = (Props) => {
   const { dataBook, setFilters, openModalUpdateBook, setOpenModalUpdateBook } =

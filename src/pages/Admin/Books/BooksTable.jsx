@@ -6,7 +6,6 @@ import {
   fetchBooksWithPaginate,
 } from "../../../services/api";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import HeaderUsersTable from "./HeaderUsersTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchBooks,
@@ -15,6 +14,7 @@ import {
 import AdvancedSearchFormBook from "../User/AdvancedSearchFormBook";
 import DetailBook from "./DetailBook";
 import UpdateBook from "./UpdateBook";
+import HeaderBooksTable from "./HeaderBooksTable";
 
 const BooksTable = () => {
   const [current, setCurrent] = useState(1);
@@ -238,7 +238,7 @@ const BooksTable = () => {
   return (
     <>
       <AdvancedSearchFormBook setFilters={setFilters} />
-      <HeaderUsersTable
+      <HeaderBooksTable
         data={data}
         setFilters={setFilters}
         setSofts={setSofts}

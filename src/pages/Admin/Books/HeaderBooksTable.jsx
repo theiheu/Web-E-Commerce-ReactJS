@@ -4,7 +4,7 @@ import { useState } from "react";
 import AddBook from "./AddBook";
 import * as XLSX from "xlsx";
 
-const HeaderUsersTable = (Props) => {
+const HeaderBooksTable = (Props) => {
   const { data, setFilters, setSofts } = Props;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,7 +24,7 @@ const HeaderUsersTable = (Props) => {
           }}
         >
           <WalletOutlined />
-          Export
+          Xuất dữ liệu
         </Button>
         <Button
           size={"large"}
@@ -60,4 +60,4 @@ const HeaderUsersTable = (Props) => {
   );
 };
 
-export default HeaderUsersTable;
+export default HeaderBooksTable;
