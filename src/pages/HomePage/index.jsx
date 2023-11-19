@@ -14,7 +14,7 @@ import {
   Tabs,
   Card,
 } from "antd";
-// import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { FilterOutlined, RedoOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import Meta from "antd/es/card/Meta";
@@ -23,42 +23,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks, fetchListCategory } from "../../redux/managerBooksSlice";
 const { Content, Sider } = Layout;
 
-const products = Array(5)
-  .fill(null)
-  .map(() => {
-    return (
-      <Card
-        key={3}
-        hoverable
-        className="xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2"
-        cover={
-          <img
-            alt="example"
-            src="server/public/images/book/11-dc801dd2a968c1a43ec9270728555fbe.jpg"
-          />
-        }
-        actions={[
-          <Rate className={"text-[12px]"} defaultValue={5} key={1} disabled />,
-          <Space key={2} className="text-[12px]">
-            Đã bán: 1000k
-          </Space>,
-        ]}
-      >
-        {/* <span>
-                  Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng
-                  suốt hơn
-                </span> */}
-        <Meta
-          className={"p-0"}
-          title="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
-          description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
-        />
-      </Card>
-    );
-  });
+// const products = Array(5)
+//   .fill(null)
+//   .map(() => {
+//     return (
+//       <Card
+//         key={3}
+//         hoverable
+//         className="xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2"
+//         cover={
+//           <img
+//             alt="example"
+//             src="server/public/images/book/11-dc801dd2a968c1a43ec9270728555fbe.jpg"
+//           />
+//         }
+//         actions={[
+//           <Rate className={"text-[12px]"} defaultValue={5} key={1} disabled />,
+//           <Space key={2} className="text-[12px]">
+//             Đã bán: 1000k
+//           </Space>,
+//         ]}
+//       >
+//         <Meta
+//           className={"p-0"}
+//           title="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
+//           description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
+//         />
+//       </Card>
+//     );
+//   });
 
 const CheckboxGroup = Checkbox.Group;
-const defaultCheckedList = ["Apple", "Orange", "Pear"];
 const HomePage = () => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -68,11 +63,13 @@ const HomePage = () => {
   const [softs, setSofts] = useState("-updatedAt");
 
   const dispatch = useDispatch();
-  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [checkedList, setCheckedList] = useState([]);
 
   const [dataBook, setDataBook] = useState([]);
-  const { dataListBooks } = useSelector((state) => state?.managerBooks);
-  console.log(`dataListBooks:`, dataListBooks);
+  const { dataListBooks, listCategory } = useSelector(
+    (state) => state?.managerBooks
+  );
+  // console.log(`dataListBooks:`, dataListBooks);
 
   useEffect(() => {
     (async function () {
@@ -130,14 +127,14 @@ const HomePage = () => {
       setSofts(-sorter.field);
     }
 
-    setCheckedList(list);
+    // setCheckedList(list);
   };
 
-  // const onChange = (list) => {
-  //   console.log(`list:`, list);
+  const onChangeCategory = (list) => {
+    console.log(`list:`, list);
 
-  //   setCheckedList(list);
-  // };
+    setCheckedList(list);
+  };
 
   const [form] = Form.useForm();
   const [formLayout, setFormLayout] = useState("horizontal");
@@ -154,7 +151,47 @@ const HomePage = () => {
       key: "1",
       label: "Phổ biến",
       children: (
-        <div className="flex flex-wrap justify-around gap-1">{products}</div>
+        <div className="flex flex-wrap justify-start 2xl:gap-4 gap-2">
+          {dataListBooks.map((item) => {
+            return (
+              <Card
+                key={item.key}
+                hoverable
+                bodyStyle={{ padding: 12 }}
+                className="2xl:w-[15%] xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2 mt-3"
+                cover={
+                  <img
+                    alt="example"
+                    src={`${import.meta.env.VITE_SERVER_URL}images/book/${
+                      item.thumbnail
+                    }`}
+                  />
+                }
+                actions={[
+                  <Rate
+                    className={"text-[12px]"}
+                    defaultValue={5}
+                    key={1}
+                    disabled
+                  />,
+                  <Space key={2} className="text-[12px]">
+                    Đã bán:{item.sold}
+                  </Space>,
+                ]}
+              >
+                <Meta
+                  className={"p-0"}
+                  title={item.mainText}
+                  description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
+                />
+                <Space className="mt-4 font-normal">
+                  Giá bán:
+                  {`${item.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
+                </Space>
+              </Card>
+            );
+          })}
+        </div>
       ),
     },
     {
@@ -195,30 +232,25 @@ const HomePage = () => {
             <FilterOutlined />
             Bộ lọc tìm kiếm
           </Space>
-          <RedoOutlined className="cursor-pointer" />
+          <RedoOutlined
+            className="cursor-pointer"
+            onClick={() => setCheckedList([])}
+          />
         </Space>
         <Divider className="m-0" />
 
         {/* Danh sách tìm kiếm */}
         <Space className="flex flex-col items-start p-3 ">
           <Space>Danh sách tìm kiếm:</Space>
-          <CheckboxGroup value={checkedList} onChange={onChange}>
+          <CheckboxGroup value={checkedList} onChange={onChangeCategory}>
             <Row className="flex flex-col items-start ">
-              <Col>
-                <Checkbox value="A">A</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox value="B">B</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox value="C">C</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox value="D">D</Checkbox>
-              </Col>
-              <Col>
-                <Checkbox value="E">E</Checkbox>
-              </Col>
+              {listCategory?.map((item) => {
+                return (
+                  <Col key={uuidv4()}>
+                    <Checkbox value={item?.value}>{item?.label}</Checkbox>
+                  </Col>
+                );
+              })}
             </Row>
           </CheckboxGroup>
         </Space>
