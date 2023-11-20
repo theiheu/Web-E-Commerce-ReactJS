@@ -15,7 +15,8 @@ import {
   Card,
 } from "antd";
 import { v4 as uuidv4 } from "uuid";
-import { FilterOutlined, RedoOutlined } from "@ant-design/icons";
+import { FilterOutlined, FireTwoTone, RedoOutlined } from "@ant-design/icons";
+import "./homePage.scss";
 import { useEffect, useState } from "react";
 import Meta from "antd/es/card/Meta";
 import { fetchBooksCategory, fetchBooksWithPaginate } from "../../services/api";
@@ -69,7 +70,7 @@ const HomePage = () => {
   const { dataListBooks, listCategory } = useSelector(
     (state) => state?.managerBooks
   );
-  // console.log(`dataListBooks:`, dataListBooks);
+  console.log(`dataListBooks:`, dataListBooks);
 
   useEffect(() => {
     (async function () {
@@ -168,24 +169,33 @@ const HomePage = () => {
                   />
                 }
                 actions={[
-                  <Rate
-                    className={"text-[12px]"}
-                    defaultValue={5}
+                  <Space
                     key={1}
-                    disabled
-                  />,
-                  <Space key={2} className="text-[12px]">
-                    Đã bán:{item.sold}
+                    size={"small"}
+                    className="flex justify-center items-center"
+                  >
+                    Giao hàng siêu tốc
+                    <FireTwoTone twoToneColor="#eb2f2f" />
                   </Space>,
                 ]}
               >
                 <Meta
                   className={"p-0"}
                   title={item.mainText}
-                  description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
+                  // description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
                 />
-                <Space className="mt-4 font-normal">
-                  Giá bán:
+                <Space className="my-2 flex justify-between items-center">
+                  <Rate
+                    disabled
+                    className="xl:text-sm md:text-[10px]"
+                    defaultValue={5}
+                  />
+                  <Divider type="vertical" style={{ margin: "0" }} />
+                  <Space key={2} className="text-[12px]">
+                    Đã bán:{item.sold}
+                  </Space>
+                </Space>
+                <Space className="font-semibold mt-2">
                   {`${item.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
                 </Space>
               </Card>
@@ -222,7 +232,7 @@ const HomePage = () => {
       }}
     >
       <Sider
-        width={300}
+        // className="xl:w-[300px]"
         style={{
           background: colorBgContainer,
         }}
@@ -268,12 +278,12 @@ const HomePage = () => {
             className="w-full"
           >
             <Space className="flex justify-center items-center w-full">
-              <Form.Item className="flex-1 h-[20px]">
-                <Input className="w-full p-2" placeholder="đ Từ" />
+              <Form.Item className="flex-1 h-[12px]">
+                <Input className="w-full h-full p-2" placeholder="đ Từ" />
               </Form.Item>
               -
-              <Form.Item className="flex-1 h-[20px]">
-                <Input className="w-full p-2" placeholder="đ Đến" />
+              <Form.Item className="flex-1 h-[12px]">
+                <Input className="w-full h-full p-2" placeholder="đ Đến" />
               </Form.Item>
             </Space>
             <Form.Item className=" mt-3">
@@ -291,22 +301,22 @@ const HomePage = () => {
 
           <Space className="flex flex-col items-start justify-start">
             <Space>
-              <Rate defaultValue={5} disabled />
+              <Rate className="text-sm" defaultValue={5} disabled />
             </Space>
             <Space className="ant-rate-text">
-              <Rate defaultValue={4} disabled />
+              <Rate className="text-sm" defaultValue={4} disabled />
               Trở lên
             </Space>
             <Space className="ant-rate-text">
-              <Rate defaultValue={3} disabled />
+              <Rate className="text-sm" defaultValue={3} disabled />
               Trở lên
             </Space>
             <Space className="ant-rate-text">
-              <Rate defaultValue={2} disabled />
+              <Rate className="text-sm" defaultValue={2} disabled />
               Trở lên
             </Space>
             <Space className="ant-rate-text">
-              <Rate defaultValue={1} disabled />
+              <Rate className="text-sm" defaultValue={1} disabled />
               Trở lên
             </Space>
           </Space>
