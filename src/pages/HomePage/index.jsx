@@ -1,5 +1,4 @@
 import {
-  Breadcrumb,
   Divider,
   Layout,
   Space,
@@ -8,13 +7,13 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Button,
   Rate,
   Tabs,
   Card,
   Slider,
   InputNumber,
+  Pagination,
 } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { FilterOutlined, FireTwoTone, RedoOutlined } from "@ant-design/icons";
@@ -60,7 +59,7 @@ const CheckboxGroup = Checkbox.Group;
 const HomePage = () => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState();
 
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("-updatedAt");
@@ -251,8 +250,9 @@ const HomePage = () => {
       }}
     >
       <Sider
-        // className="xl:w-[300px]"
+        className="max-sm:hidden"
         style={{
+          width: "100%",
           background: colorBgContainer,
         }}
       >
@@ -377,15 +377,6 @@ const HomePage = () => {
           padding: "0 24px 24px",
         }}
       >
-        <Breadcrumb
-          style={{
-            margin: "16px 0",
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
         <Content
           style={{
             padding: 24,
@@ -399,6 +390,18 @@ const HomePage = () => {
             items={itemsProductTab}
             onChange={onChangeProductTab}
           />
+          <Space className="flex justify-end items-center">
+            <Pagination
+              total={total}
+              className="mt-5"
+              showTotal={(total, range) => {
+                return `${range[0]}-${range[1]} trên ${total} sản phẩm`;
+              }}
+              defaultPageSize={pageSize}
+              defaultCurrent={current}
+              current={current}
+            />
+          </Space>
         </Content>
       </Layout>
     </Layout>
