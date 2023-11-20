@@ -69,13 +69,7 @@ const UpdateBook = (Props) => {
   }, [dataBook, form]);
 
   const onFinish = (values) => {
-    // console.log("dataThumbnail", dataThumbnail, "dataSlider", dataSlider);
-    // console.log(
-    //   "fileListThumbnail",
-    //   fileListThumbnail,
-    //   "fileListSlider",
-    //   fileListSlider
-    // );
+    console.log(`values:`, values);
 
     if (dataThumbnail.length < 1 || dataSlider.length < 1) {
       message.error("Không được để trống ảnh!");

@@ -183,7 +183,7 @@ const BooksTable = () => {
       title: "Thao tác",
       key: "action",
       fixed: "right",
-      width: "88px",
+      width: "120px",
       render: (text, record) => (
         <Space>
           <Button

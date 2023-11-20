@@ -13,6 +13,8 @@ import {
   Rate,
   Tabs,
   Card,
+  Slider,
+  InputNumber,
 } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { FilterOutlined, FireTwoTone, RedoOutlined } from "@ant-design/icons";
@@ -63,6 +65,9 @@ const HomePage = () => {
   const [filters, setFilters] = useState([]);
   const [softs, setSofts] = useState("-updatedAt");
 
+  const [form] = Form.useForm();
+  const [formLayout, setFormLayout] = useState("horizontal");
+
   const dispatch = useDispatch();
   const [checkedList, setCheckedList] = useState([]);
 
@@ -70,7 +75,12 @@ const HomePage = () => {
   const { dataListBooks, listCategory } = useSelector(
     (state) => state?.managerBooks
   );
-  console.log(`dataListBooks:`, dataListBooks);
+
+  const [range, setRange] = useState([0, 500000]);
+
+  const toVND = (values) => {
+    return `${values}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   useEffect(() => {
     (async function () {
@@ -137,14 +147,23 @@ const HomePage = () => {
     setCheckedList(list);
   };
 
-  const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState("horizontal");
-  const onFormLayoutChange = ({ layout }) => {
-    setFormLayout(layout);
-  };
-
   const onChangeProductTab = (key) => {
     console.log(key);
+  };
+
+  const onFormLayoutChange = (props) => {
+    console.log(`layout:`, props);
+
+    // setFormLayout(layout);
+  };
+
+  const onFinish = (values) => {
+    console.log("Line: 161 - Here", checkedList);
+    console.log("Line: 162 - Here", range);
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   const itemsProductTab = [
@@ -191,7 +210,7 @@ const HomePage = () => {
                     defaultValue={5}
                   />
                   <Divider type="vertical" style={{ margin: "0" }} />
-                  <Space key={2} className="text-[12px]">
+                  <Space key={2} className="text-[10px]">
                     Đã bán:{item.sold}
                   </Space>
                 </Space>
@@ -237,64 +256,95 @@ const HomePage = () => {
           background: colorBgContainer,
         }}
       >
-        <Space className="flex justify-between p-3">
-          <Space>
-            <FilterOutlined />
-            Bộ lọc tìm kiếm
-          </Space>
-          <RedoOutlined
-            className="cursor-pointer"
-            onClick={() => setCheckedList([])}
-          />
-        </Space>
-        <Divider className="m-0" />
-
-        {/* Danh sách tìm kiếm */}
-        <Space className="flex flex-col items-start p-3 ">
-          <Space>Danh sách tìm kiếm:</Space>
-          <CheckboxGroup value={checkedList} onChange={onChangeCategory}>
-            <Row className="flex flex-col items-start ">
-              {listCategory?.map((item) => {
-                return (
-                  <Col key={uuidv4()}>
-                    <Checkbox value={item?.value}>{item?.label}</Checkbox>
-                  </Col>
-                );
-              })}
-            </Row>
-          </CheckboxGroup>
-        </Space>
-        <Divider />
-
-        {/* Khoảng giá: */}
-        <Space className="flex flex-col items-start p-3">
-          Khoảng giá:
-          <Form
-            form={form}
-            initialValues={{
-              layout: formLayout,
-            }}
-            onValuesChange={onFormLayoutChange}
-            className="w-full"
-          >
-            <Space className="flex justify-center items-center w-full">
-              <Form.Item className="flex-1 h-[12px]">
-                <Input className="w-full h-full p-2" placeholder="đ Từ" />
-              </Form.Item>
-              -
-              <Form.Item className="flex-1 h-[12px]">
-                <Input className="w-full h-full p-2" placeholder="đ Đến" />
-              </Form.Item>
+        <Form
+          form={form}
+          initialValues={{
+            layout: formLayout,
+          }}
+          onValuesChange={onFormLayoutChange}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          className="w-full p-2"
+        >
+          <Space className="flex justify-between p-3">
+            <Space>
+              <FilterOutlined />
+              Bộ lọc tìm kiếm
             </Space>
-            <Form.Item className=" mt-3">
-              <Button className="w-full" type="primary" size="large">
-                Áp dụng
-              </Button>
-            </Form.Item>
-          </Form>
-        </Space>
-        <Divider />
-
+            <RedoOutlined
+              className="cursor-pointer"
+              onClick={() => setCheckedList([])}
+            />
+          </Space>
+          <Divider className="m-0" />
+          {/* Danh sách tìm kiếm */}
+          <Space className="flex flex-col items-start p-3 ">
+            <Space>Danh sách tìm kiếm:</Space>
+            <CheckboxGroup value={checkedList} onChange={onChangeCategory}>
+              <Row className="flex flex-col items-start ">
+                {listCategory?.map((item) => {
+                  return (
+                    <Col key={uuidv4()}>
+                      <Checkbox value={item?.value}>{item?.label}</Checkbox>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </CheckboxGroup>
+          </Space>
+          <Divider />
+          {/* Khoảng giá: */}
+          Khoảng giá:
+          <Space className="flex justify-start mt-2 w-full"></Space>
+          <Form.Item>
+            <Row>
+              <Col span={24} className="my-2">
+                <InputNumber
+                  min={0}
+                  max={toVND(range[1])}
+                  value={toVND(range[0])}
+                  onChange={(value) => {
+                    setRange([value >= range[1] ? range[1] : value, range[1]]);
+                  }}
+                  addonAfter="VND"
+                />
+              </Col>
+              <Col span={24}>
+                Đến
+                <InputNumber
+                  min={toVND(range[0])}
+                  max={1000000}
+                  value={toVND(range[1])}
+                  onChange={(value) => {
+                    setRange([range[0], value <= range[0] ? range[0] : value]);
+                  }}
+                  addonAfter="VND"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Slider
+                  tooltip={{ open: false }}
+                  range
+                  step={1000}
+                  min={0}
+                  max={1000000}
+                  value={range}
+                  onChange={(values) => {
+                    setRange(values);
+                  }}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" className="w-full" htmlType="submit">
+              Tìm kiếm
+            </Button>
+          </Form.Item>
+        </Form>
+        <Divider className="mt-0" />
         {/* Rate */}
         <Space className="flex flex-col items-start p-3">
           <Space>Đánh giá:</Space>
