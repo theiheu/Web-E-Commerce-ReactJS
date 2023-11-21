@@ -105,6 +105,18 @@ export const fetchBooksWithPaginate = (
   });
 };
 
+export const fetchBooksWithPaginateHomePage = (
+  current = 1,
+  pageSize = 10,
+  filters,
+  sorts
+) => {
+  return axios({
+    method: "GET",
+    url: `api/v1/book?current=${current}&pageSize=${pageSize}&${filters}&sort=${sorts}`,
+  });
+};
+
 export const fetchBooksCategory = () => {
   return axios({
     method: "GET",

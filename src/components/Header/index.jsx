@@ -21,7 +21,7 @@ const Header = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "sticky",
+          position: "fixed",
           top: 0,
           zIndex: 1,
           width: "100%",

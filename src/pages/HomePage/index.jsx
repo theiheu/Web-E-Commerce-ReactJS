@@ -10,19 +10,21 @@ import {
   Button,
   Rate,
   Tabs,
-  Card,
   Slider,
   InputNumber,
   Pagination,
 } from "antd";
 import { v4 as uuidv4 } from "uuid";
-import { FilterOutlined, FireTwoTone, RedoOutlined } from "@ant-design/icons";
+import { FilterOutlined, RedoOutlined } from "@ant-design/icons";
 import "./homePage.scss";
 import { useEffect, useState } from "react";
-import Meta from "antd/es/card/Meta";
-import { fetchBooksCategory, fetchBooksWithPaginate } from "../../services/api";
+import {
+  fetchBooksCategory,
+  fetchBooksWithPaginateHomePage,
+} from "../../services/api";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks, fetchListCategory } from "../../redux/managerBooksSlice";
+import ListBooks from "../../components/ListBooks";
 const { Content, Sider } = Layout;
 
 // const products = Array(5)
@@ -62,18 +64,17 @@ const HomePage = () => {
   const [total, setTotal] = useState();
 
   const [filters, setFilters] = useState([]);
-  const [softs, setSofts] = useState("-updatedAt");
+  const [filtersListSearch, setFiltersListSearch] = useState([]);
+  const [softs, setSofts] = useState("-sold");
 
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState("horizontal");
-
   const dispatch = useDispatch();
   const [checkedList, setCheckedList] = useState([]);
 
-  const [dataBook, setDataBook] = useState([]);
   const { dataListBooks, listCategory } = useSelector(
     (state) => state?.managerBooks
   );
+  // const [dataBook, setDataBook] = useState([]);
 
   const [range, setRange] = useState([0, 500000]);
 
@@ -84,21 +85,6 @@ const HomePage = () => {
   useEffect(() => {
     (async function () {
       try {
-        const res = await fetchBooksWithPaginate(
-          current,
-          pageSize,
-          filters.join(""),
-          softs
-        );
-
-        const { meta, result } = res.data.data;
-
-        setCurrent(() => meta.current);
-        setPageSize(() => meta.pageSize);
-        setTotal(() => meta.total);
-
-        dispatch(fetchBooks(result));
-
         const resListCategory = await fetchBooksCategory();
 
         if (resListCategory && resListCategory.data) {
@@ -110,6 +96,20 @@ const HomePage = () => {
           });
 
           dispatch(fetchListCategory(dataListCategory));
+
+          const res = await fetchBooksWithPaginateHomePage(
+            current,
+            pageSize,
+            filters,
+            softs
+          );
+          const { meta, result } = res.data.data;
+
+          setCurrent(() => meta.current);
+          setPageSize(() => meta.pageSize);
+          setTotal(() => meta.total);
+
+          dispatch(fetchBooks(result));
         }
       } catch (error) {
         console.log(`error:`, error);
@@ -117,37 +117,34 @@ const HomePage = () => {
     })();
   }, [dispatch, current, pageSize, total, filters, softs]);
 
-  const onChange = async (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-    console.log(`sorter:`, sorter);
-
-    if (pagination && pagination.current !== current) {
-      setCurrent(() => pagination.current);
-    }
-
-    if (pagination && pagination.pageSize !== pageSize) {
-      setPageSize(() => pagination.pageSize);
-    }
-
-    if (sorter.order === "ascend") {
-      setSofts(sorter.field);
-    }
-
-    if (sorter.order === "descend") {
-      setSofts(-sorter.field);
-    }
-
-    // setCheckedList(list);
+  const onChangePagination = async (current, pageSize) => {
+    setCurrent(() => current);
+    setPageSize(() => pageSize);
   };
 
   const onChangeCategory = (list) => {
-    console.log(`list:`, list);
-
+    setFiltersListSearch(() => `category=${list.join(",")}`);
+    setFilters(filtersListSearch);
     setCheckedList(list);
   };
 
   const onChangeProductTab = (key) => {
-    console.log(key);
+    switch (key) {
+      case "popular":
+        setSofts("-sold");
+        break;
+      case "productsNew":
+        setSofts("-updatedAt");
+        break;
+      case "minToMax":
+        setSofts("price");
+        break;
+      case "maxToMin":
+        setSofts("-price");
+        break;
+      default:
+        break;
+    }
   };
 
   const onFormLayoutChange = (props) => {
@@ -156,10 +153,10 @@ const HomePage = () => {
     // setFormLayout(layout);
   };
 
-  const onFinish = (values) => {
-    console.log("Line: 161 - Here", checkedList);
-    console.log("Line: 162 - Here", range);
-    console.log("Success:", values);
+  const onFinish = () => {
+    setFilters(() => {
+      return `${filtersListSearch}&price>=${range[0]}&price<=${range[1]}`;
+    });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -167,75 +164,24 @@ const HomePage = () => {
 
   const itemsProductTab = [
     {
-      key: "1",
+      key: "popular",
       label: "Phổ biến",
-      children: (
-        <div className="flex flex-wrap justify-start 2xl:gap-4 gap-2">
-          {dataListBooks.map((item) => {
-            return (
-              <Card
-                key={item.key}
-                hoverable
-                bodyStyle={{ padding: 12 }}
-                className="2xl:w-[15%] xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2 mt-3"
-                cover={
-                  <img
-                    alt="example"
-                    src={`${import.meta.env.VITE_SERVER_URL}images/book/${
-                      item.thumbnail
-                    }`}
-                  />
-                }
-                actions={[
-                  <Space
-                    key={1}
-                    size={"small"}
-                    className="flex justify-center items-center"
-                  >
-                    Giao hàng siêu tốc
-                    <FireTwoTone twoToneColor="#eb2f2f" />
-                  </Space>,
-                ]}
-              >
-                <Meta
-                  className={"p-0"}
-                  title={item.mainText}
-                  // description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
-                />
-                <Space className="my-2 flex justify-between items-center">
-                  <Rate
-                    disabled
-                    className="xl:text-sm md:text-[10px]"
-                    defaultValue={5}
-                  />
-                  <Divider type="vertical" style={{ margin: "0" }} />
-                  <Space key={2} className="text-[10px]">
-                    Đã bán:{item.sold}
-                  </Space>
-                </Space>
-                <Space className="font-semibold mt-2">
-                  {`${item.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
-                </Space>
-              </Card>
-            );
-          })}
-        </div>
-      ),
+      children: <ListBooks dataListBooks={dataListBooks} />,
     },
     {
-      key: "2",
+      key: "productsNew",
       label: "Hàng Mới",
-      children: <></>,
+      children: <ListBooks dataListBooks={dataListBooks} />,
     },
     {
-      key: "3",
+      key: "minToMax",
       label: "Giá Thấp Đến Cao",
-      children: "Content of Tab Pane 3",
+      children: <ListBooks dataListBooks={dataListBooks} />,
     },
     {
-      key: "4",
+      key: "maxToMin",
       label: "Giá Cao Đến Thấp",
-      children: "Content of Tab Pane 4",
+      children: <ListBooks dataListBooks={dataListBooks} />,
     },
   ];
 
@@ -244,9 +190,9 @@ const HomePage = () => {
   } = theme.useToken();
   return (
     <Layout
-      className="mt-3"
       style={{
-        minHeight: "100vh",
+        marginTop: "60px",
+        Height: "100vh",
       }}
     >
       <Sider
@@ -259,7 +205,7 @@ const HomePage = () => {
         <Form
           form={form}
           initialValues={{
-            layout: formLayout,
+            layout: "horizontal",
           }}
           onValuesChange={onFormLayoutChange}
           onFinish={onFinish}
@@ -273,7 +219,11 @@ const HomePage = () => {
             </Space>
             <RedoOutlined
               className="cursor-pointer"
-              onClick={() => setCheckedList([])}
+              onClick={() => {
+                setCheckedList([]);
+                setRange([0, 500000]);
+                setFilters([]);
+              }}
             />
           </Space>
           <Divider className="m-0" />
@@ -302,8 +252,12 @@ const HomePage = () => {
                 <InputNumber
                   min={0}
                   max={toVND(range[1])}
+                  defaultValue="0"
                   value={toVND(range[0])}
                   onChange={(value) => {
+                    if (value === null) {
+                      return;
+                    }
                     setRange([value >= range[1] ? range[1] : value, range[1]]);
                   }}
                   addonAfter="VND"
@@ -374,34 +328,36 @@ const HomePage = () => {
       </Sider>
       <Layout
         style={{
-          padding: "0 24px 24px",
+          padding: "24px 24px 24px",
         }}
       >
         <Content
+          className="flex flex-col"
           style={{
-            padding: 24,
+            padding: "0px 24px 0px 24px",
             margin: 0,
-            minHeight: 280,
+            borderRadius: "8px",
+            Height: "100vh",
             background: colorBgContainer,
           }}
         >
           <Tabs
+            className="flex-1 mb-5"
             defaultActiveKey="1"
             items={itemsProductTab}
             onChange={onChangeProductTab}
           />
-          <Space className="flex justify-end items-center">
-            <Pagination
-              total={total}
-              className="mt-5"
-              showTotal={(total, range) => {
-                return `${range[0]}-${range[1]} trên ${total} sản phẩm`;
-              }}
-              defaultPageSize={pageSize}
-              defaultCurrent={current}
-              current={current}
-            />
-          </Space>
+          <Pagination
+            className="flex justify-end items-center border-2 p-5"
+            total={total}
+            showTotal={(total, range) => {
+              return `${range[0]}-${range[1]} trên ${total} sản phẩm`;
+            }}
+            current={current}
+            defaultPageSize={pageSize}
+            defaultCurrent={current}
+            onChange={onChangePagination}
+          />
         </Content>
       </Layout>
     </Layout>
