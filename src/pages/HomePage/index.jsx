@@ -67,10 +67,10 @@ const HomePage = () => {
   const [filtersListSearch, setFiltersListSearch] = useState([]);
   const [softs, setSofts] = useState("-sold");
 
-  const [form] = Form.useForm();
-  const dispatch = useDispatch();
   const [checkedList, setCheckedList] = useState([]);
 
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
   const { dataListBooks, listCategory } = useSelector(
     (state) => state?.managerBooks
   );

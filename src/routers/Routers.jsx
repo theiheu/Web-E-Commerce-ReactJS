@@ -9,6 +9,7 @@ import { Footer } from "antd/es/layout/layout";
 import AdminPage from "../pages/Admin";
 import UserTable from "../pages/Admin/User/UserTable";
 import BooksTable from "../pages/Admin/Books/BooksTable";
+import BookPage from "../pages/BookPage";
 
 const Layout = () => {
   return (
@@ -29,6 +30,10 @@ const Routers = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/book/:slug",
+        element: <BookPage />,
       },
     ],
   },
