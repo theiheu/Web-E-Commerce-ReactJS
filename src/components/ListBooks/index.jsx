@@ -35,6 +35,16 @@ const ListBooks = (Props) => {
     return str;
   };
 
+  const formatSold = (n) => {
+    if (n < 1000) {
+      return n.toString();
+    } else if (n < 10000) {
+      return (n / 1000).toFixed(1) + " k";
+    } else {
+      return (n / 1000).toFixed(0) + " k";
+    }
+  };
+
   const handleRedirectBook = (book) => {
     const slug = toSlug(book.mainText);
     navigate(`/book/${slug}?id=${book._id}`);
@@ -83,7 +93,7 @@ const ListBooks = (Props) => {
               />
               <Divider type="vertical" style={{ margin: "0" }} />
               <Space key={2} className="text-[10px]">
-                Đã bán:{book.sold}
+                Đã bán:{formatSold(book.sold)}
               </Space>
             </Space>
             <Space className="font-semibold mt-2">
