@@ -168,3 +168,10 @@ export const deleteBook = (idBook) => {
     url: `api/v1/book/${idBook}`,
   });
 };
+
+export const getBookDetailById = (idBook) => {
+  return axios({
+    method: "GET",
+    url: `api/v1/book/${idBook}`,
+  });
+};
