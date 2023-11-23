@@ -17,6 +17,7 @@ const BookPage = () => {
   const [dataBookDetail, setDataBookDetail] = useState([]);
 
   const [quantity, setQuantity] = useState(1);
+
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -92,7 +93,11 @@ const BookPage = () => {
           <Space className="flex flex-col items-start flex-1">
             <Quantity
               type={"vertical"}
-              onChange={(value) => setQuantity(value)}
+              value={quantity}
+              onChange={(value) => {
+                console.log(`quantity:`, value);
+                return setQuantity(() => value);
+              }}
             />
             <h3>Tạm tính:</h3>
             <span>3,000,300 đ</span>
