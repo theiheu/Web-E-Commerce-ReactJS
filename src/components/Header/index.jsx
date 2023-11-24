@@ -1,4 +1,8 @@
-import { BookOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  BarsOutlined,
+  BookOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
 import { Button, Space } from "antd";
 import { Badge, Input, Layout } from "antd";
 import { useSelector } from "react-redux";
@@ -27,10 +31,21 @@ const Header = () => {
           width: "100%",
           backgroundColor: "white",
           boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+          padding: "0 16px",
         }}
+        // onClick={}
       >
+        <BarsOutlined
+          className="md:hidden"
+          style={{
+            color: "gray",
+            fontSize: "32px",
+            margin: "0 20px 0 20px",
+          }}
+        />
         {/* Logo */}
         <BookOutlined
+          className="max-md:hidden"
           style={{
             color: "aqua",
             fontSize: "32px",
@@ -55,18 +70,20 @@ const Header = () => {
             <ShoppingCartOutlined className="text-[32px]" />
           </Badge>
 
-          {user?.id ? (
-            <UserNavigation />
-          ) : (
-            <Space>
-              <Button size={"large"} onClick={() => navigate("/login")}>
-                Đăng nhập
-              </Button>
-              <Button size={"large"} onClick={() => navigate("/register")}>
-                Đăng ký
-              </Button>
-            </Space>
-          )}
+          <div className="max-sm:hidden">
+            {user?.id ? (
+              <UserNavigation />
+            ) : (
+              <Space>
+                <Button size={"large"} onClick={() => navigate("/login")}>
+                  Đăng nhập
+                </Button>
+                <Button size={"large"} onClick={() => navigate("/register")}>
+                  Đăng ký
+                </Button>
+              </Space>
+            )}
+          </div>
         </Space>
       </HeaderLayout>
     </Layout>

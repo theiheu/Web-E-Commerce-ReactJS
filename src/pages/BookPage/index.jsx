@@ -10,6 +10,7 @@ import { getBookDetailById } from "../../services/api";
 import {
   InteractionTwoTone,
   MinusCircleTwoTone,
+  ShoppingCartOutlined,
   WalletTwoTone,
 } from "@ant-design/icons";
 import BookPageSkeleton from "./BookPageSkeleton";
@@ -165,6 +166,7 @@ const BookPage = () => {
 
               <div className="w-full flex flex-col gap-2 mt-3">
                 <Button size="large" className="w-full">
+                  <ShoppingCartOutlined />
                   Thêm vào giỏ hàng
                 </Button>
                 <Button size="large" type="primary" danger className="w-full">

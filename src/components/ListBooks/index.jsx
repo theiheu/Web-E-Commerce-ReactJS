@@ -60,9 +60,12 @@ const ListBooks = (Props) => {
               handleRedirectBook(book);
             }}
             bodyStyle={{ padding: 12 }}
-            className="2xl:w-[15%] xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2 mt-3"
+            className="2xl:w-[15%] xl:w-[19%] lg:w-[24%] sm:w-[49%] w-[99%] border-2 mt-3"
             cover={
               <img
+                style={{
+                  width: "100%",
+                }}
                 alt="example"
                 src={`${import.meta.env.VITE_SERVER_URL}images/book/${
                   book.thumbnail

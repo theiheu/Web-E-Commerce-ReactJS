@@ -20,7 +20,7 @@ const Quantity = (Props) => {
       <div className={type == "vertical" ? "flex flex-col" : "flex"}>
         <h3>Số lượng: </h3>
 
-        <Space className="border-2 !gap-0 w-[120px]">
+        <Space className="quantity border-2 !gap-0 w-[120px]">
           <Button
             onClick={handleDecrease}
             disabled={value <= 1}

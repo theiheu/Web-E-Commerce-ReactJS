@@ -196,9 +196,10 @@ const HomePage = () => {
       }}
     >
       <Sider
-        className="max-sm:hidden"
+        className="max-md:hidden"
+        width={250}
         style={{
-          width: "100%",
+          width: "500px",
           background: colorBgContainer,
         }}
       >
