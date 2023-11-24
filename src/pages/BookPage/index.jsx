@@ -1,6 +1,6 @@
 import ImageGallery from "react-image-gallery";
 import { useLocation } from "react-router-dom";
-import { Button, Card, Divider, Input, Layout, List, Rate, Space } from "antd";
+import { Button, Divider, Layout, Rate, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
 import "./bookPage.scss";
@@ -8,10 +8,8 @@ import Quantity from "../../components/QuantityInput";
 import { useEffect } from "react";
 import { getBookDetailById } from "../../services/api";
 import {
-  CreditCardTwoTone,
   InteractionTwoTone,
   MinusCircleTwoTone,
-  MinusSquareOutlined,
   WalletTwoTone,
 } from "@ant-design/icons";
 import BookPageSkeleton from "./BookPageSkeleton";
@@ -23,7 +21,6 @@ const BookPage = () => {
   const idBook = params?.get("id");
 
   const [dataBookDetail, setDataBookDetail] = useState([]);
-  console.log(`dataBookDetail:`, dataBookDetail);
 
   function formatVnd(value) {
     return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -36,7 +33,6 @@ const BookPage = () => {
     const fetchData = async () => {
       try {
         const res = await getBookDetailById(idBook);
-        console.log(`res:`, res);
         setDataBookDetail(res?.data?.data || null); // Use null if data is not available
       } catch (error) {
         console.log(`error:`, error);
@@ -90,7 +86,7 @@ const BookPage = () => {
         Height: "100vh",
       }}
     >
-      {dataBookDetail ? (
+      {dataBookDetail && dataBookDetail._id ? (
         <Content className="flex max-lg:flex-col gap-4">
           <div className="w-1/4 max-lg:w-full bg-white rounded-xl p-3">
             {images && images.length > 0 ? (
@@ -110,7 +106,7 @@ const BookPage = () => {
             <div className="w-3/4 max-lg:w-2/3 max-md:w-full">
               <div className="bg-white rounded-xl p-3">
                 <h5 className="m-0 font-thin">
-                  Tác giả: {dataBookDetail.author}
+                  Tác giả: <a href="">{dataBookDetail.author}</a>
                 </h5>
                 <h2>{dataBookDetail.mainText}</h2>
                 <div>
@@ -125,6 +121,9 @@ const BookPage = () => {
                   (41)
                   <Divider type="vertical" /> Đã bán: {dataBookDetail.sold}
                 </div>
+                <h5 className="mt-2 font-thin">
+                  Thể loại: <a href="">{dataBookDetail.category}</a>
+                </h5>
                 <div className="my-4 text-red-600">
                   {formatVnd(dataBookDetail.price)} ₫ -34%
                 </div>
