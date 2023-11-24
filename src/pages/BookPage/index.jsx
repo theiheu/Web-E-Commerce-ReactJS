@@ -14,8 +14,11 @@ import {
   WalletTwoTone,
 } from "@ant-design/icons";
 import BookPageSkeleton from "./BookPageSkeleton";
+import { useDispatch } from "react-redux";
+import { handleAddProductToCart } from "../../redux/orderSlice";
 
 const BookPage = () => {
+  const dispath = useDispatch();
   let location = useLocation();
   // we can turn the location.search into URLSearchParams
   let params = new URLSearchParams(location.search);
@@ -161,11 +164,23 @@ const BookPage = () => {
                   }}
                 />
                 <h3>Tạm tính:</h3>
-                <span>3,000,300 đ</span>
+                <span>{formatVnd(dataBookDetail.price * quantity)} đ</span>
               </Space>
 
               <div className="w-full flex flex-col gap-2 mt-3">
-                <Button size="large" className="w-full">
+                <Button
+                  size="large"
+                  className="w-full"
+                  onClick={() => {
+                    dispath(
+                      handleAddProductToCart({
+                        _id: idBook,
+                        quantity,
+                        detail: dataBookDetail,
+                      })
+                    );
+                  }}
+                >
                   <ShoppingCartOutlined />
                   Thêm vào giỏ hàng
                 </Button>

@@ -13,6 +13,7 @@ import {
 import accountReducer from "./accountSlice";
 import managerUsersReducer from "./managerUsersSlice";
 import managerBooksReducer from "./managerBooksSlice";
+import orderReducer from "./orderSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   account: accountReducer,
   managerUsers: managerUsersReducer,
   managerBooks: managerBooksReducer,
+  order: orderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
