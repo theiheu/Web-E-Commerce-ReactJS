@@ -19,7 +19,16 @@ const orderSlice = createSlice({
         state.carts = [action.payload, ...state.carts];
       }
     },
+
+    handleRemoveProductToCart: (state, action) => {
+      const newCarts = state.carts.filter((item) => {
+        return item._id !== action.payload;
+      });
+
+      state.carts = newCarts;
+    },
   },
 });
-export const { handleAddProductToCart } = orderSlice.actions;
+export const { handleAddProductToCart, handleRemoveProductToCart } =
+  orderSlice.actions;
 export default orderSlice.reducer;
