@@ -5,7 +5,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
-import { Button, Space, Tooltip } from "antd";
+import { Button, Empty, Space, Tooltip } from "antd";
 import { Badge, Input, Layout } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -97,7 +97,8 @@ const Header = () => {
                       paddingRight: 0,
                     }}
                     twoToneColor={"#bababa"}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       dispatch(handleRemoveProductToCart(values._id));
                     }}
                   />
@@ -106,7 +107,7 @@ const Header = () => {
             );
           })
         ) : (
-          <h1 className="text-red-600">No data</h1>
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
       </div>
       <div
