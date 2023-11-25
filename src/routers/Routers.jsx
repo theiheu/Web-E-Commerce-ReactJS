@@ -10,11 +10,13 @@ import AdminPage from "../pages/Admin";
 import UserTable from "../pages/Admin/User/UserTable";
 import BooksTable from "../pages/Admin/Books/BooksTable";
 import BookPage from "../pages/BookPage";
+import Order from "../pages/Order/index";
 
 const Layout = () => {
   return (
     <>
       <Header />
+      <div className="h-[64px]"></div>
       <Outlet />
       <Footer />
     </>
@@ -34,6 +36,10 @@ const Routers = createBrowserRouter([
       {
         path: "/book/:slug",
         element: <BookPage />,
+      },
+      {
+        path: "/order",
+        element: <Order />,
       },
     ],
   },

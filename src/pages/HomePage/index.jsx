@@ -191,7 +191,6 @@ const HomePage = () => {
   return (
     <Layout
       style={{
-        marginTop: "60px",
         Height: "100vh",
       }}
     >

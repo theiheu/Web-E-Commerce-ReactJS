@@ -110,17 +110,17 @@ const Header = () => {
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         )}
       </div>
-      <div
-        className="w-full
-    handleClickProductCarts:() =>{
-      const slug = toSlug(book.mainText);
-    navigate(`/book/${slug}?id=${book._id}`);
-    } flex justify-between items-center mt-2"
-      >
+      <div className="w-full flex justify-between items-center mt-2">
         <h5 className=" text-gray-300 m-0 flex-1">
           {productCarts?.length} Thêm Hàng Vào Giỏ
         </h5>
-        <Button type="primary" danger>
+        <Button
+          type="primary"
+          danger
+          onClick={() => {
+            navigate("/order");
+          }}
+        >
           Xem tất cả
         </Button>
       </div>
@@ -179,6 +179,9 @@ const Header = () => {
             placement="bottomRight"
             title={listProductsCart}
             arrow={true}
+            onClick={() => {
+              navigate("/order");
+            }}
           >
             <Badge
               className="flex justify-center items-center mx-2 cursor-pointer"

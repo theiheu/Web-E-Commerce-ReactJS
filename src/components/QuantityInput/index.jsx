@@ -1,7 +1,7 @@
 import { Button, InputNumber, Space } from "antd";
 
 const Quantity = (Props) => {
-  const { type, value, onChange } = Props;
+  const { type, value, hiddenTitle, onChange } = Props;
 
   const handleDecrease = () => {
     if (onChange) {
@@ -18,7 +18,7 @@ const Quantity = (Props) => {
   return (
     <>
       <div className={type == "vertical" ? "flex flex-col" : "flex"}>
-        <h3>Số lượng: </h3>
+        {hiddenTitle ? "" : <h3>Số lượng: </h3>}
 
         <Space className="quantity border-2 !gap-0 w-[120px]">
           <Button
