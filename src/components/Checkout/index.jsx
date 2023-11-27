@@ -1,11 +1,11 @@
-import { Button, Checkbox, Form, Input, Select } from "antd";
+import { Button, Checkbox, Form, Input, Select, message } from "antd";
 import { useEffect, useState } from "react";
 import { callDistrict, callProvince, callWard } from "../../services/api-ghn";
 import { useDispatch } from "react-redux";
 import { doCreateBill } from "../../redux/orderSlice";
 import TextArea from "antd/es/input/TextArea";
 
-const Checkout = () => {
+const Checkout = (Props) => {
   const dispatch = useDispatch();
 
   const [dataProvince, setDataProvince] = useState([]);
@@ -32,6 +32,8 @@ const Checkout = () => {
       note: values.note,
     };
     dispatch(doCreateBill(dataBill));
+    message.success("Đơn đặt hàng đã thành công.");
+    Props.next();
   };
 
   // Filter `option.label` match the user type `input`

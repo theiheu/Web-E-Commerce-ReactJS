@@ -5,6 +5,7 @@ const orderSlice = createSlice({
   name: "orderSlice",
   initialState: {
     carts: [],
+    order: [],
     bill: {},
   },
   reducers: {
@@ -39,6 +40,12 @@ const orderSlice = createSlice({
       }
     },
 
+    handleProductToOrder: (state, action) => {
+      state.order = state.carts.filter((item) => {
+        return action.payload.includes(item._id);
+      });
+    },
+
     doCreateBill: (state, action) => {
       state.bill = action.payload;
     },
@@ -48,6 +55,7 @@ export const {
   handleAddProductToCart,
   handleRemoveProductToCart,
   handleQuantity,
+  handleProductToOrder,
   doCreateBill,
 } = orderSlice.actions;
 export default orderSlice.reducer;

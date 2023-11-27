@@ -5,6 +5,7 @@ import Quantity from "../../components/QuantityInput";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  handleProductToOrder,
   handleQuantity,
   handleRemoveProductToCart,
 } from "../../redux/orderSlice";
@@ -40,9 +41,10 @@ const columns = [
 ];
 
 const Order = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const dataOrder = useSelector((state) => state.order.carts);
+  const dataCarts = useSelector((state) => state.order.carts);
+  const dataOrder = useSelector((state) => state.order.order);
+  let idProductOrder;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -86,14 +88,14 @@ const Order = () => {
 
   useEffect(() => {
     let sum = 0;
-    if (dataOrder) {
-      dataOrder.map((item) => {
+    if (dataCarts) {
+      dataCarts.map((item) => {
         sum += item.quantity * item.detail.price;
       });
 
       setTotalPrice(sum);
     }
-  }, [dataOrder]);
+  }, [dataCarts]);
 
   const handleClickProductCarts = (products) => {
     const slug = toSlug(products.detail.mainText);
@@ -104,85 +106,102 @@ const Order = () => {
     return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
+  // rowSelection object indicates the need for row selection
   const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: (selectedRowKeys, selectedRows) => {
+      idProductOrder = selectedRows.map((item) => {
+        return item.id;
+      });
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === "Disabled User",
+      // Column configuration not to be checked
+      name: record.name,
+    }),
   };
 
-  const data = dataOrder.map((values) => {
-    return {
-      key: uuidV4(),
-      product: (
-        <div
-          className="flex cursor-pointer"
-          onClick={() => {
-            handleClickProductCarts(values);
-          }}
-        >
-          <img
-            className="w-[50px] mr-2"
-            src={`${import.meta.env.VITE_SERVER_URL}images/book/${
-              values.detail.thumbnail
-            }`}
-            alt=""
-          />
-          <h3 className=" text-black m-0 line-clamp-2">
-            {values.detail.mainText}
-          </h3>
-        </div>
-      ),
-      price: (
-        <span className="text-red-500">{formatVnd(values.detail.price)}đ</span>
-      ),
-      quantity: (
-        <Quantity
-          hiddenTitle
-          type={"vertical"}
-          value={values.quantity}
-          onChange={(value) => {
-            return dispatch(
-              handleQuantity({ _id: values._id, quantity: value })
-            );
-          }}
-        />
-      ),
-      total: (
-        <span className="text-gray-500">
-          {formatVnd(values.detail.price * values.quantity)} đ
-        </span>
-      ),
-      action: (
-        <div className="text-center">
-          <DeleteTwoTone
-            style={{
-              fontSize: 20,
-              paddingRight: 0,
-              cursor: "pointer",
-            }}
-            twoToneColor={"#bababa"}
+  const handleSubmit = () => {
+    console.log("Line: 124 - Here", idProductOrder);
+    if (idProductOrder) {
+      dispatch(handleProductToOrder(idProductOrder));
+    }
+  };
+
+  const dataTable = (data) => {
+    return data.map((values) => {
+      return {
+        key: uuidV4(),
+        id: values._id,
+        product: (
+          <div
+            className="flex cursor-pointer"
             onClick={() => {
-              dispatch(handleRemoveProductToCart(values._id));
+              handleClickProductCarts(values);
+            }}
+          >
+            <img
+              className="w-[50px] mr-2"
+              src={`${import.meta.env.VITE_SERVER_URL}images/book/${
+                values.detail.thumbnail
+              }`}
+              alt=""
+            />
+            <h3 className=" text-black m-0 line-clamp-2">
+              {values.detail.mainText}
+            </h3>
+          </div>
+        ),
+        price: (
+          <span className="text-red-500">
+            {formatVnd(values.detail.price)}đ
+          </span>
+        ),
+        quantity: (
+          <Quantity
+            hiddenTitle
+            type={"vertical"}
+            value={values.quantity}
+            onChange={(value) => {
+              return dispatch(
+                handleQuantity({ _id: values._id, quantity: value })
+              );
             }}
           />
-        </div>
-      ),
-    };
-  });
+        ),
+        total: (
+          <span className="text-gray-500">
+            {formatVnd(values.detail.price * values.quantity)} đ
+          </span>
+        ),
+        action: (
+          <div className="text-center">
+            <DeleteTwoTone
+              style={{
+                fontSize: 20,
+                paddingRight: 0,
+                cursor: "pointer",
+              }}
+              twoToneColor={"#bababa"}
+              onClick={() => {
+                dispatch(handleRemoveProductToCart(values._id));
+              }}
+            />
+          </div>
+        ),
+      };
+    });
+  };
 
   const steps = [
     {
-      title: "Đơn hàng",
+      title: "Giỏ hàng",
       content: (
         <div className="flex max-xl:flex-col gap-4 p-5">
           <Table
             className="xl:w-5/6"
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={data}
+            dataSource={dataTable(dataCarts)}
             locale={{ emptyText: "Không có sản phẩm trong giỏ hàng" }}
             pagination={false}
           />
@@ -203,7 +222,14 @@ const Order = () => {
                 type="primary"
                 danger
                 className="w-full"
-                onClick={() => next()}
+                onClick={() => {
+                  if (idProductOrder) {
+                    dispatch(handleProductToOrder(idProductOrder));
+                    next();
+                  } else {
+                    message.error("Vui lòng chọn sản phẩm.");
+                  }
+                }}
               >
                 Mua hàng
               </Button>
@@ -218,13 +244,12 @@ const Order = () => {
         <div className="flex max-xl:flex-col gap-4 p-5">
           <Table
             className="xl:w-4/6"
-            rowSelection={rowSelection}
             columns={columns}
-            dataSource={data}
+            dataSource={dataTable(dataOrder)}
             locale={{ emptyText: "Không có sản phẩm trong giỏ hàng" }}
             pagination={false}
           />
-          <Checkout />
+          <Checkout next={next} />
         </div>
       ),
     },
@@ -276,11 +301,6 @@ const Order = () => {
               onClick={() => message.success("Processing complete!")}
             >
               Hoàn thành
-            </Button>
-          )}
-          {current < steps.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
-              Tiếp theo
             </Button>
           )}
         </div>

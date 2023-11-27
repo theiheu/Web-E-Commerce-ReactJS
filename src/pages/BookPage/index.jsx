@@ -1,5 +1,5 @@
 import ImageGallery from "react-image-gallery";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Divider, Layout, Rate, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
@@ -19,6 +19,7 @@ import { handleAddProductToCart } from "../../redux/orderSlice";
 
 const BookPage = () => {
   const dispath = useDispatch();
+  const navigate = useNavigate();
   let location = useLocation();
   // we can turn the location.search into URLSearchParams
   let params = new URLSearchParams(location.search);
@@ -184,7 +185,13 @@ const BookPage = () => {
                   <ShoppingCartOutlined />
                   Thêm vào giỏ hàng
                 </Button>
-                <Button size="large" type="primary" danger className="w-full">
+                <Button
+                  size="large"
+                  type="primary"
+                  danger
+                  className="w-full"
+                  onClick={() => navigate("/order")}
+                >
                   Mua ngay
                 </Button>
               </div>
