@@ -107,7 +107,10 @@ const Header = () => {
             );
           })
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="Không có sản phẩm trong giỏ hàng"
+          />
         )}
       </div>
       <div className="w-full flex justify-between items-center mt-2">
@@ -126,6 +129,7 @@ const Header = () => {
       </div>
     </div>
   );
+
   return (
     <Layout>
       <HeaderLayout
@@ -179,9 +183,6 @@ const Header = () => {
             placement="bottomRight"
             title={listProductsCart}
             arrow={true}
-            onClick={() => {
-              navigate("/order");
-            }}
           >
             <Badge
               className="flex justify-center items-center mx-2 cursor-pointer"

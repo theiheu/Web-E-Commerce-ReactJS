@@ -27,36 +27,6 @@ import { fetchBooks, fetchListCategory } from "../../redux/managerBooksSlice";
 import ListBooks from "../../components/ListBooks";
 const { Content, Sider } = Layout;
 
-// const products = Array(5)
-//   .fill(null)
-//   .map(() => {
-//     return (
-//       <Card
-//         key={3}
-//         hoverable
-//         className="xl:w-[19%] lg:w-[24%] md:w-[49%] sm:w-[100%] border-2"
-//         cover={
-//           <img
-//             alt="example"
-//             src="server/public/images/book/11-dc801dd2a968c1a43ec9270728555fbe.jpg"
-//           />
-//         }
-//         actions={[
-//           <Rate className={"text-[12px]"} defaultValue={5} key={1} disabled />,
-//           <Space key={2} className="text-[12px]">
-//             Đã bán: 1000k
-//           </Space>,
-//         ]}
-//       >
-//         <Meta
-//           className={"p-0"}
-//           title="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
-//           description="Tư duy về tiền bạc - Những lựa chọn tài chính đúng đắn và sáng suốt hơn"
-//         />
-//       </Card>
-//     );
-//   });
-
 const CheckboxGroup = Checkbox.Group;
 const HomePage = () => {
   const [current, setCurrent] = useState(1);

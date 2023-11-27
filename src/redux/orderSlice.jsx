@@ -5,6 +5,7 @@ const orderSlice = createSlice({
   name: "orderSlice",
   initialState: {
     carts: [],
+    bill: {},
   },
   reducers: {
     handleAddProductToCart: (state, action) => {
@@ -37,11 +38,16 @@ const orderSlice = createSlice({
         state.carts = [action.payload, ...state.carts];
       }
     },
+
+    doCreateBill: (state, action) => {
+      state.bill = action.payload;
+    },
   },
 });
 export const {
   handleAddProductToCart,
   handleRemoveProductToCart,
   handleQuantity,
+  doCreateBill,
 } = orderSlice.actions;
 export default orderSlice.reducer;

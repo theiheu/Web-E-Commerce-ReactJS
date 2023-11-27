@@ -16,7 +16,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <div className="h-[64px]"></div>
+      <div className="h-[72px]"></div>
       <Outlet />
       <Footer />
     </>

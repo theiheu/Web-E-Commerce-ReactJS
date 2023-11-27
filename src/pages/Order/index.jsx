@@ -1,4 +1,4 @@
-import { Button, Space, Table } from "antd";
+import { Button, Space, Steps, Table, message, theme } from "antd";
 import Layout, { Content } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
 import Quantity from "../../components/QuantityInput";
@@ -10,6 +10,7 @@ import {
 } from "../../redux/orderSlice";
 import { v4 as uuidV4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import Checkout from "../../components/Checkout";
 
 const columns = [
   {
@@ -45,6 +46,15 @@ const Order = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { token } = theme.useToken();
+  const [current, setCurrent] = useState(0);
+  const next = () => {
+    setCurrent(current + 1);
+  };
+  const prev = () => {
+    setCurrent(current - 1);
+  };
 
   const toSlug = (str) => {
     // Chuyển hết sang chữ thường
@@ -162,31 +172,116 @@ const Order = () => {
       ),
     };
   });
-  return (
-    <Layout className="mt-30">
-      <Content className="flex max-xl:flex-col gap-4 p-5">
-        <Table
-          className="xl:w-5/6"
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={data}
-        />
 
-        <div className="xl:w-1/6 w-3/6 flex flex-col bg-white rounded-xl p-3 h-fit">
-          <Space className="flex flex-col items-start">
-            <h3>Tạm tính:</h3>
-            <span>{formatVnd(totalPrice)}đ</span>
-          </Space>
-          <Space className="flex flex-col items-start">
-            <h3>Tỗng tiền:</h3>
-            <span>{formatVnd(totalPrice)}đ</span>
-          </Space>
+  const steps = [
+    {
+      title: "Đơn hàng",
+      content: (
+        <div className="flex max-xl:flex-col gap-4 p-5">
+          <Table
+            className="xl:w-5/6"
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
+            locale={{ emptyText: "Không có sản phẩm trong giỏ hàng" }}
+            pagination={false}
+          />
 
-          <div className="w-full flex flex-col gap-2 mt-3">
-            <Button size="large" type="primary" danger className="w-full">
-              Mua hàng
-            </Button>
+          <div className="xl:w-1/6 flex flex-col bg-white rounded-xl p-3 h-fit leading-none">
+            <Space className="flex flex-col items-start">
+              <h3>Tạm tính:</h3>
+              <span>{formatVnd(totalPrice)}đ</span>
+            </Space>
+            <Space className="flex flex-col items-start">
+              <h3>Tỗng tiền:</h3>
+              <span>{formatVnd(totalPrice)}đ</span>
+            </Space>
+
+            <div className="w-full flex flex-col gap-2 mt-3">
+              <Button
+                size="large"
+                type="primary"
+                danger
+                className="w-full"
+                onClick={() => next()}
+              >
+                Mua hàng
+              </Button>
+            </div>
           </div>
+        </div>
+      ),
+    },
+    {
+      title: "Đặt hàng",
+      content: (
+        <div className="flex max-xl:flex-col gap-4 p-5">
+          <Table
+            className="xl:w-4/6"
+            rowSelection={rowSelection}
+            columns={columns}
+            dataSource={data}
+            locale={{ emptyText: "Không có sản phẩm trong giỏ hàng" }}
+            pagination={false}
+          />
+          <Checkout />
+        </div>
+      ),
+    },
+    {
+      title: "Hoàn thành",
+      content: "Last-content",
+    },
+  ];
+
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+  }));
+
+  const contentStyle = {
+    lineHeight: "260px",
+    textAlign: "center",
+    color: token.colorTextTertiary,
+    backgroundColor: token.colorFillAlter,
+    borderRadius: token.borderRadiusLG,
+    border: `1px dashed ${token.colorBorder}`,
+    marginTop: 16,
+  };
+
+  return (
+    <Layout>
+      <Content>
+        <Steps style={{ padding: "8px" }} current={current} items={items} />
+        <div style={contentStyle}>{steps[current].content}</div>
+        <div
+          style={{
+            marginTop: 24,
+          }}
+        >
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={() => next()}>
+              Next
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={() => message.success("Processing complete!")}
+            >
+              Done
+            </Button>
+          )}
+          {current > 0 && (
+            <Button
+              style={{
+                margin: "0 8px",
+              }}
+              onClick={() => prev()}
+            >
+              Trở lại
+            </Button>
+          )}
         </div>
       </Content>
     </Layout>
