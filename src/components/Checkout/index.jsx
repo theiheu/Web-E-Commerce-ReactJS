@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Checkbox, Form, Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { callDistrict, callProvince, callWard } from "../../services/api-ghn";
 import { useDispatch } from "react-redux";
@@ -205,6 +205,16 @@ const Checkout = () => {
           filterOption={filterOption}
           options={dataWard}
         />
+      </Form.Item>
+      <Form.Item>
+        <Checkbox
+          onChange={() => {
+            // console.log("Line: 211 - Here", value);
+          }}
+          checked
+        >
+          Thanh toán khi nhận hàng
+        </Checkbox>
       </Form.Item>
       <Form.Item className="text-sm font-medium text-gray-700">
         <Button
