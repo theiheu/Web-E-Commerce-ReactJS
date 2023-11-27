@@ -15,7 +15,11 @@ import {
 } from "@ant-design/icons";
 import BookPageSkeleton from "./BookPageSkeleton";
 import { useDispatch } from "react-redux";
-import { handleAddProductToCart } from "../../redux/orderSlice";
+import {
+  handleAddProductToCart,
+  handleAddProductToOrder,
+  handleStepOrder,
+} from "../../redux/orderSlice";
 
 const BookPage = () => {
   const dispath = useDispatch();
@@ -190,7 +194,17 @@ const BookPage = () => {
                   type="primary"
                   danger
                   className="w-full"
-                  onClick={() => navigate("/order")}
+                  onClick={() => {
+                    dispath(
+                      handleAddProductToOrder({
+                        _id: idBook,
+                        quantity,
+                        detail: dataBookDetail,
+                      })
+                    );
+                    dispath(handleStepOrder(1));
+                    navigate("/order");
+                  }}
                 >
                   Mua ngay
                 </Button>

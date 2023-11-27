@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
 export const managerUsersSlice = createSlice({
-  name: "managerUsers",
+  name: "managerBooks",
   initialState: {
     dataListBooks: [],
     listCategory: [],

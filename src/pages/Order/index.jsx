@@ -8,6 +8,8 @@ import {
   handleProductToOrder,
   handleQuantity,
   handleRemoveProductToCart,
+  handleRemoveProductToOrder,
+  handleStepOrder,
 } from "../../redux/orderSlice";
 import { v4 as uuidV4 } from "uuid";
 import { useNavigate } from "react-router-dom";
@@ -43,20 +45,15 @@ const columns = [
 const Order = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const dataCarts = useSelector((state) => state.order.carts);
-  const dataOrder = useSelector((state) => state.order.order);
+
+  const { order: dataOrder, stepOrder } = useSelector((state) => state.order);
+
   let idProductOrder;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { token } = theme.useToken();
-  const [current, setCurrent] = useState(0);
-  const next = () => {
-    setCurrent(current + 1);
-  };
-  const prev = () => {
-    setCurrent(current - 1);
-  };
 
   const toSlug = (str) => {
     // Chuyển hết sang chữ thường
@@ -95,7 +92,7 @@ const Order = () => {
 
       setTotalPrice(sum);
     }
-  }, [dataCarts]);
+  }, [dataCarts, stepOrder]);
 
   const handleClickProductCarts = (products) => {
     const slug = toSlug(products.detail.mainText);
@@ -118,13 +115,6 @@ const Order = () => {
       // Column configuration not to be checked
       name: record.name,
     }),
-  };
-
-  const handleSubmit = () => {
-    console.log("Line: 124 - Here", idProductOrder);
-    if (idProductOrder) {
-      dispatch(handleProductToOrder(idProductOrder));
-    }
   };
 
   const dataTable = (data) => {
@@ -184,6 +174,7 @@ const Order = () => {
               twoToneColor={"#bababa"}
               onClick={() => {
                 dispatch(handleRemoveProductToCart(values._id));
+                dispatch(handleRemoveProductToOrder(values._id));
               }}
             />
           </div>
@@ -224,8 +215,8 @@ const Order = () => {
                 className="w-full"
                 onClick={() => {
                   if (idProductOrder) {
-                    dispatch(handleProductToOrder(idProductOrder));
-                    next();
+                    dispatch(handleProductToOrder([dataCarts, idProductOrder]));
+                    dispatch(handleStepOrder("next"));
                   } else {
                     message.error("Vui lòng chọn sản phẩm.");
                   }
@@ -249,13 +240,17 @@ const Order = () => {
             locale={{ emptyText: "Không có sản phẩm trong giỏ hàng" }}
             pagination={false}
           />
-          <Checkout next={next} />
+          <Checkout />
         </div>
       ),
     },
     {
       title: "Hoàn thành",
-      content: "Last-content",
+      content: (
+        <>
+          <Button key="console">Xem lịch sử đơn hàng</Button>
+        </>
+      ),
     },
   ];
 
@@ -277,30 +272,27 @@ const Order = () => {
   return (
     <Layout>
       <Content>
-        <Steps style={{ padding: "8px" }} current={current} items={items} />
-        <div style={contentStyle}>{steps[current].content}</div>
+        <Steps style={{ padding: "8px" }} current={stepOrder} items={items} />
+        <div style={contentStyle}>{steps[stepOrder].content}</div>
         <div
           style={{
             marginTop: 24,
             padding: 8,
           }}
         >
-          {current > 0 && (
+          {stepOrder > 0 && (
             <Button
               style={{
                 margin: "0 8px",
               }}
-              onClick={() => prev()}
+              onClick={() => dispatch(handleStepOrder("prev"))}
             >
               Trở lại
             </Button>
           )}
-          {current === steps.length - 1 && (
-            <Button
-              type="primary"
-              onClick={() => message.success("Processing complete!")}
-            >
-              Hoàn thành
+          {stepOrder === steps.length - 1 && (
+            <Button type="primary" onClick={() => navigate("/")}>
+              Về trang chủ
             </Button>
           )}
         </div>

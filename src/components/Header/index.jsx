@@ -10,7 +10,10 @@ import { Badge, Input, Layout } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserNavigation from "../UserNavigation";
-import { handleRemoveProductToCart } from "../../redux/orderSlice";
+import {
+  handleRemoveProductToCart,
+  handleStepOrder,
+} from "../../redux/orderSlice";
 
 const { Header: HeaderLayout } = Layout;
 const { Search } = Input;
@@ -121,6 +124,7 @@ const Header = () => {
           type="primary"
           danger
           onClick={() => {
+            dispatch(handleStepOrder(0));
             navigate("/order");
           }}
         >
