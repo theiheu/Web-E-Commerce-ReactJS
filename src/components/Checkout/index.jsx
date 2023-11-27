@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { callDistrict, callProvince, callWard } from "../../services/api-ghn";
 import { useDispatch } from "react-redux";
 import { doCreateBill } from "../../redux/orderSlice";
+import TextArea from "antd/es/input/TextArea";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Checkout = () => {
       province: provinceLabel,
       district: districtLabel,
       ward: wardLabel,
+      note: values.note,
     };
     dispatch(doCreateBill(dataBill));
   };
@@ -205,6 +207,9 @@ const Checkout = () => {
           filterOption={filterOption}
           options={dataWard}
         />
+      </Form.Item>
+      <Form.Item label="Ghi chú" name="note">
+        <TextArea></TextArea>
       </Form.Item>
       <Form.Item>
         <Checkbox

@@ -257,21 +257,9 @@ const Order = () => {
         <div
           style={{
             marginTop: 24,
+            padding: 8,
           }}
         >
-          {current < steps.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          )}
-          {current === steps.length - 1 && (
-            <Button
-              type="primary"
-              onClick={() => message.success("Processing complete!")}
-            >
-              Done
-            </Button>
-          )}
           {current > 0 && (
             <Button
               style={{
@@ -280,6 +268,19 @@ const Order = () => {
               onClick={() => prev()}
             >
               Trở lại
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              type="primary"
+              onClick={() => message.success("Processing complete!")}
+            >
+              Hoàn thành
+            </Button>
+          )}
+          {current < steps.length - 1 && (
+            <Button type="primary" onClick={() => next()}>
+              Tiếp theo
             </Button>
           )}
         </div>
