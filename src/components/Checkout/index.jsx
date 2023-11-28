@@ -1,12 +1,14 @@
 import { Button, Checkbox, Form, Input, Select, message } from "antd";
 import { useEffect, useState } from "react";
 import { callDistrict, callProvince, callWard } from "../../services/api-ghn";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doCreateBill, handleStepOrder } from "../../redux/orderSlice";
 import TextArea from "antd/es/input/TextArea";
+import { createAnOrder } from "../../services/api";
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const dataOrder = useSelector((state) => state.order.order);
 
   const [dataProvince, setDataProvince] = useState([]);
   const [dataDistrict, setDataDistrict] = useState([]);
@@ -20,20 +22,55 @@ const Checkout = () => {
   const [wardLabel, setWardLabel] = useState("");
 
   /* eslint-enable no-template-curly-in-string */
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [dataDetailOrder, setDataDetailOrder] = useState([]);
 
+  useEffect(() => {
+    let sum = 0;
+
+    if (dataOrder) {
+      const dataDetailOrder = dataOrder.map((values) => {
+        sum += values.quantity * values.detail.price;
+        setTotalPrice(sum);
+        return {
+          bookName: values.detail.mainText,
+          quantity: values.quantity,
+          _id: values._id,
+        };
+      });
+
+      setDataDetailOrder(dataDetailOrder);
+    }
+  }, [dataOrder]);
   const onFinish = (values) => {
     const dataBill = {
-      fullName: values.fullName,
+      name: values.fullName,
+      address: `${values.address},  ${provinceLabel}, ${districtLabel}, ${wardLabel}`,
       phone: values.phone,
-      address: values.address,
-      province: provinceLabel,
-      district: districtLabel,
-      ward: wardLabel,
+      totalPrice: totalPrice,
+      detail: dataDetailOrder,
       note: values.note,
     };
-    dispatch(doCreateBill(dataBill));
-    message.success("Đơn đặt hàng đã thành công.");
-    dispatch(handleStepOrder("next"));
+    console.log(`dataBill:`, dataBill);
+
+    if (dataBill && dataBill.detail.length > 0) {
+      dispatch(doCreateBill(dataBill));
+      (async () => {
+        try {
+          const response = await createAnOrder(dataBill);
+          // Xử lý dữ liệu trả về nếu cần
+          console.log("Order created:", response.data);
+          message.success("Đơn đặt hàng đã thành công.");
+          dispatch(handleStepOrder("next"));
+        } catch (error) {
+          // Xử lý lỗi nếu có
+          console.error("Error creating order:", error);
+          throw error;
+        }
+      })();
+    } else {
+      message.error("Vui lòng chọn đơn hàng.");
+    }
   };
 
   // Filter `option.label` match the user type `input`

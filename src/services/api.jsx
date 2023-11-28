@@ -175,3 +175,16 @@ export const getBookDetailById = (idBook) => {
     url: `api/v1/book/${idBook}`,
   });
 };
+
+export const createAnOrder = async (data) => {
+  try {
+    const response = await axios.post("api/v1/order", data);
+    // Xử lý dữ liệu trả về nếu cần
+    console.log("Order created:", response.data);
+    return response.data;
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error("Error creating order:", error);
+    throw error;
+  }
+};
