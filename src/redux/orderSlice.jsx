@@ -50,15 +50,21 @@ const orderSlice = createSlice({
 
       state.order = newCarts;
     },
+
     handleQuantity: (state, action) => {
-      const existingObj = state?.carts?.find(
-        (item) => item._id === action.payload._id
-      );
-      if (existingObj) {
-        existingObj.quantity = action.payload.quantity;
-      } else {
-        state.carts = [action.payload, ...state.carts];
-      }
+      const updateCartOrOrder = (collection) => {
+        const existingObj = collection?.find(
+          (item) => item._id === action.payload._id
+        );
+        if (existingObj) {
+          existingObj.quantity = action.payload.quantity;
+        } else {
+          collection.push(action.payload);
+        }
+      };
+
+      updateCartOrOrder(state.carts);
+      updateCartOrOrder(state.order);
     },
 
     handleProductToOrder: (state, action) => {
