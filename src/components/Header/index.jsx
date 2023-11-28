@@ -75,7 +75,7 @@ const Header = () => {
                 className="flex justify-between hover:bg-gray-200 p-2"
                 onClick={() => handleClickProductCarts(values)}
               >
-                <div className="flex w-3/4">
+                <div className="flex w-3/4 leading-6">
                   <img
                     className="w-[50px] mr-2"
                     src={`${import.meta.env.VITE_SERVER_URL}images/book/${
