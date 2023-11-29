@@ -62,7 +62,6 @@ const Header = () => {
     const slug = toSlug(products.detail.mainText);
     navigate(`/book/${slug}?id=${products._id}`);
   };
-
   const listProductsCart = (
     <div className="flex flex-col items-start cursor-pointer p-0">
       <h4 className="text-gray-300 m-0 pb-2">Sản Phẩm Mới Thêm</h4>

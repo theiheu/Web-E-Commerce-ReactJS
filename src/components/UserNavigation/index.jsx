@@ -1,38 +1,17 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Space, message } from "antd";
+import { Avatar, Button, Dropdown, Modal, Space, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { callLogout } from "../../services/api";
 import { doLogoutAction } from "../../redux/accountSlice";
-
-const items = [
-  {
-    label: <Link to="/">Trang chủ</Link>,
-    key: "trangChu",
-  },
-
-  {
-    label: <Link to="/user">Quản lý tài khoản</Link>,
-    key: "quanLy",
-  },
-  {
-    label: <Link to="/orderhistory">Lịch sử đơn hàng</Link>,
-    key: "quanLy",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "Đăng xuất",
-    key: "logout",
-    danger: "true",
-  },
-];
+import { useState } from "react";
+import ManagerAccount from "../../pages/MangagerAccount";
 
 const UserNavigation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [open, setOpen] = useState(false);
   const { user } = useSelector((state) => state?.account);
 
   const handleLogout = async () => {
@@ -59,59 +38,106 @@ const UserNavigation = () => {
     user.avatar
   }`;
 
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    setOpen(false);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const items = [
+    {
+      label: <Link to="/">Trang chủ</Link>,
+      key: "trangChu",
+    },
+
+    {
+      label: <div onClick={() => showModal()}>Quản lý tài khoản</div>,
+      key: "user",
+    },
+    {
+      label: <Link to="/orderhistory">Lịch sử đơn hàng</Link>,
+      key: "quanLy",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: "Đăng xuất",
+      key: "logout",
+      danger: "true",
+    },
+  ];
+
   return (
-    <Dropdown
-      placement={"top"}
-      menu={{
-        items: [
-          user?.role === "ADMIN"
-            ? {
-                label: <Link to="/admin">Trang quản trị</Link>,
-                key: "quanTri",
-              }
-            : {},
-          ...items,
-        ],
-        onClick: handleMenuClick,
-      }}
-      trigger={["click"]}
-      style={{
-        width: "120px",
-      }}
-    >
-      <a
-        onClick={(e) => {
-          e.preventDefault();
+    <>
+      <Dropdown
+        placement={"top"}
+        menu={{
+          items: [
+            user?.role === "ADMIN"
+              ? {
+                  label: <Link to="/admin">Trang quản trị</Link>,
+                  key: "quanTri",
+                }
+              : {},
+            ...items,
+          ],
+          onClick: handleMenuClick,
+        }}
+        trigger={["click"]}
+        style={{
+          width: "120px",
         }}
       >
-        <Space
-          style={{
-            width: "120px",
-            color: "black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+        <a
+          onClick={(e) => {
+            e.preventDefault();
           }}
         >
-          <Button
-            size="large"
-            className="flex justify-center items-center gap-2 p-3"
+          <Space
+            style={{
+              width: "120px",
+              color: "black",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Space
-              style={{
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                width: "60px",
-              }}
+            <Button
+              size="large"
+              className="flex justify-center items-center gap-2 p-3"
             >
-              {user?.fullName}
-            </Space>
-            <Avatar size={"middle"} src={urlAvatar} icon={<UserOutlined />} />
-          </Button>
-        </Space>
-      </a>
-    </Dropdown>
+              <Space
+                style={{
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  width: "60px",
+                }}
+              >
+                {user?.fullName}
+              </Space>
+              <Avatar size={"middle"} src={urlAvatar} icon={<UserOutlined />} />
+            </Button>
+          </Space>
+        </a>
+      </Dropdown>
+
+      <Modal
+        // open={open}
+        open={true}
+        width="50vw"
+        title="Quản lý tài khoản"
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <ManagerAccount dataUser={user} />
+      </Modal>
+    </>
   );
 };
 
