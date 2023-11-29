@@ -248,7 +248,9 @@ const Order = () => {
       title: "Hoàn thành",
       content: (
         <>
-          <Button key="console">Xem lịch sử đơn hàng</Button>
+          <Button key="console" onClick={() => navigate("/orderhistory")}>
+            Xem lịch sử đơn hàng
+          </Button>
         </>
       ),
     },

@@ -188,3 +188,13 @@ export const createAnOrder = async (data) => {
     throw error;
   }
 };
+
+export const fetchListOrderWithPaginate = async (
+  current = 1,
+  pageSize = 10
+) => {
+  return axios({
+    method: "GET",
+    url: `api/v1/order?current=${current}&pageSize=${pageSize}&sort=-createdAt`,
+  });
+};

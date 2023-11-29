@@ -12,7 +12,11 @@ const items = [
   },
 
   {
-    label: <Link to="/">Quản lý tài khoản</Link>,
+    label: <Link to="/user">Quản lý tài khoản</Link>,
+    key: "quanLy",
+  },
+  {
+    label: <Link to="/orderhistory">Lịch sử đơn hàng</Link>,
     key: "quanLy",
   },
   {

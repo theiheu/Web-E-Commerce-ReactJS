@@ -11,6 +11,8 @@ import UserTable from "../pages/Admin/User/UserTable";
 import BooksTable from "../pages/Admin/Books/BooksTable";
 import BookPage from "../pages/BookPage";
 import Order from "../pages/Order/index";
+import UserPage from "../pages/OrderHistory";
+import OrderHistory from "../pages/OrderHistory";
 
 const Layout = () => {
   return (
@@ -36,6 +38,10 @@ const Routers = createBrowserRouter([
       {
         path: "/book/:slug",
         element: <BookPage />,
+      },
+      {
+        path: "/orderhistory",
+        element: <OrderHistory />,
       },
       {
         path: "/order",
