@@ -1,5 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Modal, Space, message } from "antd";
+import { Avatar, Button, Dropdown, Space, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { callLogout } from "../../services/api";

@@ -12,6 +12,8 @@ import BooksTable from "../pages/Admin/Books/BooksTable";
 import BookPage from "../pages/BookPage";
 import Order from "../pages/Order/index";
 import OrderHistory from "../pages/OrderHistory";
+import OrderTable from "../pages/Admin/Order";
+import DashBoard from "../pages/Admin/DashBoard";
 
 const Layout = () => {
   return (
@@ -58,12 +60,20 @@ const Routers = createBrowserRouter([
     errorElement: <NotFoundPage />,
     children: [
       {
+        path: "/admin/dash-board",
+        element: <DashBoard />,
+      },
+      {
         path: "/admin/user",
         element: <UserTable />,
       },
       {
         path: "/admin/books",
         element: <BooksTable />,
+      },
+      {
+        path: "/admin/order",
+        element: <OrderTable />,
       },
       {
         path: "home",

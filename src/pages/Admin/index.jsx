@@ -5,7 +5,6 @@ import {
   FileOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Space, Divider } from "antd";
@@ -30,23 +29,21 @@ const MenuAdmin = [
     "dardboad",
     <DesktopOutlined />
   ),
-  getItem("Manager Users", "manageUsers", <TeamOutlined />, [
-    getItem(
-      <Link to={"/admin/user"}>
-        <UserOutlined /> Manage Users
-      </Link>,
-      "3"
-    ),
-    getItem(`Files`, "4"),
-  ]),
   getItem(
-    <Link to={"/admin/books"}>
-      <UserOutlined /> Manage Books
-    </Link>,
+    <Link to={"/admin/user"}>Manage Users</Link>,
+    "managerUser",
+    <UserOutlined />
+  ),
+  getItem(
+    <Link to={"/admin/books"}>Manage Books</Link>,
     "manageBooks",
     <BookOutlined />
   ),
-  getItem("Manage Orders", "manageOrders", <FileOutlined />),
+  getItem(
+    <Link to={"/admin/order"}>Manage Orders</Link>,
+    "manageOrders",
+    <FileOutlined />
+  ),
 ];
 
 const AdminPage = () => {
