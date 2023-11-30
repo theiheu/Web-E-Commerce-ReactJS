@@ -26,7 +26,7 @@ const Header = () => {
   const { user } = useSelector((state) => state?.account);
   const productCarts = useSelector((state) => state?.order?.carts);
 
-  const onSearch = async (value, _e, info) => {
+  const onSearch = async (value) => {
     const converValuet = `/${value}/i`;
     const res = await searchBook(converValuet);
     console.log(`res:`, res);

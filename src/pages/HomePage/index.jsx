@@ -13,9 +13,10 @@ import {
   Slider,
   InputNumber,
   Pagination,
+  Breadcrumb,
 } from "antd";
 import { v4 as uuidv4 } from "uuid";
-import { FilterOutlined, RedoOutlined } from "@ant-design/icons";
+import { FilterOutlined, HomeOutlined, RedoOutlined } from "@ant-design/icons";
 import "./homePage.scss";
 import { useEffect, useState } from "react";
 import {
@@ -301,6 +302,18 @@ const HomePage = () => {
           padding: "24px 24px 24px",
         }}
       >
+        <Breadcrumb
+          className="mb-2"
+          items={[
+            {
+              href: "",
+              title: <HomeOutlined />,
+            },
+            {
+              title: "Trang chủ",
+            },
+          ]}
+        />
         <Content
           className="flex flex-col"
           style={{

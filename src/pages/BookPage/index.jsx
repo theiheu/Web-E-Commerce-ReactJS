@@ -1,6 +1,6 @@
 import ImageGallery from "react-image-gallery";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Divider, Layout, Rate, Space } from "antd";
+import { Breadcrumb, Button, Divider, Layout, Rate, Space } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useState } from "react";
 import "./bookPage.scss";
@@ -8,6 +8,7 @@ import Quantity from "../../components/QuantityInput";
 import { useEffect } from "react";
 import { getBookDetailById } from "../../services/api";
 import {
+  HomeOutlined,
   InteractionTwoTone,
   MinusCircleTwoTone,
   ShoppingCartOutlined,
@@ -90,11 +91,22 @@ const BookPage = () => {
   return (
     <Layout
       style={{
-        marginTop: "60px",
         padding: "20px 30px",
         Height: "100vh",
       }}
     >
+      <Breadcrumb
+        className="mb-2"
+        items={[
+          {
+            href: "/",
+            title: <HomeOutlined />,
+          },
+          {
+            title: "Trang chủ",
+          },
+        ]}
+      />
       {dataBookDetail && dataBookDetail._id ? (
         <Content className="flex max-lg:flex-col gap-4">
           <div className="w-1/4 max-lg:w-full bg-white rounded-xl p-3">
