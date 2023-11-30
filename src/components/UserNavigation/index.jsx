@@ -11,7 +11,7 @@ const UserNavigation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const { user } = useSelector((state) => state?.account);
 
   const handleLogout = async () => {
@@ -38,16 +38,6 @@ const UserNavigation = () => {
     user.avatar
   }`;
 
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleOk = () => {
-    setOpen(false);
-  };
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   const items = [
     {
       label: <Link to="/">Trang chủ</Link>,
@@ -55,7 +45,15 @@ const UserNavigation = () => {
     },
 
     {
-      label: <div onClick={() => showModal()}>Quản lý tài khoản</div>,
+      label: (
+        <div
+          onClick={() => {
+            setOpenModal(true);
+          }}
+        >
+          Quản lý tài khoản
+        </div>
+      ),
       key: "user",
     },
     {
@@ -126,17 +124,11 @@ const UserNavigation = () => {
           </Space>
         </a>
       </Dropdown>
-
-      <Modal
-        // open={open}
-        open={true}
-        width="50vw"
-        title="Quản lý tài khoản"
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <ManagerAccount dataUser={user} />
-      </Modal>
+      <ManagerAccount
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        dataUser={user}
+      />
     </>
   );
 };

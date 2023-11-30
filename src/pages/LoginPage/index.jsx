@@ -23,10 +23,20 @@ const LoginPage = () => {
     try {
       const response = await callLogin(email, password);
       console.log(`response:`, response);
-      localStorage.setItem("access_token", response?.data?.data?.access_token);
-      dispatch(doLoginAction(response?.data?.data?.user));
-      message.success("Bạn đã đăng nhập thành công!");
-      navigate("/");
+      if (response && response.status == 201) {
+        localStorage.setItem(
+          "access_token",
+          response?.data?.data?.access_token
+        );
+        dispatch(doLoginAction(response?.data?.data?.user));
+        message.success("Bạn đã đăng nhập thành công!");
+        navigate("/");
+      } else {
+        notification.error({
+          message: "Có lỗi xảy ra!",
+          description: response.message,
+        });
+      }
     } catch (error) {
       console.log(`error:`, error);
       notification.error({

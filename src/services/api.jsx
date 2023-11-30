@@ -198,3 +198,43 @@ export const fetchListOrderWithPaginate = async (
     url: `api/v1/order?current=${current}&pageSize=${pageSize}&sort=-createdAt`,
   });
 };
+
+export const uploadAvatarImg = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", fileImg);
+  return axios({
+    method: "POST",
+    url: "/api/v1/file/upload",
+    data: bodyFormData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "avatar",
+    },
+  });
+};
+
+export const updateInfo = async (data) => {
+  try {
+    const response = await axios.put("api/v1/user", data);
+    // Xử lý dữ liệu trả về nếu cần
+    console.log("updateInfo:", response.data);
+    return response.data;
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error("Error creating order:", error);
+    throw error;
+  }
+};
+
+export const changePassword = (data) => {
+  console.log(`data:`, data);
+
+  return axios({
+    method: "POST",
+    url: "api/v1/user/change-password",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: data,
+  });
+};

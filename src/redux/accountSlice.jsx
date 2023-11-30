@@ -46,11 +46,24 @@ export const accountSlice = createSlice({
         },
       };
     },
+    doUpdateInfoAction: (state, action) => {
+      const { nameAvatar, fullName, phone } = action.payload;
+      return {
+        ...state.user,
+        avatar: nameAvatar,
+        fullName,
+        phone,
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { doLoginAction, doGetAccountAction, doLogoutAction } =
-  accountSlice.actions;
+export const {
+  doLoginAction,
+  doGetAccountAction,
+  doLogoutAction,
+  doUpdateInfoAction,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;
