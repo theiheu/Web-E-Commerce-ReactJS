@@ -164,7 +164,6 @@ const BookPage = () => {
                   type={"vertical"}
                   value={quantity}
                   onChange={(value) => {
-                    console.log(`quantity:`, value);
                     return setQuantity(() => value);
                   }}
                 />

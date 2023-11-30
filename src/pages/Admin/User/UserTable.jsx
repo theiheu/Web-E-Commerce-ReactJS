@@ -45,10 +45,7 @@ const UserTable = () => {
     })();
   }, [dispatch, current, pageSize, total, filters, softs]);
 
-  const onChange = async (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-    console.log(`sorter:`, sorter);
-
+  const onChange = async (pagination, filters, sorter) => {
     if (pagination && pagination.current !== current) {
       setCurrent(() => pagination.current);
     }
@@ -77,7 +74,6 @@ const UserTable = () => {
           <a
             href="#"
             onClick={() => {
-              console.log("Line: 81 - Here", record);
               setDataUser(record);
               setOpenDetailUser(true);
             }}
@@ -162,7 +158,6 @@ const UserTable = () => {
               description="Bạn có chắc muốn xóa người dùng này không?"
               onConfirm={async () => {
                 const res = await removeUser(text._id);
-                console.log(`res:`, res);
                 if (res.status === 200) {
                   setFilters([]);
                   setSofts("");

@@ -25,7 +25,7 @@ function getItem(label, key, icon, children) {
 
 const MenuAdmin = [
   getItem(
-    <Link to={"/admin"}>Dash Board</Link>,
+    <Link to={"/admin/dash-board"}>Dash Board</Link>,
     "dardboad",
     <DesktopOutlined />
   ),
@@ -47,7 +47,6 @@ const MenuAdmin = [
 ];
 
 const AdminPage = () => {
-  ("bottomRight");
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },

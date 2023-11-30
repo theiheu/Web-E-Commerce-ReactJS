@@ -22,7 +22,6 @@ const LoginPage = () => {
     setIsSubmit(true);
     try {
       const response = await callLogin(email, password);
-      console.log(`response:`, response);
       if (response && response.status == 201) {
         localStorage.setItem(
           "access_token",

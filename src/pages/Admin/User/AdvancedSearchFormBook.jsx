@@ -1,7 +1,9 @@
 import { Button, Col, Form, Input, Row, Space, theme } from "antd";
 import { useState } from "react";
 
-const AdvancedSearchFormBook = ({ setFilters }) => {
+const AdvancedSearchFormBook = (Props) => {
+  const { setFilters } = Props;
+
   const { token } = theme.useToken();
   const [form] = Form.useForm();
   const [expand, setExpand] = useState(false);
@@ -53,7 +55,6 @@ const AdvancedSearchFormBook = ({ setFilters }) => {
     });
   };
   const onFinishSearch = (values) => {
-    console.log("Received values of form: ", values);
     const { mainText, author, category } = values;
     if (mainText) {
       setFilters((state) => [...state, `&mainText=/${mainText.trim()}/i`]);

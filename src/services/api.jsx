@@ -180,7 +180,6 @@ export const createAnOrder = async (data) => {
   try {
     const response = await axios.post("api/v1/order", data);
     // Xử lý dữ liệu trả về nếu cần
-    console.log("Order created:", response.data);
     return response.data;
   } catch (error) {
     // Xử lý lỗi nếu có
@@ -217,7 +216,6 @@ export const updateInfo = async (data) => {
   try {
     const response = await axios.put("api/v1/user", data);
     // Xử lý dữ liệu trả về nếu cần
-    console.log("updateInfo:", response.data);
     return response.data;
   } catch (error) {
     // Xử lý lỗi nếu có
@@ -227,8 +225,6 @@ export const updateInfo = async (data) => {
 };
 
 export const changePassword = (data) => {
-  console.log(`data:`, data);
-
   return axios({
     method: "POST",
     url: "api/v1/user/change-password",
@@ -236,5 +232,12 @@ export const changePassword = (data) => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: data,
+  });
+};
+
+export const callDashBoard = () => {
+  return axios({
+    method: "GET",
+    url: "api/v1/database/dashboard",
   });
 };

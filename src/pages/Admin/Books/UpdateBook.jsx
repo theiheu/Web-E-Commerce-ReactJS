@@ -69,8 +69,6 @@ const UpdateBook = (Props) => {
   }, [dataBook, form]);
 
   const onFinish = (values) => {
-    console.log(`values:`, values);
-
     if (dataThumbnail.length < 1 || dataSlider.length < 1) {
       message.error("Không được để trống ảnh!");
       return;
@@ -86,13 +84,11 @@ const UpdateBook = (Props) => {
       quantity: values.quantity,
       category: values.category,
     };
-    console.log(`dataInputAddBook:`, dataInputAddBook);
 
     (async function () {
       setSubmit(true);
       try {
         const response = await updateBook(dataBook._id, dataInputAddBook);
-        console.log(`response:`, response);
         if (response.status === 200 || response.status === 201) {
           setOpenModalUpdateBook(false);
           message.success("Đã tạo sách thành công!");
@@ -121,7 +117,6 @@ const UpdateBook = (Props) => {
 
   const handleUploadFileThumbnail = async ({ file, onSuccess, onError }) => {
     const res = await callUploadBookImg(file);
-    console.log(`res:`, res);
 
     if (res && res.data) {
       setDataThumbnail([
@@ -139,7 +134,6 @@ const UpdateBook = (Props) => {
 
   const handleUploadFileSlider = async ({ file, onSuccess, onError }) => {
     const res = await callUploadBookImg(file);
-    console.log(`res:`, res);
 
     if (res && res.data) {
       setDataSlider((dataSlider) => [

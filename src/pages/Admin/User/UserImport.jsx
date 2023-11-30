@@ -31,7 +31,6 @@ const UserImport = (Props) => {
   const { isOpenUserImport, setIsOpenUserImport } = Props;
   const [dataImport, setDataImport] = useState([]);
   const [fileList, setFileList] = useState([]);
-  const [isDisable, setIsDisable] = useState(true);
 
   const handleReadFile = (file) => {
     // files is an array of file
@@ -77,7 +76,6 @@ const UserImport = (Props) => {
         console.log(info.file, info.fileList);
       }
       if (status === "done") {
-        setIsDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -133,8 +131,6 @@ const UserImport = (Props) => {
                 });
               }
               console.log(`res:`, res);
-
-              setIsDisable(true);
               onCancel();
             } catch (err) {
               console.log(`err:`, err);

@@ -22,11 +22,9 @@ const RegisterPage = () => {
     setIsSubmit(true);
     try {
       const response = await callRegister(fullName, email, password, phone);
-      // console.log(`response:`, response);
       if (response.status === 200 || response.status === 201) {
         message.success("Bạn đã đăng ký thành công!");
         const res = await callLogin(email, password);
-        // console.log(`response:`, response);s
         localStorage.setItem("access_token", res?.data?.data?.access_token);
         dispatch(doLoginAction(res?.data?.data?.user));
         navigate("/");

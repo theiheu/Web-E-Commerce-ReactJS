@@ -51,7 +51,6 @@ const Checkout = () => {
       detail: dataDetailOrder,
       note: values.note,
     };
-    console.log(`dataBill:`, dataBill);
 
     if (dataBill && dataBill.detail.length > 0) {
       dispatch(doCreateBill(dataBill));

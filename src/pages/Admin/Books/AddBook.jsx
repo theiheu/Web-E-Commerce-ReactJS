@@ -57,7 +57,6 @@ const AddBook = (Props) => {
       setSubmit(true);
       try {
         const response = await createBook(dataInputAddBook);
-        console.log(`response:`, response);
         if (response.status === 200 || response.status === 201) {
           setIsModalOpen(false);
           message.success("Đã tạo sách thành công!");
@@ -100,7 +99,6 @@ const AddBook = (Props) => {
 
   const handleUploadFileThumbnail = async ({ file, onSuccess, onError }) => {
     const res = await callUploadBookImg(file);
-    console.log(`res:`, res);
 
     if (res && res.data) {
       setDataThumbnail([
@@ -118,7 +116,6 @@ const AddBook = (Props) => {
 
   const handleUploadFileSlider = async ({ file, onSuccess, onError }) => {
     const res = await callUploadBookImg(file);
-    console.log(`res:`, res);
 
     if (res && res.data) {
       setDataSlider((dataSlider) => [

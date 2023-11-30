@@ -28,7 +28,6 @@ const UserNavigation = () => {
   };
 
   const handleMenuClick = (e) => {
-    // console.log("click", e);
     if (e.key == "logout") {
       handleLogout();
     }
@@ -78,7 +77,7 @@ const UserNavigation = () => {
           items: [
             user?.role === "ADMIN"
               ? {
-                  label: <Link to="/admin">Trang quản trị</Link>,
+                  label: <Link to="admin/dash-board">Trang quản trị</Link>,
                   key: "quanTri",
                 }
               : {},
