@@ -14,14 +14,10 @@ import {
 import { useState } from "react";
 import {
   changePassword,
-  fetchAccount,
   updateInfo,
   uploadAvatarImg,
 } from "../../services/api";
-import {
-  doGetAccountAction,
-  doUpdateInfoAction,
-} from "../../redux/accountSlice";
+import { doUpdateInfoAction } from "../../redux/accountSlice";
 import { useDispatch } from "react-redux";
 
 const ManagerAccount = (Props) => {
@@ -105,6 +101,7 @@ const ManagerAccount = (Props) => {
 
         if (res && res.status == 201) {
           message.success("Bạn đã đổi mật khẩu thành công");
+          handleCancel();
         } else {
           message.error(res.message);
         }
@@ -119,6 +116,8 @@ const ManagerAccount = (Props) => {
     setAvatar(
       `${import.meta.env.VITE_SERVER_URL}images/avatar/${dataUser.avatar}`
     );
+    form.setFieldValue("currentPassword", "");
+    form.setFieldValue("newPassword", "");
     setOpenModal(false);
   };
 
