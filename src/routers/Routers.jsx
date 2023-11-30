@@ -11,7 +11,6 @@ import UserTable from "../pages/Admin/User/UserTable";
 import BooksTable from "../pages/Admin/Books/BooksTable";
 import BookPage from "../pages/BookPage";
 import Order from "../pages/Order/index";
-import UserPage from "../pages/OrderHistory";
 import OrderHistory from "../pages/OrderHistory";
 
 const Layout = () => {

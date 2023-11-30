@@ -22,7 +22,8 @@ import { useDispatch } from "react-redux";
 
 const ManagerAccount = (Props) => {
   const { dataUser, openModal, setOpenModal } = Props;
-  const [form] = Form.useForm();
+  const [formUpdateInfo] = Form.useForm();
+  const [formChangePassword] = Form.useForm();
   const [tabs, setTabs] = useState("info");
 
   const [avatar, setAvatar] = useState(
@@ -32,7 +33,6 @@ const ManagerAccount = (Props) => {
 
   const handleUploadInfo = async ({ file, onSuccess }) => {
     const res = await uploadAvatarImg(file);
-    console.log(`res:`, res);
     if (res && res.status == 201) {
       setAvatar(
         `${import.meta.env.VITE_SERVER_URL}images/avatar/${
@@ -67,23 +67,30 @@ const ManagerAccount = (Props) => {
 
   const dispatch = useDispatch();
 
-  const onFinish = async (values) => {
-    console.log(`values:`, values);
-
+  const onFinish = async () => {
+    const valuesFormUpdateInfo = formUpdateInfo.getFieldsValue();
+    const valuesChangePassword = formChangePassword.getFieldsValue();
     if (tabs === "info") {
       try {
         const res = await updateInfo({
-          fullName: values.fullName,
-          phone: values.phone,
+          fullName: valuesFormUpdateInfo.fullName,
+          phone: valuesFormUpdateInfo.phone,
           avatar: nameAvatar,
           _id: dataUser.id,
         });
+
         if (res && res.statusCode == 200) {
           localStorage.removeItem("access_token");
           dispatch(
-            doUpdateInfoAction(nameAvatar, values.fullName, values.phone)
+            doUpdateInfoAction(
+              nameAvatar,
+              valuesFormUpdateInfo.fullName,
+              valuesFormUpdateInfo.phone
+            )
           );
           message.success("Bạn đã cập nhật thành công");
+          handleCancel();
+          window.location.reload(true);
         }
       } catch (error) {
         console.error("Error updating info:", error);
@@ -94,10 +101,9 @@ const ManagerAccount = (Props) => {
       try {
         const res = await changePassword({
           email: dataUser.email,
-          oldpass: `${values.currentPassword}`,
-          newpass: `${values.newPassword}`,
+          oldpass: `${valuesChangePassword.currentPassword}`,
+          newpass: `${valuesChangePassword.newPassword}`,
         });
-        console.log(`res:`, res);
 
         if (res && res.status == 201) {
           message.success("Bạn đã đổi mật khẩu thành công");
@@ -116,8 +122,8 @@ const ManagerAccount = (Props) => {
     setAvatar(
       `${import.meta.env.VITE_SERVER_URL}images/avatar/${dataUser.avatar}`
     );
-    form.setFieldValue("currentPassword", "");
-    form.setFieldValue("newPassword", "");
+    formChangePassword.setFieldValue("currentPassword", "");
+    formChangePassword.setFieldValue("newPassword", "");
     setOpenModal(false);
   };
 
@@ -137,7 +143,8 @@ const ManagerAccount = (Props) => {
           </Col>
           <Col span={12}>
             <Form
-              form={form}
+              onFinish={onFinish}
+              form={formUpdateInfo}
               name="basic"
               layout="vertical"
               autoComplete="off"
@@ -199,7 +206,7 @@ const ManagerAccount = (Props) => {
         <Form
           name="basic"
           layout="vertical"
-          form={form}
+          form={formChangePassword}
           onFinish={onFinish}
           autoComplete="off"
           action="#"
@@ -273,8 +280,10 @@ const ManagerAccount = (Props) => {
           <Button
             type="primary"
             onClick={() => {
-              form.submit();
-              setOpenModal(false);
+              // tabs === "infor"
+              //   ? formUpdateInfo.submit()
+              //   : formChangePassword.submit();
+              onFinish();
             }}
           >
             Áp dụng
