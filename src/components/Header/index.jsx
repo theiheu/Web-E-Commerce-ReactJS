@@ -14,17 +14,26 @@ import {
   handleRemoveProductToCart,
   handleStepOrder,
 } from "../../redux/orderSlice";
+import { searchBook } from "../../services/api";
+import { fetchBooks } from "../../redux/managerBooksSlice";
 
 const { Header: HeaderLayout } = Layout;
 const { Search } = Input;
-
-const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state?.account);
   const productCarts = useSelector((state) => state?.order?.carts);
+
+  const onSearch = async (value, _e, info) => {
+    const converValuet = `/${value}/i`;
+    const res = await searchBook(converValuet);
+    console.log(`res:`, res);
+    if (res && res?.status == 200) {
+      dispatch(fetchBooks(res.data.data.result));
+    }
+  };
 
   function formatVnd(value) {
     return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");

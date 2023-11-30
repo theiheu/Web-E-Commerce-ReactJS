@@ -241,3 +241,10 @@ export const callDashBoard = () => {
     url: "api/v1/database/dashboard",
   });
 };
+
+export const searchBook = (data) => {
+  return axios({
+    method: "GET",
+    url: `api/v1/book?current=1&pageSize=10&mainText=${data}`,
+  });
+};

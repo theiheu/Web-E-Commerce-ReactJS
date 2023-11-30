@@ -20,9 +20,11 @@ export const managerUsersSlice = createSlice({
         }),
       };
     },
+
     fetchListCategory: (state, action) => {
       return { ...state, listCategory: action.payload };
     },
+
     handlePaginationBookAction: (state, action) => {
       return {
         ...state,
@@ -31,6 +33,7 @@ export const managerUsersSlice = createSlice({
         total: action.payload.total,
       };
     },
+
     handleFilterAndSortBook: (state, { payload }) => {
       return {
         ...state,
