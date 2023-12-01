@@ -183,7 +183,7 @@ const BookPage = () => {
                 <span>{formatVnd(dataBookDetail.price * quantity)} đ</span>
               </Space>
 
-              <div className="w-full flex flex-col gap-2 mt-3">
+              <div className="w-full flex flex-col gap-2 mt-3 ">
                 <Button
                   size="large"
                   className="w-full"
@@ -198,7 +198,9 @@ const BookPage = () => {
                   }}
                 >
                   <ShoppingCartOutlined />
-                  Thêm vào giỏ hàng
+                  <span className="max-xl:text-xs font-medium">
+                    Thêm vào giỏ hàng
+                  </span>
                 </Button>
                 <Button
                   size="large"
@@ -217,7 +219,7 @@ const BookPage = () => {
                     navigate("/order");
                   }}
                 >
-                  Mua ngay
+                  <span className="max-xl:text-xs font-medium">Mua ngay</span>
                 </Button>
               </div>
             </div>
