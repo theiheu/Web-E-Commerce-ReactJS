@@ -1,6 +1,6 @@
 import { Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { fetchListOrderWithPaginate } from "../../services/api";
+import { callOrderHistory } from "../../services/api";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 
@@ -61,9 +61,11 @@ const OrderHistory = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetchListOrderWithPaginate();
+        const res = await callOrderHistory();
+        console.log(`res:`, res);
+
         if (res) {
-          const newData = res?.data?.data?.result.map((values) => {
+          const newData = res?.data?.data.map((values) => {
             return {
               key: uuidv4(),
               ...values,

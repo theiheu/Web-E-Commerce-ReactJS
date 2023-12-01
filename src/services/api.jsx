@@ -188,6 +188,13 @@ export const createAnOrder = async (data) => {
   }
 };
 
+export const callOrderHistory = async () => {
+  return axios({
+    method: "GET",
+    url: `api/v1/history`,
+  });
+};
+
 export const fetchListOrderWithPaginate = async (
   current = 1,
   pageSize = 10
