@@ -14,13 +14,15 @@ import Order from "../pages/Order/index";
 import OrderHistory from "../pages/OrderHistory";
 import OrderTable from "../pages/Admin/Order";
 import DashBoard from "../pages/Admin/DashBoard";
+import { useState } from "react";
 
 const Layout = () => {
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <Header />
+      <Header setOpenDrawer={setOpen} />
       <div className="h-[72px]"></div>
-      <Outlet />
+      <Outlet context={[open, setOpen]} />
       <Footer />
     </>
   );

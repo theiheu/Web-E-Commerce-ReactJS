@@ -20,7 +20,8 @@ import { fetchBooks } from "../../redux/managerBooksSlice";
 const { Header: HeaderLayout } = Layout;
 const { Search } = Input;
 
-const Header = () => {
+const Header = (Props) => {
+  const { setOpenDrawer } = Props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state?.account);
@@ -161,6 +162,9 @@ const Header = () => {
       >
         <BarsOutlined
           className="md:hidden"
+          onClick={() => {
+            setOpenDrawer(true);
+          }}
           style={{
             color: "gray",
             fontSize: "32px",
@@ -205,7 +209,7 @@ const Header = () => {
             </Badge>
           </Tooltip>
 
-          <div className="max-lg:hidden">
+          <div className="max-md:hidden">
             {user?.id ? (
               <UserNavigation />
             ) : (
