@@ -92,7 +92,7 @@ const BookPage = () => {
     <Layout
       style={{
         padding: "20px 30px",
-        Height: "100vh",
+        height: "89vh",
       }}
     >
       <Breadcrumb
@@ -109,7 +109,7 @@ const BookPage = () => {
       />
       {dataBookDetail && dataBookDetail._id ? (
         <Content className="flex max-lg:flex-col gap-4">
-          <div className="w-1/4 max-lg:w-full bg-white rounded-xl p-3">
+          <div className="w-1/4 max-lg:w-full bg-white rounded-xl p-3 h-fit">
             {images && images.length > 0 ? (
               <ImageGallery
                 showNav={false}

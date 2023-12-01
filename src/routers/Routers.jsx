@@ -5,7 +5,6 @@ import Home from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Header from "../components/Header";
-import { Footer } from "antd/es/layout/layout";
 import AdminPage from "../pages/Admin";
 import UserTable from "../pages/Admin/User/UserTable";
 import BooksTable from "../pages/Admin/Books/BooksTable";
@@ -15,6 +14,7 @@ import OrderHistory from "../pages/OrderHistory";
 import OrderTable from "../pages/Admin/Order";
 import DashBoard from "../pages/Admin/DashBoard";
 import { useState } from "react";
+import Footer from "../components/Footer/Footer";
 
 const Layout = () => {
   const [open, setOpen] = useState(false);

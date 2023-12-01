@@ -112,7 +112,7 @@ const HomePage = () => {
   return (
     <Layout
       style={{
-        Height: "100vh",
+        height: "89vh",
       }}
     >
       <Sidebar />
