@@ -1,39 +1,23 @@
-# Book Store Website
+Các bước cần làm:
 
-[Youtube](https://www.youtube.com/watch?v=UXHVj_FtS4Q)
+- Dùng npm:
 
-## Tech Stack used:
+1. Chạy câu lệnh: npm install --omit=dev
 
-- React JS
-- HTML/CSS
-- JavaScript
+2. Để chạy project, tại root: npm start
 
-## Libraries installed
+=============
 
-- Ant Design
-- React Router Dom
-- React Countup
-- React-Image-Gallery
-- Axios
-- Redux, Redux-Toolkit, Redux-Persist
-- Styled components
-- Uuid
-- Sheet JS
-- Moment
+- Dùng yarn:
 
-## Home Page
+1. chạy câu lệnh: yarn
+2. chạy project: yarn start
 
-![bookstore](/preview/BookStore.jpeg)
+=============
 
-## Login Page
+- Dùng bun:
 
-### Account Admin:
+1. chạy câu lệnh: bun
+2. chạy project: bun start
 
-- Account: admin
-- Password: 123456
-
-![LogiPage](/preview/LoginPage.jpeg)
-
-## Admin Page
-
-![AdminPage](/preview/AdminPage.jpeg)
+=============
