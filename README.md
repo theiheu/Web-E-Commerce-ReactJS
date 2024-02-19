@@ -23,7 +23,7 @@
 
 ## Home Page
 
-![bookstore](/preview/BookStore.jpeg)
+![bookstore](/public/preview/BookStore.jpeg)
 
 ## Login Page
 
@@ -32,8 +32,8 @@
 - Account: admin
 - Password: 123456
 
-![LogiPage](/preview/LoginPage.jpeg)
+![LogiPage](/public/preview/LoginPage.jpeg)
 
 ## Admin Page
 
-![AdminPage](/preview/AdminPage.jpeg)
+![AdminPage](/public/preview/AdminPage.jpeg)
