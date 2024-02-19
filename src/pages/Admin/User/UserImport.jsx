@@ -4,7 +4,7 @@ import { message, Upload } from "antd";
 import * as xlsx from "xlsx";
 import { useState } from "react";
 import { createListUser } from "../../../services/api";
-import TemplateFileImportData from "./data/Template file import data.xlsx?url";
+// import TemplateFileImportData from "../../../assets/TemplateFileImportData.xlsx";
 
 const { Dragger } = Upload;
 
@@ -152,7 +152,7 @@ const UserImport = (Props) => {
           Hỗ trợ nhập một thư mục dữ liệu, cho phép thư mục có định dạng đuôi
           .csv .xls .xlsx .or{" "}
           <a
-            href={TemplateFileImportData}
+            // href={TemplateFileImportData}
             download
             target="_blank"
             rel="noreferrer"
