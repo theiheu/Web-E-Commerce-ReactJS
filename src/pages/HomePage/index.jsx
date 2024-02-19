@@ -140,7 +140,7 @@ const HomePage = () => {
             padding: "0px 24px 0px 24px",
             margin: 0,
             borderRadius: "8px",
-            Height: "100vh",
+            minHeight: "100%",
             background: colorBgContainer,
           }}
         >

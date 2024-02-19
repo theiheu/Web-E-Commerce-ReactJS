@@ -65,6 +65,7 @@ const ListBooks = (Props) => {
               <img
                 style={{
                   width: "100%",
+                  border: "1px solid #e9e9e9",
                 }}
                 alt="example"
                 src={`${import.meta.env.VITE_SERVER_URL}images/book/${
