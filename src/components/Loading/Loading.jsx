@@ -9,8 +9,9 @@ const Loading = () => {
   };
 
   return (
-    <div style={style}>
+    <div style={style} className="flex flex-col items-center justify-center">
       <ScaleLoader color="#1d4ed8" />
+      <p className="text-blue-600 font-medium">Vui lòng chờ 30s - 45s...</p>
     </div>
   );
 };
