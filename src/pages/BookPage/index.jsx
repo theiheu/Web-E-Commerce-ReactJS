@@ -15,7 +15,7 @@ import {
   WalletTwoTone,
 } from "@ant-design/icons";
 import BookPageSkeleton from "./BookPageSkeleton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleAddProductToCart,
   handleAddProductToOrder,
@@ -25,6 +25,7 @@ import {
 const BookPage = () => {
   const dispath = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state?.account);
 
   let location = useLocation();
   // we can turn the location.search into URLSearchParams
@@ -209,6 +210,10 @@ const BookPage = () => {
                   danger
                   className="w-full"
                   onClick={() => {
+                    if (!user) {
+                      navigate("/login");
+                      return;
+                    }
                     dispath(
                       handleAddProductToCart({
                         _id: idBook,
