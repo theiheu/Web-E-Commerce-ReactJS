@@ -25,6 +25,7 @@ import {
 const BookPage = () => {
   const dispath = useDispatch();
   const navigate = useNavigate();
+
   let location = useLocation();
   // we can turn the location.search into URLSearchParams
   let params = new URLSearchParams(location.search);
@@ -208,6 +209,13 @@ const BookPage = () => {
                   danger
                   className="w-full"
                   onClick={() => {
+                    dispath(
+                      handleAddProductToCart({
+                        _id: idBook,
+                        // quantity,
+                        detail: dataBookDetail,
+                      })
+                    );
                     dispath(
                       handleAddProductToOrder({
                         _id: idBook,
