@@ -1,6 +1,6 @@
 # Book Store Website
 
-[Youtube](https://www.youtube.com/watch?v=UXHVj_FtS4Q) | [Deploy](https://book-store-lth-reactjs.vercel.app/login)
+[Youtube](https://www.youtube.com/watch?v=UXHVj_FtS4Q) | [Deploy](https://book-store-lth-reactjs.vercel.app/)
 
 ## Tech Stack used:
 
